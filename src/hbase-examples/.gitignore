@@ -1,0 +1,17 @@
+/bin/
+*.iml
+*.ipr
+*.iws
+*.orig
+*.rej
+**/.keep
+*.sdf
+*.suo
+*.vcxproj.user
+.idea
+.svn
+.classpath
+.project
+.settings
+target
+build

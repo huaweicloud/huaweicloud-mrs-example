@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value></value>
+    </property>
+
+    <!-- for kerberos cluster configuration-->
+    <property>
+        <name>hbase.regionserver.kerberos.principal</name>
+        <value>hbase/hadoop.hadoop.com@HADOOP.COM</value>
+    </property>
+    <property>
+        <name>hbase.master.kerberos.principal</name>
+        <value>hbase/hadoop.hadoop.com@HADOOP.COM</value>
+    </property>
+
+    <!-- the value is kerberos if you enable kerberos service. if not, please not add any value.-->
+    <property>
+        <name>hadoop.security.authentication</name>
+        <value></value>
+    </property>
+    <!-- the value is kerberos if you enable kerberos service. if not, please not add any value.-->
+    <property>
+        <name>hbase.security.authentication</name>
+        <value></value>
+    </property>
+
+</configuration>
