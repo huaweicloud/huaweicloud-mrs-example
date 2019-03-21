@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>node-master1YYHB</value>
+    </property>
+    <property>
+        <name>hbase.regionserver.kerberos.principal</name>
+        <value>hbase/hadoop.3a249e9d_a013_462c_b735_156b2df58a2c.com@A249E9D_A013_462C_B735_156B2DF58A2C.COM</value>
+    </property>
+    <property>
+        <name>hbase.master.kerberos.principal</name>
+        <value>hbase/hadoop.3a249e9d_a013_462c_b735_156b2df58a2c.com@A249E9D_A013_462C_B735_156B2DF58A2C.COM</value>
+    </property>
+    <!-- the value is kerberos if you enable kerberos service. Otherwise, pelase need not to configure it.-->
+    <property>
+        <name>hbase.security.authentication</name>
+        <value></value>
+    </property>
+    <!-- the value is kerberos if you enable kerberos service. Otherwise, pelase need not to configure it.-->
+    <property>
+        <name>hadoop.security.authentication</name>
+        <value></value>
+    </property>
+</configuration>

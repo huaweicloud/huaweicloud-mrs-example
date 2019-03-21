@@ -1,0 +1,47 @@
+
+name: "shell-topology"
+
+config:
+  topology.workers: 1
+
+spouts:
+  - id: "spout"
+    className: "com.huawei.storm.example.common.WordSpout"
+    parallelism: 1
+
+bolts:
+  - id: "splitsentence"
+    className: "org.apache.storm.flux.wrappers.bolts.FluxShellBolt"
+    constructorArgs:
+      - ["python", "splitsentence.py"]
+      - ["word"]
+    parallelism: 1
+
+  - id: "log"
+    className: "org.apache.storm.flux.wrappers.bolts.LogInfoBolt"
+    parallelism: 1
+
+  - id: "count"
+    className: "backtype.storm.testing.TestWordCounter"
+    parallelism: 1
+
+
+streams:
+  - name: "spout --> split" 
+    from: "spout"
+    to: "splitsentence"
+    grouping:
+      type: SHUFFLE
+
+  - name: "split --> count"
+    from: "splitsentence"
+    to: "count"
+    grouping:
+      type: FIELDS
+      args: ["word"]
+
+  - name: "count --> log"
+    from: "count"
+    to: "log"
+    grouping:
+      type: SHUFFLE

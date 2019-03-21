@@ -1,0 +1,73 @@
+name: "hdfs"
+
+components:
+  - id: "syncPolicy"
+    className: "org.apache.storm.hdfs.bolt.sync.CountSyncPolicy"
+    constructorArgs:
+      - 1000
+  
+  - id: "rotationPolicy"
+    className: "org.apache.storm.hdfs.bolt.rotation.FileSizeRotationPolicy"
+    constructorArgs:
+      - 5.0
+      - MB
+
+  - id: "fileNameFormat"
+    className: "org.apache.storm.hdfs.bolt.format.DefaultFileNameFormat"
+    configMethods:
+      - name: "withPath"
+        args: 
+          - "/user/foo/"
+          
+  - id: "recordFormat"
+    className: "org.apache.storm.hdfs.bolt.format.DelimitedRecordFormat"
+    configMethods:
+      - name: "withFieldDelimiter"
+        args: 
+          - "|"
+          
+config: 
+  topology.workers: 1
+  topology.auto-credentials: ["backtype.storm.security.auth.kerberos.AutoTGTFromKeytab"]
+  topology.keytab.file: "user.keytab"
+  
+spouts: 
+  - id: "spout"
+    className: "com.huawei.storm.example.common.RandomSentenceSpout"
+    parallelism: 1
+
+bolts:
+  - id: "split"
+    className: "com.huawei.storm.example.common.SplitSentenceBolt"
+    parallelism: 1
+    
+  - id: "count"
+    className: "org.apache.storm.hdfs.bolt.HdfsBolt"
+    configMethods:
+      - name: "withFileNameFormat"
+        args: 
+          - ref: "fileNameFormat"
+      - name: "withRecordFormat"
+        args:
+          - ref: "recordFormat"
+      - name: "withRotationPolicy"
+        args: 
+          - ref: "rotationPolicy"
+      - name: "withSyncPolicy"
+        args:
+          - ref: "syncPolicy"
+    parallelism: 1
+    
+streams:
+  - name: "spout --> split"
+    from: "spout"
+    to: "split"
+    grouping: 
+      type: SHUFFLE
+     
+  - name: "split --> count"
+    from: "split"
+    to: "count"
+    grouping:
+      type: FIELDS
+      args: ["word"]
