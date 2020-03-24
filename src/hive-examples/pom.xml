@@ -38,6 +38,10 @@
                     <groupId>com.huawei.gsjdbc</groupId>
                     <artifactId>gsjdbc4</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -56,6 +60,10 @@
                     <groupId>com.huawei.gsjdbc</groupId>
                     <artifactId>gsjdbc4</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -63,6 +71,16 @@
             <groupId>org.apache.hive.hcatalog</groupId>
             <artifactId>hive-hcatalog-core</artifactId>
             <version>${hive.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.gsjdbc</groupId>
+                    <artifactId>gsjdbc4</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
