@@ -186,12 +186,26 @@
                     <groupId>com.huawei.gsjdbc</groupId>
                     <artifactId>gsjdbc4</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-service </artifactId>
             <version>${hive.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.gsjdbc</groupId>
+                    <artifactId>gsjdbc4</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 	
