@@ -1,0 +1,32 @@
+name: "word-count"
+
+config: 
+  topology.workers: 1
+  
+spouts: 
+  - id: "spout"
+    className: "com.huawei.storm.example.common.RandomSentenceSpout"
+    parallelism: 1
+
+bolts:
+  - id: "split"
+    className: "com.huawei.storm.example.common.SplitSentenceBolt"
+    parallelism: 1
+    
+  - id: "count"
+    className: "com.huawei.storm.example.wordcount.WordCountBolt"
+    parallelism: 1
+    
+streams:
+  - name: "spout --> split"
+    from: "spout"
+    to: "split"
+    grouping: 
+      type: SHUFFLE
+     
+  - name: "split --> count"
+    from: "split"
+    to: "count"
+    grouping:
+      type: FIELDS
+      args: ["word"]
