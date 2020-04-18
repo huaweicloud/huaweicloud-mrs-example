@@ -6,28 +6,31 @@ The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, P
 
 - Branch  mrs-2.0 is for MRS 2.0.X version
 
+- Branch mrs-1.9 is for MRS 1.9.X version
+
 - Branch mrs-1.8 is for MRS 1.8.X version
 
   Components mapping:
 
-| Component\MRS version | MRS 1.8.X             | MRS 2.0.X           |
-| --------------------- | --------------------- | ------------------- |
-| Zookeeper             | 3.5.1                 | 3.5.1               |
-| Hadoop                | 2.8.3                 | 3.1.1               |
-| HBase                 | 1.3.1                 | 2.1.1               |
-| OpenTSDB              | 2.3.0                 | NA                  |
-| Tez                   | NA                    | 0.9.1               |
-| Hive                  | 1.3.0                 | 3.1.0               |
-| Hive_Spark            | 1.2.1                 | 1.2.1               |
-| Spark                 | 2.2.1                 | 2.3.2               |
-| Carbon                | 1.3.1(Plan to update) | 1.5.1               |
-| Presto                | 0.215                 | 308                 |
-| Kafka                 | 1.1.0                 | 1.1.0               |
-| KafkaManager          | 1.3.3.18              | 1.3.3.18            |
-| Flink                 | 1.7.0                 | NA(Plan to support) |
-| Flume                 | 1.6.0                 | 1.6.0               |
-| Hue                   | 3.11.0                | 3.11.0              |
-| Loader(Sqoop)         | 1.99.7                | 1.99.7              |
+| Component\MRS version | MRS 1.8.X | MRS 1.9.X | MRS 2.0.X           |
+| --------------------- | --------- | --------- | ------------------- |
+| Zookeeper             | 3.5.1     | 3.5.1     | 3.5.1               |
+| Hadoop                | 2.8.3     | 2.8.3     | 3.1.1               |
+| HBase                 | 1.3.1     | 1.3.1     | 2.1.1               |
+| OpenTSDB              | 2.3.0     | 2.3.0     | NA                  |
+| Tez                   | NA        | 0.9.1     | 0.9.1               |
+| Hive                  | 1.3.0     | 2.3.3     | 3.1.0               |
+| Hive_Spark            | 1.2.1     | 1.2.1     | 1.2.1               |
+| Spark                 | 2.2.1     | 2.2.2     | 2.3.2               |
+| Carbon                | 1.6.1     | 1.6.1     | 1.5.1               |
+| Presto                | 0.215     | 0.216     | 308                 |
+| Kafka                 | 1.1.0     | 1.1.0     | 1.1.0               |
+| KafkaManager          | 1.3.3.18  | 1.3.3.1   | 1.3.3.18            |
+| Flink                 | 1.7.0     | 1.7.0     | NA(Plan to support) |
+| Storm                 | 1.2.1     | 1.2.1     | 1.2.1               |
+| Flume                 | 1.6.0     | 1.6.0     | 1.6.0               |
+| Hue                   | 3.11.0    | 3.11.0    | 3.11.0              |
+| Loader(Sqoop)         | 1.99.7    | 1.99.7    | 1.99.7              |
 
 
 
