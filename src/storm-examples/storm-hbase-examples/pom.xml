@@ -50,6 +50,10 @@
                     <groupId>org.apache.hbase</groupId>
                     <artifactId>hbase-server</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         

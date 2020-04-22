@@ -54,6 +54,10 @@
                     <groupId>io.confluent</groupId>
                     <artifactId>kafka-avro-serializer</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.gaussc10</groupId>
+                    <artifactId>gauss</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         

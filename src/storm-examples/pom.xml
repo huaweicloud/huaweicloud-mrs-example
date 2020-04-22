@@ -15,7 +15,7 @@
         <kafka.version>1.1.0-mrs-2.0</kafka.version>
         <hadoop.version>3.1.1-mrs-2.0</hadoop.version>
         <solr.version>6.2.0</solr.version>
-		<storm.example.version>2.0</storm.example.version>
+	<storm.example.version>mrs-2.0</storm.example.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
