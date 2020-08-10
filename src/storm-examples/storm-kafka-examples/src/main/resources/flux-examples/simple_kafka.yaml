@@ -1,0 +1,116 @@
+name: "kafka"
+
+components:
+  - id: "zkHosts"
+    className: "org.apache.storm.kafka.ZkHosts"
+    constructorArgs: 
+      - "${kafka.zookeeper.root.list}"
+      
+  - id: "stringScheme"
+    className: "org.apache.storm.kafka.StringScheme"
+
+  - id: "stringMultiScheme"
+    className: "org.apache.storm.spout.SchemeAsMultiScheme"
+    constructorArgs:
+      - ref: "stringScheme"
+
+  - id: spoutConfig
+    className: "org.apache.storm.kafka.SpoutConfig"
+    constructorArgs:
+      - ref: "zkHosts"
+      - "input"
+      - "/kafka/input"
+      - "myId"
+    properties:
+      - name: "scheme"
+        ref: "stringMultiScheme"
+        
+  - id: "defaultTopicSelector"
+    className: "org.apache.storm.kafka.bolt.selector.DefaultTopicSelector"
+    constructorArgs:
+      - "output"
+      
+  - id: "fieldNameBasedTupleToKafkaMapper"
+    className: "org.apache.storm.kafka.bolt.mapper.FieldNameBasedTupleToKafkaMapper"
+    constructorArgs:
+      - "words"
+      - "count"
+  - id: "kafkaProducerProps"
+    className: "java.util.Properties"
+    configMethods:
+      - name: "put"
+        args:
+          - "bootstrap.servers"
+          - "${metadata.broker.list}"
+      - name: "put"
+        args:
+          - "acks"
+          - "1"
+      - name: "put"
+        args:
+          - "key.serializer"
+          - "org.apache.kafka.common.serialization.StringSerializer"
+      - name: "put"
+        args:
+          - "value.serializer"
+          - "org.apache.kafka.common.serialization.StringSerializer"
+        
+config: 
+  topology.workers: 1
+  kafka.broker.properties: 
+    metadata.broker.list: "${metadata.broker.list}"
+    producer.type: "async"
+    request.required.acks: "0"
+    serializer.class: "kafka.serializer.StringEncoder"
+  
+spouts:
+  - id: "kafkaSpout"
+    className: "org.apache.storm.kafka.KafkaSpout"
+    constructorArgs:
+      - ref: "spoutConfig"
+    parallelism: 1
+
+bolts:
+  - id: "splitBolt"
+    className: "com.huawei.storm.example.common.SplitSentenceBolt"
+    parallelism: 1
+    
+  - id: "countBolt"
+    className: "com.huawei.storm.example.kafka.CountBolt"
+    parallelism: 1
+
+  - id: "kafkaBolt"
+    className: "org.apache.storm.kafka.bolt.KafkaBolt"
+    configMethods:
+      - name: "withTopicSelector"
+        args: 
+          - ref: "defaultTopicSelector"
+      - name: "withProducerProperties"
+        args: [ref: "kafkaProducerProps"]
+      - name: "withTupleToKafkaMapper"
+        args:
+          - ref: "fieldNameBasedTupleToKafkaMapper"
+          
+streams:
+  - name: "kafkaSpout --> splitBolt"
+    from: "kafkaSpout"
+    to: "splitBolt"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
+      
+  - name: "splitBolt --> countBolt"
+    from: "splitBolt"
+    to: "countBolt"
+    grouping:
+      type: FIELDS
+      args: ["word"]
+
+  - name: "countBolt --> kafkaBolt"
+    from: "countBolt"
+    to: "kafkaBolt"
+    grouping:
+      type: SHUFFLE
+
+    
+
+    

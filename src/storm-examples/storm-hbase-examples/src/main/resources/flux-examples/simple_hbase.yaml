@@ -1,0 +1,66 @@
+name: "hbase"
+
+components:
+
+  - id: "columnFields"
+    className: "org.apache.storm.tuple.Fields"
+    constructorArgs:
+      - ["word"]
+
+  - id: "counterFields"
+    className: "org.apache.storm.tuple.Fields"
+    constructorArgs:
+      - ["count"]
+
+  - id: "mapper"
+    className: "org.apache.storm.hbase.bolt.mapper.SimpleHBaseMapper"
+    configMethods:
+      - name: "withRowKeyField"
+        args: ["word"]
+      - name: "withColumnFields"
+        args: [ref: "columnFields"]
+      - name: "withCounterFields"
+        args: [ref: "counterFields"]
+      - name: "withColumnFamily"
+        args: ["cf"]        
+     
+config: 
+  topology.workers: 1
+  topology.auto-credentials: ["org.apache.storm.security.auth.kerberos.AutoTGTFromKeytab"]
+  topology.keytab.file: "user.keytab"
+  hbase.conf: 
+    hbase.rootdir: "${hbase.rootdir}"
+  
+spouts: 
+  - id: "WORD_SPOUT"
+    className: "com.huawei.storm.example.hbase.WordSpout"
+    parallelism: 1
+
+bolts:
+  - id: "COUNT_BOLT"
+    className: "com.huawei.storm.example.hbase.WordCounter"
+    parallelism: 1
+    
+  - id: "HBASE_BOLT"
+    className: "org.apache.storm.hbase.bolt.HBaseBolt"
+    constructorArgs:
+      - "WordCount"
+      - ref: "mapper"
+    configMethods:
+      - name: "withConfigKey"
+        args: ["hbase.conf"]
+    parallelism: 1
+    
+streams:
+  - name: "WORD_SPOUT --> COUNT_BOLT"
+    from: "WORD_SPOUT"
+    to: "COUNT_BOLT"
+    grouping: 
+      type: SHUFFLE
+     
+  - name: "COUNT_BOLT --> HBASE_BOLT"
+    from: "COUNT_BOLT"
+    to: "HBASE_BOLT"
+    grouping:
+      type: FIELDS
+      args: ["word"]
