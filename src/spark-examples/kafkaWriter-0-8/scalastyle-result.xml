@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\RDDKafkaWriter.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+ </file>
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\ProducerCache.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+  <error column="14" line="27" source="org.scalastyle.scalariform.FieldNamesChecker" severity="warning" message="Field name does not match the regular expression '^[A-Z][A-Za-z]*$'"/>
+ </file>
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\KafkaWriter.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+ </file>
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\JavaRDDKafkaWriter.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+ </file>
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\DStreamKafkaWriter.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+ </file>
+ <file name="D:\project\FISpark\sparkkernelFork\Spark\code\ext\integration\kafkaWriter-0-8\src\main\scala\com\huawei\spark\streaming\kafka\JavaDStreamKafkaWriter.scala">
+  <error line="1" source="org.scalastyle.file.HeaderMatchesChecker" severity="warning" message="Header does not match expected text"/>
+ </file>
+</checkstyle>
