@@ -21,27 +21,10 @@ public class JDBCExample {
     private static Properties properties = new Properties();
 
     private static void init() throws ClassNotFoundException {
-        System.setProperty("user.timezone", "UTC");
-
-        System.setProperty("java.security.auth.login.config", "/opt/hetuclient/jaas-zk.conf");
-        System.setProperty("java.security.krb5.conf", "/opt/hetuclient/krb5.conf");
-        System.setProperty("zookeeper.auth.type", "kerberos");
-
-        System.setProperty("zookeeper.server.principal", "zookeeper/hadoop.hadoop.com");
-        System.setProperty("zookeeper.sasl.clientconfig", "Client");
-
+        System.setProperty("zookeeper.auth.type", "simple");
         properties.setProperty("user", "hivetest");
-        properties.setProperty("SSL", "true");
-
-        properties.setProperty("KerberosConfigPath", "/opt/hetuclient/krb5.conf");
-        properties.setProperty("KerberosPrincipal", "hivetest");
-        properties.setProperty("KerberosKeytabPath", "/opt/hetuclient/user.keytab");
-        properties.setProperty("KerberosRemoteServiceName", "HTTP");
-        properties.setProperty("SSLTrustStorePath", "/opt/hetuclient/hetuserver.jks");
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
-        properties.setProperty("KerberosServicePrincipalPattern", "${SERVICE}@${HOST}");
-
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
 

@@ -13,6 +13,12 @@
             <groupId>io.prestosql</groupId>
             <artifactId>presto-jdbc</artifactId>
             <version>316-hw-ei-302002</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
