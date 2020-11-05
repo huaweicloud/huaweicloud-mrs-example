@@ -12,8 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
         <hadoop.ext.version>8.0.2-302002</hadoop.ext.version>
-        <hbase.version>1.3.1</hbase.version>
-        <hive.version>3.1.0</hive.version>
+        <hbase.version>2.2.3-hw-ei-302002</hbase.version>
+        <hive.version>3.1.0-hw-ei-302002</hive.version>
     </properties>
 
     <dependencies>
