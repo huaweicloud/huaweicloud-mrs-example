@@ -6,3 +6,4 @@
 *.settings/
 dependency-reduced-pom.xml
 .checkstyle
+*.DS_Store
