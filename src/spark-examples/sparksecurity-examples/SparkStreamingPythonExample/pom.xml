@@ -99,7 +99,6 @@
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
         <testOutputDirectory>target/test-classes</testOutputDirectory>
-        <sourceDirectory>src</sourceDirectory>
     </build>
 </project>
 
