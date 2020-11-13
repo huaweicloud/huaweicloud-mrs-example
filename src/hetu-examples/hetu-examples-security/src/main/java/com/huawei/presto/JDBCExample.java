@@ -19,12 +19,24 @@ import java.util.Properties;
  */
 public class JDBCExample {
     private static Properties properties = new Properties();
+    private final static String PATH_TO_HETUSERVER_JKS = JDBCExample.class.getClassLoader()
+            .getResource("hetuserver.jks")
+            .getPath();
+    private final static String PATH_TO_JAAS_ZK_CONF = JDBCExample.class.getClassLoader()
+            .getResource("jaas-zk.conf")
+            .getPath();
+    private final static String PATH_TO_KRB5_CONF = JDBCExample.class.getClassLoader()
+            .getResource("krb5.conf")
+            .getPath();
+    private final static String PATH_TO_USER_KEYTAB = JDBCExample.class.getClassLoader()
+            .getResource("user.keytab")
+            .getPath();
 
     private static void init() throws ClassNotFoundException {
         System.setProperty("user.timezone", "UTC");
 
-        System.setProperty("java.security.auth.login.config", "/opt/hetuclient/jaas-zk.conf");
-        System.setProperty("java.security.krb5.conf", "/opt/hetuclient/krb5.conf");
+        System.setProperty("java.security.auth.login.config", PATH_TO_JAAS_ZK_CONF);
+        System.setProperty("java.security.krb5.conf", PATH_TO_KRB5_CONF);
         System.setProperty("zookeeper.auth.type", "kerberos");
 
         System.setProperty("zookeeper.server.principal", "zookeeper/hadoop.hadoop.com");
@@ -33,10 +45,11 @@ public class JDBCExample {
         properties.setProperty("user", "hivetest");
         properties.setProperty("SSL", "true");
 
-        properties.setProperty("KerberosConfigPath", "/opt/hetuclient/krb5.conf");
+        properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosPrincipal", "hivetest");
-        properties.setProperty("KerberosKeytabPath", "/opt/hetuclient/user.keytab");
+        properties.setProperty("KerberosKeytabPath", PATH_TO_USER_KEYTAB);
         properties.setProperty("KerberosRemoteServiceName", "HTTP");
+        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("KerberosServicePrincipalPattern", "${SERVICE}@${HOST}");
