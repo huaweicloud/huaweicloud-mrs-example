@@ -17,18 +17,29 @@ import java.util.Properties;
  *
  * @since 2019-12-01
  */
-public class JDBCExample {
+public class JDBCExamplePassword {
     private static Properties properties = new Properties();
-    private final static String PATH_TO_HETUSERVER_JKS = JDBCExample.class.getClassLoader()
+    private final static String PATH_TO_HETUSERVER_JKS = JDBCExamplePassword.class.getClassLoader()
             .getResource("hetuserver.jks")
+            .getPath();
+    private final static String PATH_TO_KRB5_CONF = JDBCExamplePassword.class.getClassLoader()
+            .getResource("krb5.conf")
             .getPath();
 
     private static void init() throws ClassNotFoundException {
-        System.setProperty("zookeeper.auth.type", "simple");
-        properties.setProperty("user", "hivetest");
+        System.setProperty("user.timezone", "UTC");
+        System.setProperty("java.security.krb5.conf", PATH_TO_KRB5_CONF);
+
+        properties.setProperty("user", "YourUserName");
+        properties.setProperty("password", "YourPassword");
+        properties.setProperty("SSL", "true");
+
+        properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
+        properties.setProperty("KerberosRemoteServiceName", "HTTP");
+        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
-        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
+
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
 

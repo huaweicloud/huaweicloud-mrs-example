@@ -15,8 +15,32 @@
             <version>316-hw-ei-302002</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.apache.zookeeper</groupId>
                     <artifactId>zookeeper</artifactId>
+                    <groupId>org.apache.zookeeper</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>presto-hsbroker-client</artifactId>
+                    <groupId>io.prestosql</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>presto-client</artifactId>
+                    <groupId>io.prestosql</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>onequery-high-availability</artifactId>
+                    <groupId>io.prestosql</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>json</artifactId>
+                    <groupId>io.airlift</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>concurrent</artifactId>
+                    <groupId>io.airlift</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>security</artifactId>
+                    <groupId>io.airlift</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
