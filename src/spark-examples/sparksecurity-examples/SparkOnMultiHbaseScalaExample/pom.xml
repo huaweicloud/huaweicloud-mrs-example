@@ -68,11 +68,23 @@
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-server</artifactId>
       <version>${hbase.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>javax.el</artifactId>
+          <groupId>org.glassfish</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-mapreduce</artifactId>
       <version>${hbase.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>javax.el</artifactId>
+          <groupId>org.glassfish</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
