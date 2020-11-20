@@ -13,19 +13,22 @@ import scala.collection.mutable.ArrayBuffer
 
 
 object ThriftServerQueriesTest {
+  private val JAVA_SECURITY_KRB5_CONF_KEY = "java.security.krb5.conf"
+
   def main(args: Array[String]): Unit = {
     val userPrincipal = "sparkuser"
     val userKeytabPath = "/opt/FIclient/user.keytab"
     val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
-    val principalName: String = KerberosUtil.getKrb5DomainRealm()
+    System.setProperty(JAVA_SECURITY_KRB5_CONF_KEY, krb5ConfPath)
+    val principalName: String = KerberosUtil.getKrb5DomainRealm
     val ZKServerPrincipal = "zookeeper/hadoop." + principalName
 
     val ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME: String = "Client"
     val ZOOKEEPER_SERVER_PRINCIPAL_KEY: String = "zookeeper.server.principal"
-    val hadoopConf: Configuration = new Configuration();
+    val hadoopConf: Configuration = new Configuration()
     LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, userPrincipal, userKeytabPath)
     LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZKServerPrincipal)
-    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
+    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf)
 
 
     val securityConfig = ";saslQop=auth-conf;auth=KERBEROS;principal=spark2x/hadoop." + principalName + "@" + principalName + ";user.principal=sparkuser;user.keytab=/opt/FIclient/user.keytab;"
