@@ -15,10 +15,13 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class ThriftServerQueriesTest {
+    private static final String JAVA_SECURITY_KRB5_CONF_KEY = "java.security.krb5.conf";
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         String userPrincipal = "sparkuser";
         String userKeytabPath = "/opt/FIclient/user.keytab";
         String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
+        System.setProperty(JAVA_SECURITY_KRB5_CONF_KEY, krb5ConfPath);
         String principalName = KerberosUtil.getKrb5DomainRealm();
         String ZKServerPrincipal = "zookeeper/hadoop." + principalName;
 
@@ -41,7 +44,7 @@ public class ThriftServerQueriesTest {
         String zkUrl = config.get("spark.deploy.zookeeper.url");
 
         String sparkConfPath = args[1];
-        Properties fileInfo = null;
+        Properties fileInfo;
         InputStream fileInputStream = null;
         try {
             fileInfo = new Properties();
@@ -57,23 +60,20 @@ public class ThriftServerQueriesTest {
             }
         }
 
-        String zkNamespace = null;
+        String zkNamespace;
         zkNamespace = fileInfo.getProperty("spark.thriftserver.zookeeper.namespace");
         if (zkNamespace != null) {
             // Remove redundant characters from configuration items
             zkNamespace = zkNamespace.substring(1);
         }
 
-        StringBuilder sb =
-                new StringBuilder(
-                        "jdbc:hive2://"
-                                + zkUrl
-                                + "/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace="
-                                + zkNamespace
-                                + securityConfig);
-        String url = sb.toString();
+        String url = "jdbc:hive2://"
+            + zkUrl
+            + "/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace="
+            + zkNamespace
+            + securityConfig;
 
-        ArrayList<String> sqlList = new ArrayList<String>();
+        ArrayList<String> sqlList = new ArrayList<>();
         sqlList.add(
                 "CREATE TABLE IF NOT EXISTS CHILD (NAME STRING, AGE INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY"
                     + " ','");
