@@ -94,13 +94,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
 
         </plugins>
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
         <testOutputDirectory>target/test-classes</testOutputDirectory>
-        <sourceDirectory>src</sourceDirectory>
     </build>
 </project>
 
