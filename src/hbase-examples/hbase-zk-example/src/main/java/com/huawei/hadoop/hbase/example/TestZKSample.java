@@ -72,8 +72,10 @@ public class TestZKSample {
 
     private static void login(String keytabFile, String principal) throws IOException {
         conf = HBaseConfiguration.create();
+        //In Windows environment
         String confDirPath = TestZKSample.class.getClassLoader().getResource("").getPath() + File.separator;
-
+        //In Linux environment
+        //String confDirPath = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
         // Set zoo.cfg for hbase to connect to fi zookeeper.
         conf.set("hbase.client.zookeeper.config.path", confDirPath + "zoo.cfg");
         if (User.isHBaseSecurityEnabled(conf)) {

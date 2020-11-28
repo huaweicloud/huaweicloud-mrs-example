@@ -27,6 +27,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
@@ -115,20 +116,27 @@ public class HBaseRestTest {
 
     public static void main(String[] args) throws Exception {
         // Set absolute path of 'user.keytab' and 'krb5.conf'
-        userKeytabFile = HBaseRestTest.class.getClassLoader().getResource("conf/user.keytab").getPath();
-        krb5File = HBaseRestTest.class.getClassLoader().getResource("conf/krb5.conf").getPath();
-        File newUserKeytabFile = new File(userKeytabFile);
-        File newKrbFile = new File(krb5File);
+
+        //In Windows environment
+        String userdir = HBaseRestTest.class.getClassLoader().getResource("conf").getPath() + File.separator;
+        //In Linux environment
+        //String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+
+        userKeytabFile = userdir + "user.keytab";
+        krb5File = userdir + "krb5.conf";
 
         String principal = "hbase/hadoop.hadoop.com@HADOOP.COM";
 
-        login(principal, newUserKeytabFile.getCanonicalPath(), newKrbFile.getCanonicalPath());
+        login(principal, userKeytabFile, krb5File);
 
         // RESTServer's hostname.
         String restHostName = "100.120.16.170";
-        String url = new StringBuilder("https://").append(restHostName).append(":21309").toString();
+        String securityModeUrl = new StringBuilder("https://").append(restHostName).append(":21309").toString();
+        String nonSecurityModeUrl = new StringBuilder("http://").append(restHostName).append(":21309").toString();
         HBaseRestTest test = new HBaseRestTest();
-        test.test(url);
+
+        //If cluster is non-security mode，use nonSecurityModeUrl as parameter.
+        test.test(securityModeUrl);
     }
 
     private void test(String url) {
@@ -374,8 +382,10 @@ public class HBaseRestTest {
         SSLContext sslcontext = createIgnoreVerifySSL();
 
         Registry<ConnectionSocketFactory> socketFactoryRegistry
-            = RegistryBuilder.<ConnectionSocketFactory>create().register("https",
-            new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE)).build();
+            = RegistryBuilder.<ConnectionSocketFactory>create()
+            .register("https", new SSLConnectionSocketFactory(sslcontext, NoopHostnameVerifier.INSTANCE))
+            .register("http", PlainConnectionSocketFactory.getSocketFactory())
+            .build();
 
         PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         CloseableHttpClient httpclient = HttpClients.custom()

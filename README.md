@@ -53,7 +53,7 @@ To run the examples required:
 <mirror>
     <id>repo2</id>
     <mirrorOf>central</mirrorOf>
-    <url>http://repo2.maven.org/maven2/</url>
+    <url>http://repo1.maven.org/maven2/</url>
 </mirror>
 <profile>
     <id>huaweicloudsdk</id>
