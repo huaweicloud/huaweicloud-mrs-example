@@ -10,13 +10,36 @@
 
 > >客户端目录下***source bigdata_env*** ,然后***hbase shell***进入hbase shell
 > >
-> >***list*** 检查集群中表情况，若无需创建
+> >***list*** 检查集群中表情况，若不存在default:t1表，则使用以下命令进行创建。
 > >
 > >***eg:create 't1','cf1','cf2'***
 
-5. 根据pom.xml 使用maven构建导包
+5. 当运行集群为__非安全模式__时：
 
-6. 运行***HBaseRestTest.java*** 
+   修改***main（）***方法中test.test()的调用，传入参数为***nonSecurityModeUrl***，即使用http协议访问节点服务。
+
+   >eg:修改HBaseRestTest.main()
+   >```java
+   >test.test(nonSecurityModeUrl);
+   >```
+
+6. __Linux环境下__运行时：
+
+   修改***main（）***方法中获取路径的逻辑。使用注释中标识Linux环境下的读取方式。
+
+   > eg:修改HBaseRestTest.main()
+   >
+   > ```java
+   > String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+   > ```
+
+   若在__安装客户端的Linux环境下运行__，需按照__《HBase开发指南》1.4.2.1安装客户端时编译并运行程序__章节，将对应认证文件放置到***“$BIGDATA_CLIENT_HOME/HBase/hbase/conf”***目录。
+
+   若在__未安装客户端Linux环境下运行__，需按照__《HBase开发指南》1.4.2.2未安装客户端时编译并运行程序__章节，创建对应目录lib和conf，并分别上传对应依赖Jar包和认证文件。
+
+7. 根据pom.xml 使用maven构建导包
+
+8. 运行***HBaseRestTest.java*** 
 
 
 

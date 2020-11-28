@@ -62,9 +62,13 @@ public class TestMain {
     private static void login() throws IOException {
         if (User.isHBaseSecurityEnabled(conf)) {
             userName = "hbaseuser1";
-            userKeytabFile = TestMain.class.getClassLoader().getResource("conf/user.keytab").getPath();
-            krb5File = TestMain.class.getClassLoader().getResource("conf/krb5.conf").getPath();
+            //In Windows environment
+            String userdir = TestMain.class.getClassLoader().getResource("conf").getPath() + File.separator;
+            //In Linux environment
+            //String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
 
+            userKeytabFile = userdir + "user.keytab";
+            krb5File = userdir + "krb5.conf";
             /*
              * if need to connect zk, please provide jaas info about zk. of course,
              * you can do it as below:
@@ -81,7 +85,10 @@ public class TestMain {
     private static void init() throws IOException {
         // Default load from conf directory
         conf = HBaseConfiguration.create();
+        //In Windows environment
         String userdir = TestMain.class.getClassLoader().getResource("conf").getPath() + File.separator;
+        //In Linux environment
+        //String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
         conf.addResource(new Path(userdir + "core-site.xml"), false);
         conf.addResource(new Path(userdir + "hdfs-site.xml"), false);
         conf.addResource(new Path(userdir + "hbase-site.xml"), false);

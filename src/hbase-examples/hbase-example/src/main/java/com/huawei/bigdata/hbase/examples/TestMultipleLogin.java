@@ -86,9 +86,13 @@ public class TestMultipleLogin {
     private static void login(Configuration conf, String confDir) throws IOException {
         if (User.isHBaseSecurityEnabled(conf)) {
             userName = "hbaseuser1";
-            userKeytabFile = TestMain.class.getClassLoader().getResource(confDir + "/user.keytab").getPath();
-            krb5File = TestMain.class.getClassLoader().getResource(confDir + "/krb5.conf").getPath();
+            //In Windows environment
+            String userdir = TestMain.class.getClassLoader().getResource(confDir).getPath() + File.separator;
+            //In Linux environment
+            //String userdir = System.getProperty("user.dir") + File.separator + confDir + File.separator;
 
+            userKeytabFile = userdir + "user.keytab";
+            krb5File = userdir + "krb5.conf";
             /*
              * if need to connect zk, please provide jaas info about zk. of course,
              * you can do it as below:
@@ -106,7 +110,12 @@ public class TestMultipleLogin {
     private static Configuration init(String confDirectoryName) throws IOException {
         // Default load from conf directory
         Configuration conf = HBaseConfiguration.create();
+
+        //In Windows environment
         String userdir = TestMain.class.getClassLoader().getResource(confDirectoryName).getPath() + File.separator;
+        //In Linux environment
+        //String userdir = System.getProperty("user.dir") + File.separator + confDirectoryName + File.separator;
+
         conf.addResource(new Path(userdir + "core-site.xml"), false);
         conf.addResource(new Path(userdir + "hdfs-site.xml"), false);
         conf.addResource(new Path(userdir + "hbase-site.xml"), false);
