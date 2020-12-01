@@ -34,17 +34,10 @@ public class JDBCExample {
 
     private static void init() throws ClassNotFoundException {
         System.setProperty("user.timezone", "UTC");
-
         System.setProperty("java.security.auth.login.config", PATH_TO_JAAS_ZK_CONF);
         System.setProperty("java.security.krb5.conf", PATH_TO_KRB5_CONF);
-        System.setProperty("zookeeper.auth.type", "kerberos");
-
-        System.setProperty("zookeeper.server.principal", "zookeeper/hadoop.hadoop.com");
-        System.setProperty("zookeeper.sasl.clientconfig", "Client");
-
         properties.setProperty("user", "hivetest");
         properties.setProperty("SSL", "true");
-
         properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosPrincipal", "hivetest");
         properties.setProperty("KerberosKeytabPath", PATH_TO_USER_KEYTAB);
@@ -52,8 +45,8 @@ public class JDBCExample {
         properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
-        properties.setProperty("KerberosServicePrincipalPattern", "${SERVICE}@${HOST}");
-
+        properties.setProperty("ZooKeeperAuthType", "kerberos");
+        properties.setProperty("ZooKeeperSaslClientConfig", "Client");
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
 
@@ -67,7 +60,7 @@ public class JDBCExample {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-            + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
 
         try {
             init();
