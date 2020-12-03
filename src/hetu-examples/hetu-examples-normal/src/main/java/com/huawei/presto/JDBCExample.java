@@ -24,11 +24,11 @@ public class JDBCExample {
             .getPath();
 
     private static void init() throws ClassNotFoundException {
-        System.setProperty("zookeeper.auth.type", "simple");
         properties.setProperty("user", "hivetest");
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
+        properties.setProperty("ZooKeeperAuthType", "simple");
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
 
@@ -42,7 +42,7 @@ public class JDBCExample {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-            + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
 
         try {
             init();
