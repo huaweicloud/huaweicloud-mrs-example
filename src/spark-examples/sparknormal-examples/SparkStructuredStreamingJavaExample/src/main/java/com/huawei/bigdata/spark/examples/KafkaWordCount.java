@@ -29,16 +29,18 @@ import java.util.Iterator;
  */
 public class KafkaWordCount {
     public static void main(String[] args) throws Exception {
-        if (args.length < 3) {
-            System.err.println("Usage: KafkaWordCount <bootstrap-servers> " + "<subscribe-type> <topics>");
+        if (args.length < 4) {
+            System.err.println("Usage: KafkaWordCount <bootstrap-servers> " + "<subscribe-type> <topics> <checkpointLocation>");
             System.exit(1);
         }
 
         String bootstrapServers = args[0];
         String subscribeType = args[1];
         String topics = args[2];
+        string checkpointLocation = args[3];
 
         SparkSession spark = SparkSession.builder().appName("KafkaWordCount").getOrCreate();
+        spark.conf().set("spark.sql.streaming.checkpointLocation", checkpointLocation);
 
         // Create DataSet representing the stream of input lines from kafka
         Dataset<String> lines =

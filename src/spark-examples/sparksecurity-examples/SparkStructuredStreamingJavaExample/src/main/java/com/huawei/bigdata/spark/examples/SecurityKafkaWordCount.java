@@ -32,10 +32,10 @@ import java.util.Iterator;
  */
 public class SecurityKafkaWordCount {
     public static void main(String[] args) throws Exception {
-        if (args.length < 6) {
+        if (args.length < 7) {
             System.err.println(
                     "Usage: SecurityKafkaWordCount <bootstrap-servers> "
-                            + "<subscribe-type> <topics> <protocol> <service> <domain>");
+                            + "<subscribe-type> <topics> <protocol> <service> <domain> <checkpointLocation>");
             System.exit(1);
         }
 
@@ -45,8 +45,10 @@ public class SecurityKafkaWordCount {
         String protocol = args[3];
         String service = args[4];
         String domain = args[5];
+        String checkpointLocation = args[6];
 
         SparkSession spark = SparkSession.builder().appName("SecurityKafkaWordCount").getOrCreate();
+        spark.conf().set("spark.sql.streaming.checkpointLocation", checkpointLocation);
 
         // Create DataSet representing the stream of input lines from kafka
         Dataset<String> lines =

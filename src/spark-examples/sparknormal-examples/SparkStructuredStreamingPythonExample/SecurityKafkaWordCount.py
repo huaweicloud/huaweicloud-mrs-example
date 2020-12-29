@@ -6,16 +6,18 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode, split
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: <bootstrapServers> <subscribeType> <topics>")
+    if len(sys.argv) < 4:
+        print("Usage: <bootstrapServers> <subscribeType> <topics> <checkpointLocation>")
         exit(-1)
 
     bootstrapServers = sys.argv[1]
     subscribeType = sys.argv[2]
     topics = sys.argv[3]
+    checkpointLocation = sys.argv[4]
 
     # 初始化sparkSession
     spark = SparkSession.builder.appName("SecurityKafkaWordCount").getOrCreate()
+    spark.conf.set("spark.sql.streaming.checkpointLocation", checkpointLocation)
 
     # 创建表示来自kafka的input lines stream的DataFrame
     lines = spark.readStream.format("kafka")\

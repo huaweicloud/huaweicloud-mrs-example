@@ -25,18 +25,19 @@ import org.apache.spark.sql.SparkSession
  */
 object SecurityKafkaWordCount {
   def main(args: Array[String]): Unit = {
-    if (args.length < 6) {
+    if (args.length < 7) {
       System.err.println("Usage: SecurityKafkaWordCount <bootstrap-servers> " +
-        "<subscribe-type> <topics> <protocol> <service> <domain>")
+        "<subscribe-type> <topics> <protocol> <service> <domain> <checkpointLocation>")
       System.exit(1)
     }
 
-    val Array(bootstrapServers, subscribeType, topics, protocol, service, domain) = args
+    val Array(bootstrapServers, subscribeType, topics, protocol, service, domain, checkpointLocation) = args
 
     val spark = SparkSession
       .builder
       .appName("SecurityKafkaWordCount")
       .getOrCreate()
+    spark.conf.set("spark.sql.streaming.checkpointLocation", checkpointLocation)
 
     import spark.implicits._
 

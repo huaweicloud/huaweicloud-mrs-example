@@ -22,18 +22,19 @@ import org.apache.spark.sql.SparkSession
  */
 object KafkaWordCount {
   def main(args: Array[String]): Unit = {
-    if (args.length < 3) {
+    if (args.length < 4) {
       System.err.println("Usage: KafkaWordCount <bootstrap-servers> " +
-        "<subscribe-type> <topics>")
+        "<subscribe-type> <topics> <checkpointLocation>")
       System.exit(1)
     }
 
-    val Array(bootstrapServers, subscribeType, topics) = args
+    val Array(bootstrapServers, subscribeType, topics, checkpointLocation) = args
 
     val spark = SparkSession
       .builder
       .appName("KafkaWordCount")
       .getOrCreate()
+    spark.conf.set("spark.sql.streaming.checkpointLocation", checkpointLocation)
 
     import spark.implicits._
 
