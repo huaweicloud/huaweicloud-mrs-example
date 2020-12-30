@@ -37,7 +37,7 @@ public class KafkaWordCount {
         String bootstrapServers = args[0];
         String subscribeType = args[1];
         String topics = args[2];
-        string checkpointLocation = args[3];
+        String checkpointLocation = args[3];
 
         SparkSession spark = SparkSession.builder().appName("KafkaWordCount").getOrCreate();
         spark.conf().set("spark.sql.streaming.checkpointLocation", checkpointLocation);
