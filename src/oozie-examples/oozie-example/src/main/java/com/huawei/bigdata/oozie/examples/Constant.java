@@ -22,14 +22,13 @@ public class Constant {
     public static String USER_DIR = "user.dir";
 
     /** Application Path */
-    public static String APPLICATION_PATH =
-            new StringBuilder(System.getProperty(USER_DIR))
-                    .append(File.separator)
-                    .append("src")
-                    .append(File.separator)
-                    .append("main")
-                    .append(File.separator)
-                    .append("resources")
-                    .append(File.separator)
-                    .toString();
+    public static String APPLICATION_PATH = new Object() {
+        public String getPath() {
+            return this.getClass().getResource("/").getPath();
+        }
+    }.getPath().substring(1)
+            .replace("/",File.separator)
+            .replace("target","src")
+            .replace("classes","main")
+            + "resources" + File.separator;
 }
