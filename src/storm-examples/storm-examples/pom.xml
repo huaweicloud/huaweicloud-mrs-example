@@ -120,6 +120,10 @@
             <version>${storm.version}</version>
             <exclusions>
                 <exclusion>
+                    <groupId>org.apache.storm</groupId>
+                    <artifactId>storm-autocreds</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.apache.hadoop</groupId>
                     <artifactId>hadoop-client</artifactId>
                 </exclusion>
@@ -168,6 +172,12 @@
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-starter</artifactId>
             <version>${storm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.storm</groupId>
+                    <artifactId>storm-autocreds</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.storm</groupId>
