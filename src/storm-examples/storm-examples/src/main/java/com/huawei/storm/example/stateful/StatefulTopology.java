@@ -6,7 +6,6 @@ package com.huawei.storm.example.stateful;
 
 import com.huawei.storm.example.common.RandomIntegerSpout;
 
-import org.apache.log4j.Logger;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
@@ -132,7 +131,7 @@ public class StatefulTopology {
      *
      */
     public static class PrinterBolt extends BaseBasicBolt {
-        private static final Logger logger = Logger.getLogger(PrinterBolt.class);
+        private static final Logger logger = LoggerFactory.getLogger(PrinterBolt.class);
 
         @Override
         public void execute(Tuple tuple, BasicOutputCollector collector) {
