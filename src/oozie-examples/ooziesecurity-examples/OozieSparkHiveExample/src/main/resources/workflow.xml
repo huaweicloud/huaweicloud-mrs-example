@@ -5,6 +5,7 @@
     <spark xmlns="uri:oozie:spark-action:1.0">
         <resource-manager>${resourceManager}</resource-manager>
         <name-node>${nameNode}</name-node>
+        <job-xml>hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/hive-site.xml</job-xml>
         <configuration>
             <property>
                 <name>mapred.job.queue.name</name>
@@ -20,7 +21,9 @@
         <name>Hive2Hive</name>
         <class>com.huawei.bigdata.spark.Hive2Hive</class>
         <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/lib/OoizeSparkHive-1.0.jar</jar>
-        <spark-opts>--files hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/hive-site.xml,hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/user.keytab,hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/krb5.conf --conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.0.2.1/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x --conf spark.sql.session.state.builder=org.apache.spark.sql.hive.FIHiveACLSessionStateBuilder --conf spark.sql.hive.implementation=org.apache.spark.sql.hive.HiveACLClientImpl --conf spark.sql.catalog.class=org.apache.spark.sql.hive.HiveACLExternalCatalog</spark-opts>
+        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.0.2.1/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x --conf spark.sql.session.state.builder=org.apache.spark.sql.hive.FIHiveACLSessionStateBuilder --conf spark.sql.hive.implementation=org.apache.spark.sql.hive.HiveACLClientImpl --conf spark.sql.catalog.class=org.apache.spark.sql.hive.HiveACLExternalCatalog</spark-opts>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/user.keytab</file>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/krb5.conf</file>
     </spark>
     <ok to="end" />
     <error to="fail" />
