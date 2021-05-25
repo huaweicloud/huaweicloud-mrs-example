@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ElasticsearchSecurityException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.common.settings.Settings;
@@ -40,8 +41,10 @@ public class IndicesSample {
                 .prepareCreate(indexName)
                 .setSettings(Settings.builder().put("index.number_of_shards", 3).put("index.number_of_replicas", 1))
                 .get();
-            response = client.prepare().admin().indices().prepareGetIndex().get();
-        } catch (ElasticsearchSecurityException e) {
+            GetIndexRequest getIndexRequest = new GetIndexRequest();
+            getIndexRequest.indices(indexName);
+            response = client.prepare().admin().indices().getIndex(getIndexRequest).get();
+        } catch (ElasticsearchSecurityException | InterruptedException | ExecutionException e) {
             CommonUtil.handleException(e);
             return;
         }
@@ -59,8 +62,10 @@ public class IndicesSample {
         try {
             client.prepare().admin().indices().prepareCreate(indexName)
                 .addMapping("tweet", "message", "type=text").get();
-            response = client.prepare().admin().indices().prepareGetIndex().get();
-        } catch (ElasticsearchSecurityException e) {
+            GetIndexRequest getIndexRequest = new GetIndexRequest();
+            getIndexRequest.indices(indexName);
+            response = client.prepare().admin().indices().getIndex(getIndexRequest).get();
+        } catch (ElasticsearchSecurityException | InterruptedException | ExecutionException e) {
             CommonUtil.handleException(e);
             return;
         }

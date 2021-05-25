@@ -77,9 +77,9 @@ public final class WordCountDemo {
     // key-value状态存储名称
     private final static String KEY_VALUE_STATE_STORE_NAME = "WordCounts";
     // 用户自己创建的source-topic名称，即input topic
-    private static final String INPUT_TOPIC_NAME = "streams-wordcount-processor-input";
+    private static final String INPUT_TOPIC_NAME = "streams-wordcount-input";
     // 用户自己创建的sink-topic名称，即output topic
-    private static final String OUTPUT_TOPIC_NAME = "streams-wordcount-processor-output";
+    private static final String OUTPUT_TOPIC_NAME = "streams-wordcount-output";
     // 用户自己申请的机机账号keytab文件名称
     private static final String USER_KEYTAB_FILE = "用户自己申请的机机账号keytab文件名称";
     // 用户自己申请的机机账号名称

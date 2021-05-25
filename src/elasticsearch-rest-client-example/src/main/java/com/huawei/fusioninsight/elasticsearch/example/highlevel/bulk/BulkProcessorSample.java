@@ -6,6 +6,7 @@ package com.huawei.fusioninsight.elasticsearch.example.highlevel.bulk;
 
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BackoffPolicy;
+import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -27,9 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
@@ -42,19 +40,14 @@ public class BulkProcessorSample {
     private static final Logger LOG = LoggerFactory.getLogger(BulkProcessorSample.class);
 
     /**
-     * 数据条数达到1000时进行刷新操作
+     * 数据条数达到10000时进行刷新操作
      */
-    private static int onceBulkMaxNum = 1000;
+    private static int onceBulkMaxNum = 10000;
 
     /**
-     * 多线程运行的线程数
+     * 数据量大小达到10M进行刷新操作
      */
-    private static int threadNum = 5;
-
-    /**
-     * 数据量大小达到5M进行刷新操作
-     */
-    private static int onecBulkMaxSize = 5;
+    private static int onecBulkMaxSize = 10;
 
     /**
      * 单个线程需要入库的总条数
@@ -82,7 +75,7 @@ public class BulkProcessorSample {
     private static String indexName = "example-bulkindex";
 
     /**
-     * transport client
+     * High level client
      */
     private RestHighLevelClient highLevelClient;
 
@@ -90,22 +83,6 @@ public class BulkProcessorSample {
      * bulk processor
      */
     private BulkProcessor bulkProcessor;
-
-    /**
-     * 存放任务的队列
-     */
-    private BlockingQueue blockingQueue = new LinkedBlockingDeque(threadNum);
-
-    /**
-     * 线程池
-     */
-    private ThreadPoolExecutor pool = new ThreadPoolExecutor(threadNum, threadNum, 60L, TimeUnit.SECONDS,
-        blockingQueue);
-
-    /**
-     * 默认多线程运行
-     */
-    private boolean isSingleThread = false;
 
     public BulkProcessorSample(RestHighLevelClient highLevelClient, BulkProcessor bulkProcessor) {
         this.highLevelClient = highLevelClient;
@@ -120,58 +97,64 @@ public class BulkProcessorSample {
      */
     private static BulkProcessor getBulkProcessor(RestHighLevelClient highLevelClient) {
         BulkProcessor.Listener listener = new BulkProcessor.Listener() {
+            //在bulk请求之前进行调用
             @Override
             public void beforeBulk(long executionId, BulkRequest bulkRequest) {
                 int numberOfActions = bulkRequest.numberOfActions();
                 LOG.info("Executing bulk {} with {} requests.", executionId, numberOfActions);
             }
-
+            //在bulkRequest请求成功后进行调用，在这一批次中可能存在失败的单个请求，需要调用bulkResponse.hasFailures()进行检查
+            //建议：需要根据业务情况来处理这些失败的数据。
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, BulkResponse bulkResponse) {
                 if (bulkResponse.hasFailures()) {
-                    LOG.warn("Bulk {} executed with failures.", executionId);
+                    BulkRequest errRequest = new BulkRequest();
+                    LOG.error("Bulk failed, {}.", bulkResponse.buildFailureMessage());
+                    int index = 0;
+                    //获取失败的请求
+                    for (BulkItemResponse bulkItemResponse : bulkResponse.getItems()) {
+                        if (bulkItemResponse.isFailed()) {
+                           errRequest.add(bulkRequest.requests().get(index));
+                        }
+                        index++;
+                    }
+                    LOG.error("Failed requests is: {}.", errRequest.requests().toString());
                 } else {
                     LOG.info("Bulk {} completed in {} milliseconds.", executionId, bulkResponse.getTook().getMillis());
                 }
             }
-
+            //在整个bulkRequest批次失败时进行调用。
+            //建议：需要根据业务情况来处理这些失败的数据。
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, Throwable throwable) {
                 LOG.error("Failed to execute bulk.", throwable);
+                LOG.error("Failed requests is: {}.", bulkRequest.requests().toString());
             }
         };
 
         BiConsumer<BulkRequest, ActionListener<BulkResponse>> bulkConsumer
             = (request, bulkListener) -> highLevelClient.bulkAsync(request, RequestOptions.DEFAULT, bulkListener);
 
-        BulkProcessor bulkProcessor = BulkProcessor.builder(bulkConsumer, listener)
-            .setBulkActions(onceBulkMaxNum)
-            .setBulkSize(new ByteSizeValue(onecBulkMaxSize, ByteSizeUnit.MB))
-            .setConcurrentRequests(concurrentRequestsNum)
-            .setFlushInterval(TimeValue.timeValueSeconds(flushTime))
-            .setBackoffPolicy(BackoffPolicy.constantBackoff(TimeValue.timeValueSeconds(1L), maxRetry))
-            .build();
+        BulkProcessor bulkProcessor =
+                BulkProcessor.builder(bulkConsumer, listener)
+                        //10000条文档执行一次bulk
+                        .setBulkActions(onceBulkMaxNum)
+                        //当数据量达到10MB时执行一次bulk，文档数量或数据量其中一个达到阀值就会执行bulk请求
+                        .setBulkSize(new ByteSizeValue(onecBulkMaxSize, ByteSizeUnit.MB))
+                        //设置并发请求数。值为0表示仅允许执行一个请求，值为1表示允许在累积新的批量请求时执行1个并发请求。
+                        .setConcurrentRequests(concurrentRequestsNum)
+                        //每10s执行一次bulk，建议不要将此值设置过小。
+                        .setFlushInterval(TimeValue.timeValueSeconds(flushTime))
+                        //当失败时设置一个自定义退避策略，以下策略表示重试3次，每次间隔1s,只有在返回状态码为429（请求太多）时才进行重试。
+                        .setBackoffPolicy(BackoffPolicy.constantBackoff(TimeValue.timeValueSeconds(1L), maxRetry))
+                        .build();
 
         LOG.info("Init bulkProcess successfully.");
 
         return bulkProcessor;
     }
 
-    /**
-     * 多线程运行入库
-     */
-    private class ConsumerTask implements Runnable {
-        @Override
-        public void run() {
-            singleThreadBulk();
-        }
-    }
-
-    /**
-     * 单线程样例方法
-     */
-    private void singleThreadBulk() {
-        // 单线程
+    private void bulk() {
         int bulkTime = 0;
         while (bulkTime++ < totalNumberForThread) {
             Map<String, Object> dataMap = new HashMap<>();
@@ -181,33 +164,6 @@ public class BulkProcessorSample {
             bulkProcessor.add(new IndexRequest(indexName).source(dataMap));
         }
         LOG.info("This thead bulks successfully, the thread name is {}.", Thread.currentThread().getName());
-    }
-
-    /**
-     * 多线程样例方法
-     */
-    private void multiThreadBulk() {
-        for (int i = 0; i < threadNum; i++) {
-            pool.execute(new ConsumerTask());
-        }
-    }
-
-    /**
-     * 关闭线程池
-     */
-    private void shutDownThreadPool() {
-        try {
-            pool.shutdown();
-            while (true) {
-                if (pool.isTerminated()) {
-                    LOG.info("All bulkdata threads have ran end.");
-                    break;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (InterruptedException e) {
-            LOG.error("Close bulkThreadPool failed.");
-        }
     }
 
     private void destroy() {
@@ -223,7 +179,6 @@ public class BulkProcessorSample {
     /**
      * high level 客户端，判断索引是否存在
      *
-     * @param highLevelClient high level 客户端
      * @return 索引是否存在
      */
     private static boolean isExistIndexForHighLevel(RestHighLevelClient highLevelClient) {
@@ -239,7 +194,6 @@ public class BulkProcessorSample {
     /**
      * high level rest 客户端创建索引
      *
-     * @param highLevelClient high level rest 客户端
      * @return 是否创建成功
      */
     private static boolean createIndexForHighLevel(RestHighLevelClient highLevelClient) {
@@ -280,15 +234,7 @@ public class BulkProcessorSample {
 
             bulkProcessor = getBulkProcessor(highLevelClient);
             bulkProcessorSample = new BulkProcessorSample(highLevelClient, bulkProcessor);
-
-            if (bulkProcessorSample.isSingleThread) {
-                // 单线程样例
-                bulkProcessorSample.singleThreadBulk();
-            } else {
-                // 多线程样例
-                bulkProcessorSample.multiThreadBulk();
-                bulkProcessorSample.shutDownThreadPool();
-            }
+            bulkProcessorSample.bulk();
         } finally {
             try {
                 if (bulkProcessor != null) {
