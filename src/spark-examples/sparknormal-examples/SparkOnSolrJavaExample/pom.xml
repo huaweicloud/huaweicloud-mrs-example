@@ -10,9 +10,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>2.4.5-hw-ei-302002</spark.version>
-        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
-        <solr.version>8.4.0-hw-ei-302002</solr.version>
+        <spark.version>2.4.5-hw-ei-310003</spark.version>
+        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
+        <solr.version>8.4.0-hw-ei-310003</solr.version>
     </properties>
 
     <dependencies>

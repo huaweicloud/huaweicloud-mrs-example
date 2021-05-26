@@ -46,7 +46,7 @@ public class Sample {
         SingleDocumentSample.getDocument(client, bookIndex, "book", "2");
         SingleDocumentSample.getDocument(client, articleIndex, "article", "1");
 
-        SearchSample.multiSearch(client, "lucene");
+        SearchSample.multiSearch(client, "example*", "lucene");
         SearchSample.matchQuery(client, bookIndex, "desc", "full-text");
         SearchSample.booleanQuery(client, bookIndex);
         SearchSample.fuzzyLikeQuery(client, bookIndex);
