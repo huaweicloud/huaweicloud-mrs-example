@@ -10,8 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
-        <oozie.version>5.1.0-hw-ei-302002</oozie.version>
+        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
+        <oozie.version>5.1.0-hw-ei-310003</oozie.version>
     </properties>
 
     <dependencies>

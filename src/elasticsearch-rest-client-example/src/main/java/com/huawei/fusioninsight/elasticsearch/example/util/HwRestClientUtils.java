@@ -4,6 +4,11 @@
 
 package com.huawei.fusioninsight.elasticsearch.example.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.hwclient.HwRestClient;
 
 import java.io.File;
@@ -15,6 +20,7 @@ import java.io.IOException;
  * @since 2020-09-30
  */
 public class HwRestClientUtils {
+    private static final Logger LOG = LogManager.getLogger(HwRestClientUtils.class);
     /**
      * 配置文件路径位置
      */
@@ -58,5 +64,21 @@ public class HwRestClientUtils {
             }
         }
         return hwRestClient;
+    }
+
+    /**
+     * high level 客户端，判断索引是否存在
+     *
+     * @param highLevelClient high level 客户端
+     * @return 索引是否存在
+     */
+    public static boolean isExistIndexForHighLevel(RestHighLevelClient highLevelClient, String indexName) {
+        GetIndexRequest isExistsRequest = new GetIndexRequest(indexName);
+        try {
+            return highLevelClient.indices().exists(isExistsRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            LOG.error("Judge index exist {} failed", indexName, e);
+        }
+        return false;
     }
 }

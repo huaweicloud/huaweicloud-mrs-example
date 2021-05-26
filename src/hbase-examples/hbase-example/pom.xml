@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>2.2.3-hw-ei-302002</version>
+    <version>2.2.3-hw-ei-310003</version>
     <properties>
-        <hbase.version>2.2.3-hw-ei-302002</hbase.version>
-        <zookeeper.version>3.5.6-hw-ei-302002</zookeeper.version>
-        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
-        <phoenix-core.version>5.0.0-HBase-2.0-hw-ei-302002</phoenix-core.version>
+        <hbase.version>2.2.3-hw-ei-310003</hbase.version>
+        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
+        <phoenix-core.version>5.0.0-HBase-2.0-hw-ei-310003</phoenix-core.version>
+        <dualclient.version>8.1.0-310003</dualclient.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -53,6 +53,11 @@
             <groupId>org.apache.phoenix</groupId>
             <artifactId>phoenix-core</artifactId>
             <version>${phoenix-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.huawei.mrs</groupId>
+            <artifactId>hbase-dualclient</artifactId>
+            <version>${dualclient.version}</version>
         </dependency>
     </dependencies>
 
