@@ -5,9 +5,7 @@
 package com.huawei.bigdata.flink.examples;
 
 import org.apache.flink.api.java.tuple.Tuple4;
-import org.apache.flink.runtime.state.FunctionInitializationContext;
-import org.apache.flink.runtime.state.FunctionSnapshotContext;
-import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
+import org.apache.flink.streaming.api.checkpoint.ListCheckpointed;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
 import java.security.SecureRandom;
@@ -18,10 +16,9 @@ import java.util.List;
  * @since 8.0.2
  */
 public class SEventSourceWithChk extends RichSourceFunction<Tuple4<Long, String, String, Integer>>
-        implements CheckpointedFunction {
+        implements ListCheckpointed<UDFState> {
     private Long count = 0L;
     private boolean isRunning = true;
-    List<UDFState> listState = new ArrayList<UDFState>();
     private String alphabet =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" +
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYX0987654321";
@@ -48,19 +45,27 @@ public class SEventSourceWithChk extends RichSourceFunction<Tuple4<Long, String,
         isRunning = false;
     }
 
-
-    @Override
-    public void snapshotState(FunctionSnapshotContext functionSnapshotContext) throws Exception {
+    /**
+     * @param l param1
+     * @param ll param2
+     * @return snapshot list
+     * @throws Exception
+     */
+    public List<UDFState> snapshotState(long l, long ll) throws Exception {
         UDFState udfState = new UDFState();
+        List<UDFState> listState = new ArrayList<UDFState>();
         udfState.setState(count);
         listState.add(udfState);
+
+        return listState;
     }
 
-    @Override
-    public void initializeState(FunctionInitializationContext functionInitializationContext) throws Exception {
-        if (listState.size() > 0) {
-            UDFState udfState = listState.get(0);
-            count = udfState.getState();
-        }
+    /**
+     * @param list restore list
+     * @throws Exception
+     */
+    public void restoreState(List<UDFState> list) throws Exception {
+        UDFState udfState = list.get(0);
+        count = udfState.getState();
     }
 }

@@ -17,13 +17,17 @@ import java.util.Properties;
  *
  * @since 2019-12-01
  */
-public class JDBCExampleZk {
+public class JDBCExample {
     private static Properties properties = new Properties();
+    private final static String PATH_TO_HETUSERVER_JKS = JDBCExample.class.getClassLoader()
+            .getResource("hetuserver.jks")
+            .getPath();
 
     private static void init() throws ClassNotFoundException {
         properties.setProperty("user", "hivetest");
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
+        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("ZooKeeperAuthType", "simple");
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }

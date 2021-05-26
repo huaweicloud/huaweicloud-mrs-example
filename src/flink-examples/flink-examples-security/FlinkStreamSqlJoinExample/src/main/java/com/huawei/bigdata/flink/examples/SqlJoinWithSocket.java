@@ -4,19 +4,18 @@
 
 package com.huawei.bigdata.flink.examples;
 
-import static org.apache.flink.table.api.Expressions.$;
-
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
 /**
@@ -68,13 +67,13 @@ public class SqlJoinWithSocket {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env, fsSettings);
 
-        env.getConfig().setAutoWatermarkInterval(200);
+        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         env.setParallelism(1);
         ParameterTool paraTool = ParameterTool.fromArgs(args);
 
         DataStream<Tuple3<String, String, String>> kafkaStream =
                 env.addSource(
-                                new FlinkKafkaConsumer<>(
+                                new FlinkKafkaConsumer010<>(
                                         paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties()))
                         .map(
                                 new MapFunction<String, Tuple3<String, String, String>>() {
@@ -86,7 +85,7 @@ public class SqlJoinWithSocket {
                                     }
                                 });
 
-        tableEnv.createTemporaryView("Table1", kafkaStream, $("name"), $("age"), $("sexy"), $("proctime").proctime());
+        tableEnv.registerDataStream("Table1", kafkaStream, "name, age, sexy, proctime.proctime");
 
         DataStream<Tuple2<String, String>> socketStream =
                 env.socketTextStream(hostname, port, "\n")
@@ -103,7 +102,7 @@ public class SqlJoinWithSocket {
                                     }
                                 });
 
-        tableEnv.createTemporaryView("Table2", socketStream, $("name"), $("job"), $("proctime").proctime());
+        tableEnv.registerDataStream("Table2", socketStream, "name, job, proctime.proctime");
 
         Table result =
                 tableEnv.sqlQuery(

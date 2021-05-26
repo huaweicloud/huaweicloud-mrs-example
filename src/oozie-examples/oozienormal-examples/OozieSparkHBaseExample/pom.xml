@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oozie.version>5.1.0-hw-ei-310003</oozie.version>
-        <spark.version>2.4.5-hw-ei-310003</spark.version>
-        <hbase.version>2.2.3-hw-ei-310003</hbase.version>
+        <oozie.version>5.1.0-hw-ei-302002</oozie.version>
+        <spark.version>2.4.5-hw-ei-302002</spark.version>
+        <hbase.version>2.2.3-hw-ei-302002</hbase.version>
     </properties>
 
     <dependencies>

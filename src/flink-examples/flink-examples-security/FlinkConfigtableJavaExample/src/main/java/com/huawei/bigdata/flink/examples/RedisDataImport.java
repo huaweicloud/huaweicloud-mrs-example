@@ -117,9 +117,8 @@ public class RedisDataImport {
 
         // check and set
         if (System.getProperty("redis.authentication.jaas", "false").equals("true")) {
-            String pwd = System.getProperty("user.dir");
-            LoginUtil.setJaasFile(userPrincipal, pwd + "/" + keytabPath);
-            LoginUtil.setKrb5Config(pwd + "/" + krb5Path);
+            LoginUtil.setJaasFile(userPrincipal, keytabPath);
+            LoginUtil.setKrb5Config(krb5Path);
         }
     }
 

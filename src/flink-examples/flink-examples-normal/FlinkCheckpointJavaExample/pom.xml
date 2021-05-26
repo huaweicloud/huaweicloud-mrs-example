@@ -10,8 +10,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <flink.version>1.12.0-hw-ei-310003</flink.version>
-        <flink.shaded.zookeeper.version>3.5.6-12.0</flink.shaded.zookeeper.version>
+        <flink.version>1.10.0-hw-ei-302002</flink.version>
     </properties>
 
     <dependencies>
@@ -47,11 +46,6 @@
                     <artifactId>flink-shaded-hadoop-2</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-shaded-zookeeper-3</artifactId>
-            <version>${flink.shaded.zookeeper.version}</version>
         </dependency>
     </dependencies>
 

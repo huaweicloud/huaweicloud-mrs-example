@@ -4,15 +4,15 @@ The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, P
 
 ### Version Mapping:
 
-MRS_3.1.0 Components mapping:
+MRS_3.0.2 Components mapping:
 
-| Component\MRS version | MRS 3.1.0 |
+| Component\MRS version | MRS 3.0.2 |
 | --------------------- | --------- |
-| Flink                 | 1.12.0    |
+| Flink                 | 1.10.0    |
 | Hive                  | 3.1.0     |
 | Tez                   | 0.9.2     |
 | Spark                 | 2.4.5     |
-| CarbonData            | 2.0.1     |
+| CarbonData            | 2.0.0     |
 | Hadoop                | 3.1.1     |
 | HBase                 | 2.2.3     |
 | ZooKeeper             | 3.5.6     |
@@ -21,18 +21,17 @@ MRS_3.1.0 Components mapping:
 | Flume                 | 1.9.0     |
 | Kafka                 | 2.4.0     |
 | Ranger                | 2.0.0     |
+| GeoMesa               | 2.4.0     |
 | Storm                 | 1.2.0     |
 | Solr                  | 8.4.0     |
 | Phoenix               | 5.0.0     |
-| ES                    | 7.10.2    |
-| ClickHouse            | v21.3.4.25-lts |
+| ES                    | 7.6.0     |
 
 ### Quick Links:
 
 - [Sample Course](https://education.huaweicloud.com:8443/courses/course-v1:HuaweiX+CBUCNXE006+Self-paced/about?isAuth=0&cfrom=hwc), can get the introductory tutorial of MRS.
 - [MRS Homepage](https://www.huaweicloud.com/en-us/product/mrs.html), or Chinese language site [MapReduce服务](https://www.huaweicloud.com/product/mrs.html)
 - [Deveployer Guide](https://support.huaweicloud.com/devg-mrs/mrs_06_0001.html)
-- [FusionInsight Forum](https://bbs.huaweicloud.com/forum/forum-1103-1.html)
 - [MRS Forum](https://bbs.huaweicloud.com/forum/forum-612-1.html)
 
 ## Getting Started
@@ -54,7 +53,7 @@ To run the examples required:
 <mirror>
     <id>repo2</id>
     <mirrorOf>central</mirrorOf>
-    <url>http://repo2.maven.org/maven2/</url>
+    <url>http://repo1.maven.org/maven2/</url>
 </mirror>
 <profile>
     <id>huaweicloudsdk</id>
@@ -75,7 +74,7 @@ To run the examples required:
 Once you check out the code from GitHub, you can build it using maven for every child project, eg:
 
 ```
-cd src\hdfs-example-security
+cd src\presto-examples
 mvn clean install
 ```
 

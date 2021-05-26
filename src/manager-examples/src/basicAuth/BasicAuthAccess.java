@@ -14,17 +14,17 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.security.crypto.codec.Base64;
+import sun.misc.BASE64Encoder;
 import utils.WebClientDevWrapper;
 import validutil.ParamsValidUtil;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 
 /**
  * BasicAuthAccess
@@ -112,7 +112,7 @@ public class BasicAuthAccess {
 
         String userNamePasswordToken = userName + ":" + credentials;
         try {
-            byte[] token64 = Base64.getEncoder().encode(userNamePasswordToken.getBytes("UTF-8"));
+            byte[] token64 = Base64.encode(userNamePasswordToken.getBytes("UTF-8"));
             String token = new String(token64);
             sb.append(token);
         } catch (UnsupportedEncodingException e) {
@@ -125,14 +125,16 @@ public class BasicAuthAccess {
 
     public static String getKeytabContent(String keytabPath) {
         FileInputStream inputStream = null;
-        String keytabContent = null;
+        StringBuilder sb = new StringBuilder();
         try {
-            File file = new File(keytabPath);
-            Long fileLen = file.length();
-            byte[] tmp = new byte[fileLen.intValue()];
             inputStream = new FileInputStream(keytabPath);
-            inputStream.read(tmp);
-            keytabContent = Base64.getEncoder().encodeToString(tmp);
+
+            // Array size is 1 to prevent write overflow
+            byte[] tmp = new byte[1];
+            while ((inputStream.read(tmp)) != -1) {
+                BASE64Encoder encoder = new BASE64Encoder();
+                sb.append(new String(Base64.encode(tmp)));
+            }
         } catch (IOException e) {
             return null;
         } finally {
@@ -143,7 +145,8 @@ public class BasicAuthAccess {
                 }
             }
         }
-        return keytabContent;
+        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     private HttpResponse firstAccessResp(String webUrl, String userName, String authentication, HttpClient httpClient)

@@ -9,7 +9,7 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer010;
 
 import java.util.Random;
 
@@ -49,8 +49,8 @@ public class WriteIntoKafka {
         ParameterTool paraTool = ParameterTool.fromArgs(args);
 
         DataStream<String> messageStream = env.addSource(new SimpleStringGenerator());
-        FlinkKafkaProducer<String> producer =
-                new FlinkKafkaProducer<>(paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties());
+        FlinkKafkaProducer010 producer =
+                new FlinkKafkaProducer010<>(paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties());
 
         producer.setWriteTimestampToKafka(true);
 

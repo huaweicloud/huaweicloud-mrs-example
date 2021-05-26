@@ -12,7 +12,7 @@
         <dependency>
             <groupId>io.prestosql</groupId>
             <artifactId>presto-jdbc</artifactId>
-            <version>316-hw-ei-310003</version>
+            <version>316-hw-ei-302002</version>
             <exclusions>
                 <exclusion>
                     <artifactId>zookeeper</artifactId>
@@ -27,7 +27,7 @@
                     <groupId>io.prestosql</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>hetu-high-availability</artifactId>
+                    <artifactId>onequery-high-availability</artifactId>
                     <groupId>io.prestosql</groupId>
                 </exclusion>
                 <exclusion>
@@ -64,7 +64,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>com.huawei.presto.JDBCExampleZk</mainClass>
+                            <mainClass>com.huawei.presto.JDBCExample</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
