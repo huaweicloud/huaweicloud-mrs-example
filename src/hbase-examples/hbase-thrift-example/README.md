@@ -25,7 +25,7 @@
    </property>
    <property>
    <name>hbase.thrift.keytab.file</name>
-   <value>/opt/huawei/Bigdata/FusionInsight_HD_8.1.0/install/FusionInsight-HBase-2.2.3/keytabs/HBase/thrift.keytab</value>
+   <value>/opt/huawei/Bigdata/FusionInsight_HD_8.0.2/install/FusionInsight-HBase-2.2.3/keytabs/HBase/thrift.keytab</value>
    </property>
    ```
 

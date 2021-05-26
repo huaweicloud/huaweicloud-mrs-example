@@ -10,8 +10,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
-        <hadoop.ext.version>8.1.0-310003</hadoop.ext.version>
+        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
+        <hadoop.ext.version>8.0.2-302002</hadoop.ext.version>
     </properties>
 
     <dependencies>

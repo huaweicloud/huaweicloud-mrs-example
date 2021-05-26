@@ -9,9 +9,9 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hw.es.versioin>7.10.2-hw-ei-310003</hw.es.versioin>
-        <hw.spark.version>2.4.5-hw-ei-310003</hw.spark.version>
-        <hw.hadoop.version>3.1.1-hw-ei-310003</hw.hadoop.version>
+        <hw.es.versioin>7.6.0-hw-ei-302002</hw.es.versioin>
+        <hw.spark.version>2.4.5-hw-ei-302002</hw.spark.version>
+        <hw.hadoop.version>3.1.1-hw-ei-302002</hw.hadoop.version>
     </properties>
 
     <dependencies>

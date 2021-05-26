@@ -6,8 +6,8 @@
 	<version>1.0.0</version>
 
 	<properties>
-		<mrs.version>8.1.0-310003</mrs.version>
-		<jedisclient.version>8.1.0-310003</jedisclient.version>
+		<mrs.version>8.0.2-302002</mrs.version>
+		<jedisclient.version>8.0.2-302002</jedisclient.version>
 		<commons-pools2.version>2.8.0</commons-pools2.version>
 		<log4j.version>1.2.17-atlassian-13</log4j.version>
 	</properties>

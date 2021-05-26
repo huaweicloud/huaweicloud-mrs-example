@@ -36,10 +36,8 @@ class SEventSourceWithChk extends RichSourceFunction[SEvent] with ListCheckpoint
   }
 
   override def restoreState(list: util.List[UDFState]): Unit = {
-    if (listState.size > 0) {
-      val udfState = list.get(0)
-      count = udfState.getState
-    }
+    val udfState = list.get(0)
+    count = udfState.getState
   }
 
 }

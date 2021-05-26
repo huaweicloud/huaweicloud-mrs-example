@@ -13,7 +13,6 @@ import com.huawei.fusioninsight.elasticsearch.example.lowlevel.flush.Flush;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.index.CreateIndex;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.index.PutData;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.search.QueryData;
-import com.huawei.fusioninsight.elasticsearch.example.lowlevel.sql.SqlQuery;
 import com.huawei.fusioninsight.elasticsearch.example.util.HwRestClientUtils;
 
 import com.google.gson.Gson;
@@ -107,7 +106,6 @@ public class LowLevelRestClientAllRequests {
             bulk(restClient, indexName, "_doc");
             BulkRoutingSample.bulkWithRouting(restClient, indexName);
             QueryData.queryData(restClient, indexName, "_doc", "1");
-            SqlQuery.doSqlQuery(restClient);
             DeleteSomeDocumentsInIndex.deleteSomeDocumentsInIndex(restClient, indexName, "pubinfo", "Beijing");
             Flush.flushOneIndex(restClient, indexName);
             DeleteIndex.deleteIndex(restClient, indexName);

@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>2.4.5-hw-ei-310003</spark.version>
-        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
-        <hbase.version>2.2.3-hw-ei-310003</hbase.version>
+        <spark.version>2.4.5-hw-ei-302002</spark.version>
+        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
+        <hbase.version>2.2.3-hw-ei-302002</hbase.version>
     </properties>
 
     <dependencies>
@@ -90,12 +90,6 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_2.11</artifactId>
             <version>${spark.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>hive-llap-client</artifactId>
-                    <groupId>org.apache.hive</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

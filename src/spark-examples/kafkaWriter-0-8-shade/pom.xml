@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.spark</groupId>
     <artifactId>spark-integration_2.11</artifactId>
-    <version>2.4.5-hw-ei-310003</version>
+    <version>2.4.5-hw-ei-302002</version>
   </parent>
 
   <artifactId>spark-streaming-kafkaWriter-0-8_2.11-shade</artifactId>

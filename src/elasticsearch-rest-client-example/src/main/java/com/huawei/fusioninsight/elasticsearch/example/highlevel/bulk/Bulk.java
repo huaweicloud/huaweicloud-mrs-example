@@ -16,6 +16,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.hwclient.HwRestClient;
@@ -104,6 +105,22 @@ public class Bulk {
     }
 
     /**
+     * high level 客户端，判断索引是否存在
+     *
+     * @param highLevelClient high level 客户端
+     * @return 索引是否存在
+     */
+    private static boolean isExistIndexForHighLevel(RestHighLevelClient highLevelClient, String indexName) {
+        GetIndexRequest isExistsRequest = new GetIndexRequest(indexName);
+        try {
+            return highLevelClient.indices().exists(isExistsRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            LOG.error("Judge index exist {} failed", indexName, e);
+        }
+        return false;
+    }
+
+    /**
      * high level rest 客户端创建索引
      *
      * @param highLevelClient high level rest 客户端
@@ -134,7 +151,7 @@ public class Bulk {
             // 创建索引
             String indexName = "example-indexname";
             boolean isCreateSuccess = true;
-            if (!HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, indexName)) {
+            if (!isExistIndexForHighLevel(highLevelClient, indexName)) {
                 isCreateSuccess = createIndexForHighLevel(highLevelClient, indexName);
             }
 
@@ -147,7 +164,7 @@ public class Bulk {
             // 创建索引
             String indexNameWithVersion = "example-index_with_version";
             isCreateSuccess = true;
-            if (!HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, indexNameWithVersion)) {
+            if (!isExistIndexForHighLevel(highLevelClient, indexNameWithVersion)) {
                 isCreateSuccess = createIndexForHighLevel(highLevelClient, indexNameWithVersion);
             }
             if (isCreateSuccess) {

@@ -11,10 +11,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hive.group>org.apache.hive</hive.group>
-        <hive.version>3.1.0-hw-ei-310003</hive.version>
+        <hive.version>2.3.3-hw-ei-302002</hive.version>
         <hive.deps.scope>compile</hive.deps.scope>
         <scala.version>2.11.8</scala.version>
-        <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
+        <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
     </properties>
 
     <dependencies>
