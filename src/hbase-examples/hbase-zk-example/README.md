@@ -7,7 +7,6 @@
    根据__《HBase开发指南》1.2.1准备开发和运行环境__  章节中所述客户端配置文件解压路径“FusionInsight_Cluster_1_Services_ClientConfig_ConfigFiles\HBase\config”，获取HBase相关配置文件***core-site.xml、hbase-site.xml、hdfs-site.xml***放到***“src/main/resources”***目录下
 
 3. 修改***TestZKSample.java*** 文件__testSample()__方法中的***principal***为用户名
-   修改***jaas.conf***中***Client_new***的***principal***为用户名
    修改***jaas.conf***中***Client_new***的***keyTab***值为__运行样例的主机__保存user.keytab的绝对路径（注意 区别Windows下与Linux下路径书写），***principal***为用户名
 
 4. __Linux环境下__运行时：

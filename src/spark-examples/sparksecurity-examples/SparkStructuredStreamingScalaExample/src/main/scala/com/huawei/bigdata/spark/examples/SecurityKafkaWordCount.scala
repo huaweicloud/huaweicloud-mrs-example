@@ -17,7 +17,7 @@ import org.apache.spark.sql.SparkSession
  *   |- <subscribePattern> The pattern used to subscribe to topic(s).
  *   |  Java regex string.
  *   |- Only one of "assign, "subscribe" or "subscribePattern" options can be
- *   |  specified for Kafka source.
+ *   |  specified for Kafka source. 
  *   <topics> Different value format depends on the value of 'subscribe-type'.
  *   <protocol>
  *   <service>

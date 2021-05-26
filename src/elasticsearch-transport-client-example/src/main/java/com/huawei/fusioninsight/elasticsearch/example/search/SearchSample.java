@@ -132,8 +132,7 @@ public class SearchSample {
                 return;
             }
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info("Highlighting field:{}, Highlighting field content:{}.",
-                highlightField.getName(),  highlightField.getFragments()[0].string());
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -206,8 +205,7 @@ public class SearchSample {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info("Highlighting field:{},Highlighting field content:{}",
-                highlightField.getName(), highlightField.getFragments()[0].string());
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -246,8 +244,7 @@ public class SearchSample {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info("Highlighting field:{},Highlighting field content:{}",
-                highlightField.getName(), highlightField.getFragments()[0].string());
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -291,10 +288,7 @@ public class SearchSample {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField highlightField = highlightFields.get("content");
-            if (null != highlightField) {
-                LOG.info("Highlighting field:{},Highlighting field content:{}",
-                    highlightField.getName(), highlightField.getFragments()[0].string());
-            }
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -334,11 +328,10 @@ public class SearchSample {
             // Get the highlighting field
             LOG.info(searchHit);
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
-            LOG.info(highlightFields);
+            LOG.info("highlightFields:{}" , highlightFields);
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info(highlightField);
-            LOG.info("Highlighting field:{},Highlighting field content:{}.",
-                highlightField.getName(), highlightField.getFragments()[0].string());
+            LOG.info("highlightField:{}" , highlightField);
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -377,8 +370,7 @@ public class SearchSample {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info("Highlighting field:{},Highlighting field content:{}.",
-                highlightField.getName(), highlightField.getFragments()[0].string());
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -446,14 +438,13 @@ public class SearchSample {
         }
         SearchHits searchHits = searchResponse.getHits();
         LOG.info("fuzzyLikeQuery:");
-        LOG.info("Total match found:{}." , searchHits.getTotalHits());
+        LOG.info("Total match found:{}.", searchHits.getTotalHits());
         SearchHit[] hits = searchHits.getHits();
         for (SearchHit searchHit : hits) {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField highlightField = highlightFields.get("content");
-            LOG.info("Highlighting field:{},Highlighting field content:{}.",
-                highlightField.getName(), highlightField.getFragments()[0].string());
+            logHighlightField(highlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -497,11 +488,9 @@ public class SearchSample {
             // Get the highlighting field
             Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
             HighlightField deschighlightField = highlightFields.get("desc");
-            LOG.info("Highlighting field:{},Highlighting field content:{}." ,
-                deschighlightField.getName() , deschighlightField.getFragments()[0].string());
+            logHighlightField(deschighlightField);
             HighlightField namehighlightField = highlightFields.get("name");
-            LOG.info("Highlighting field:{},Highlighting field content:{}.", namehighlightField.getName(),
-                namehighlightField.getFragments()[0].string());
+            logHighlightField(namehighlightField);
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
             Set<String> keySet = sourceAsMap.keySet();
             for (String string : keySet) {
@@ -516,13 +505,19 @@ public class SearchSample {
      * @param client 客户端
      * @param queryString 查询条件
      */
-    public static void multiSearch(PreBuiltHWTransportClient client, String queryString) {
+    public static void multiSearch(PreBuiltHWTransportClient client, String index, String queryString) {
         SearchRequestBuilder srb1;
         SearchRequestBuilder srb2;
         MultiSearchResponse sr;
         try {
-            srb1 = client.prepare().prepareSearch().setQuery(QueryBuilders.queryStringQuery(queryString));
-            srb2 = client.prepare().prepareSearch().setQuery(QueryBuilders.matchQuery("desc", queryString));
+            srb1 = client.prepare()
+                .prepareSearch()
+                .setQuery(QueryBuilders.queryStringQuery(queryString))
+                .setIndices(index);
+            srb2 = client.prepare()
+                .prepareSearch()
+                .setQuery(QueryBuilders.matchQuery("desc", queryString))
+                .setIndices(index);
             sr = client.prepare().prepareMultiSearch().add(srb1).add(srb2).execute().actionGet();
         } catch (ElasticsearchSecurityException e) {
             CommonUtil.handleException(e);
@@ -532,10 +527,10 @@ public class SearchSample {
         for (MultiSearchResponse.Item item : sr.getResponses()) {
             SearchResponse response = item.getResponse();
             nbHits += response.getHits().getTotalHits().value;
-            LOG.info("Indices found:{}." , nbHits);
+            LOG.info("Indices found:{}.", nbHits);
             SearchHits searchHits = response.getHits();
-            LOG.info("key:[{}]:" , queryString);
-            LOG.info("Total match found:{}." , searchHits.getTotalHits());
+            LOG.info("key:[{}]:", queryString);
+            LOG.info("Total match found:{}.", searchHits.getTotalHits());
             SearchHit[] hits = searchHits.getHits();
             for (SearchHit searchHit : hits) {
                 Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
@@ -545,5 +540,13 @@ public class SearchSample {
                 }
             }
         }
+    }
+
+    private static void logHighlightField(HighlightField highlightField) {
+        if (highlightField == null) {
+            return;
+        }
+        LOG.info("Highlighting field:{},Highlighting field content:{}.", highlightField.getName(),
+            highlightField.getFragments()[0].string());
     }
 }

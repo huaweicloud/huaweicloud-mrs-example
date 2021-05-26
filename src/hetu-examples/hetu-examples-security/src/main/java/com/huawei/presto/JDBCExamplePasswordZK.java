@@ -17,12 +17,9 @@ import java.util.Properties;
  *
  * @since 2019-12-01
  */
-public class JDBCExamplePassword {
+public class JDBCExamplePasswordZK {
     private static Properties properties = new Properties();
-    private final static String PATH_TO_HETUSERVER_JKS = JDBCExamplePassword.class.getClassLoader()
-            .getResource("hetuserver.jks")
-            .getPath();
-    private final static String PATH_TO_KRB5_CONF = JDBCExamplePassword.class.getClassLoader()
+    private final static String PATH_TO_KRB5_CONF = JDBCExamplePasswordZK.class.getClassLoader()
             .getResource("krb5.conf")
             .getPath();
 
@@ -36,7 +33,6 @@ public class JDBCExamplePassword {
 
         properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosRemoteServiceName", "HTTP");
-        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
 
