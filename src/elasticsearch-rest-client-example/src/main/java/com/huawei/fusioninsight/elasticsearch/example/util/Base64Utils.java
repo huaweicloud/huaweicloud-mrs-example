@@ -17,10 +17,12 @@ public class Base64Utils {
     private static final Logger LOG = LogManager.getLogger(Base64Utils.class);
 
     public static void main(String[] args) {
-        // 对字符串"userName:passwd"进行base64加密
-        LOG.info("encodeBase64: {}", encodeBase64("userName:passwd"));
-        // 对已加密的字符串"dXNlck5hbWU6cGFzc3dk"进行base64解密
-        LOG.info("decodeBase64 {}", decodeBase64("dXNlck5hbWU6cGFzc3dk"));
+        if (args != null
+                && args.length >= 1
+                && args[0] != null
+                && !args[0].isEmpty()) {
+            System.out.println(encodeBase64(args[0]));
+        }
     }
 
     /**

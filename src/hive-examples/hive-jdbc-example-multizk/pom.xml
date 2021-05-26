@@ -6,11 +6,11 @@
 
   <groupId>com.huawei.bigdata</groupId>
   <artifactId>hive-jdbc-example-multizk</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>8.1.0</version>
 
   <properties>
-    <hadoop.version>3.1.1-hw-ei-302002</hadoop.version>
-    <hive.version>3.1.0-hw-ei-302002</hive.version>
+    <hadoop.version>3.1.1-hw-ei-310003</hadoop.version>
+    <hive.version>3.1.0-hw-ei-310003</hive.version>
   </properties>
 
   <dependencies>

@@ -18,7 +18,6 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.shaded.guava18.com.google.common.cache.CacheBuilder;
 import org.apache.flink.shaded.guava18.com.google.common.cache.CacheLoader;
 import org.apache.flink.shaded.guava18.com.google.common.cache.LoadingCache;
-import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.AsyncDataStream;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -64,7 +63,7 @@ public class FlinkConfigtableJavaExample {
 
         // set up the execution environment
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+        env.getConfig().setAutoWatermarkInterval(200);
         env.setParallelism(1);
 
         // get configure and read data and transform to OriginalRecord

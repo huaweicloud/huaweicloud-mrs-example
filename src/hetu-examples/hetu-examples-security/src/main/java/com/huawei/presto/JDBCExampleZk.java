@@ -17,18 +17,15 @@ import java.util.Properties;
  *
  * @since 2019-12-01
  */
-public class JDBCExample {
+public class JDBCExampleZk {
     private static Properties properties = new Properties();
-    private final static String PATH_TO_HETUSERVER_JKS = JDBCExample.class.getClassLoader()
-            .getResource("hetuserver.jks")
-            .getPath();
-    private final static String PATH_TO_JAAS_ZK_CONF = JDBCExample.class.getClassLoader()
+    private final static String PATH_TO_JAAS_ZK_CONF = JDBCExampleZk.class.getClassLoader()
             .getResource("jaas-zk.conf")
             .getPath();
-    private final static String PATH_TO_KRB5_CONF = JDBCExample.class.getClassLoader()
+    private final static String PATH_TO_KRB5_CONF = JDBCExampleZk.class.getClassLoader()
             .getResource("krb5.conf")
             .getPath();
-    private final static String PATH_TO_USER_KEYTAB = JDBCExample.class.getClassLoader()
+    private final static String PATH_TO_USER_KEYTAB = JDBCExampleZk.class.getClassLoader()
             .getResource("user.keytab")
             .getPath();
 
@@ -42,7 +39,6 @@ public class JDBCExample {
         properties.setProperty("KerberosPrincipal", "hivetest");
         properties.setProperty("KerberosKeytabPath", PATH_TO_USER_KEYTAB);
         properties.setProperty("KerberosRemoteServiceName", "HTTP");
-        properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "kerberos");

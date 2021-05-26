@@ -9,7 +9,9 @@
     <version>1.0</version>
 
     <properties>
-        <flink.version>1.10.0-hw-ei-302002</flink.version>
+        <flink.version>1.12.0-hw-ei-310003</flink.version>
+        <flink.shaded.zookeeper.version>3.5.6-12.0</flink.shaded.zookeeper.version>
+        <flink.kafka.version>1.12.0</flink.kafka.version>
     </properties>
 
     <dependencies>
@@ -37,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_2.11</artifactId>
+            <artifactId>flink-streaming-scala_2.11</artifactId>
             <version>${flink.version}</version>
             <exclusions>
                 <exclusion>
@@ -49,7 +51,12 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka_2.11</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink.kafka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-shaded-zookeeper-3</artifactId>
+            <version>${flink.shaded.zookeeper.version}</version>
         </dependency>
     </dependencies>
 
