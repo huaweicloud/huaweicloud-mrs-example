@@ -13,6 +13,8 @@
         <oozie.version>5.1.0-hw-ei-310003</oozie.version>
         <spark.version>2.4.5-hw-ei-310003</spark.version>
         <hbase.version>2.2.3-hw-ei-310003</hbase.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -38,6 +40,10 @@
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-annotations</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -57,6 +63,10 @@
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hive</groupId>
+                    <artifactId>hive-llap-client</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
