@@ -55,8 +55,6 @@ public class OozieSample {
     private void runJob(String jobFilePath) throws OozieClientException, InterruptedException {
 
         Properties conf = getJobProperties(jobFilePath);
-        String user = PropertiesCache.getInstance().getProperty("submit_user");
-        conf.setProperty("user.name", user);
 
         // submit and start the workflow job
         String jobId = oozieClient.run(conf);

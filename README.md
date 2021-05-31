@@ -48,19 +48,14 @@ To run the examples required:
 
 #### Specify the Maven Repository
 
-Add the following open source mirror repository address to **mirrors** in the **settings.xml** configuration file.
+ Set the repository in your local **setting.xml** of maven
 
 ```
 <mirror>
     <id>repo2</id>
     <mirrorOf>central</mirrorOf>
-    <url>https://repo1.maven.org/maven2/</url>
+    <url>http://repo2.maven.org/maven2/</url>
 </mirror>
-```
-
-Add the following mirror repository address to **profiles** in the **settings.xml** configuration file.
-
-```
 <profile>
     <id>huaweicloudsdk</id>
     <repositories>
@@ -72,26 +67,6 @@ Add the following mirror repository address to **profiles** in the **settings.xm
         </repository>
     </repositories>
 </profile>
-<profile>
-    <id>JDK1.8</id>
-    <activation>
-        <activeByDefault>true</activeByDefault>
-        <jdk>1.8</jdk>
-    </activation>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-    </properties>
-</profile>
-```
-
-Add the following mirror repository address to the **activeProfiles** node in the **settings.xml** file.
-
-```
 <activeProfile>huaweicloudsdk</activeProfile>
 ```
 

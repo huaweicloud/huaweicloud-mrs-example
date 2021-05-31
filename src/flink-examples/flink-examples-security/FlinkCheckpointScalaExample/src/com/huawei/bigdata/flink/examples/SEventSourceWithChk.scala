@@ -1,7 +1,6 @@
 package com.huawei.bigdata.flink.examples
 
 import java.util
-import java.util.{ArrayList, List}
 
 import org.apache.flink.streaming.api.checkpoint.ListCheckpointed
 import org.apache.flink.streaming.api.functions.source.{RichSourceFunction, SourceFunction}
@@ -12,9 +11,6 @@ class SEventSourceWithChk extends RichSourceFunction[SEvent] with ListCheckpoint
 
   private var count = 0L
   private var isRunning = true
-
-  private[examples] val listState = new util.ArrayList[UDFState]
-
   private val alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYX0987654321"
 
   override def run(sourceContext: SourceFunction.SourceContext[SEvent]): Unit = {
