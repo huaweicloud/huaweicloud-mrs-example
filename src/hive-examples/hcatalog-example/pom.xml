@@ -13,10 +13,21 @@
   </properties>
 
   <dependencies>
+	<dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-rdbms-fi</artifactId>
+      <version>4.1.19-302002</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.hive.hcatalog</groupId>
       <artifactId>hive-hcatalog-core</artifactId>
       <version>${hive.version}</version>
+	  <exclusions>
+        <exclusion>
+           <groupId>org.datanucleus</groupId>
+		   <artifactId>datanucleus-rdbms-fi</artifactId>
+        </exclusion>
+    </exclusions>
     </dependency>
   </dependencies>
 </project>
