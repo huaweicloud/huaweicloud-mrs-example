@@ -26,6 +26,7 @@
 
   <artifactId>spark-streaming-kafkaWriter-0-8_2.11</artifactId>
   <properties>
+    <spark.test.version>2.4.5-hw-ei-302002</spark.test.version>
     <sbt.project.name>streaming-kafkaWriter-0-8</sbt.project.name>
   </properties>
   <packaging>jar</packaging>
@@ -76,6 +77,22 @@
           <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-hive-thriftserver_${scala.binary.version}</artifactId>
+      <version>${spark.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.parquet</groupId>
+          <artifactId>parquet-hadoop-bundle</artifactId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hive-llap-client</artifactId>
+          <groupId>org.apache.hive</groupId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
