@@ -5,8 +5,7 @@ cd..
 set JAVA=%JAVA_HOME%\bin\java 
 set LIBS=%cd%\lib
 
-set CLASS_PATH=%cd%\src\main\resources
-for /r %LIBS% %%b in (*.jar) do call :addcp %%~sb
+set CLASS_PATH=%LIBS%\*
 
 set /p input=input the source directory please:
 set /p output=input the target directory please:
