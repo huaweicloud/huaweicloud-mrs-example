@@ -21,11 +21,12 @@ MRS_3.1.0 Components mapping:
 | Flume                 | 1.9.0     |
 | Kafka                 | 2.4.0     |
 | Ranger                | 2.0.0     |
-| Storm                 | 1.2.0     |
+| Storm                 | 1.2.1     |
 | Solr                  | 8.4.0     |
 | Phoenix               | 5.0.0     |
 | ES                    | 7.10.2    |
 | ClickHouse            | v21.3.4.25-lts |
+| Redis                 | 5.0.4     |
 
 ### Quick Links:
 
