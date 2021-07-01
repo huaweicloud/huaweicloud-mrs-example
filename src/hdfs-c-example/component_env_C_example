@@ -1,0 +1,46 @@
+if [ -z "${HADOOP_HOME}" ] || [ -z "${BIGDATA_CLIENT_HOME}" ];then
+    echo 'Environment variable ${HADOOP_HOME} or ${BIGDATA_CLIENT_HOME} has no value.'
+    exit 1
+fi
+
+unset LIBHDFS_OPTS
+
+if [ "$HADOOP_SECURITY_AUTHENTICATION" == "kerberos" ]; then
+    export LIBHDFS_OPTS="-Djava.security.krb5.conf=${KRB5_CONFIG}"
+fi
+
+# for C client
+delRepeatStr()
+{
+    oldStr=$1
+    newStr=`echo "$oldStr" | tr ':' '\n' | sed '/^$/d' | sort | uniq | tr '\n' ':' | sed 's/:$//'`
+    echo "$newStr"
+}
+
+addCLASSPATH=$(find "${HADOOP_HOME}" -name "*.jar" | grep -v webapps | tr '\n' ':')
+
+CLASSPATH=$CLASSPATH:$addCLASSPATH:${HADOOP_HOME}/etc/hadoop
+CLASSPATH=`delRepeatStr "$CLASSPATH"`
+export CLASSPATH=$CLASSPATH
+
+archVersion=""
+
+if [ -d "${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/amd64" ]; then
+    archVersion="amd64"
+elif [ -d "${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/aarch64" ]; then
+    archVersion="aarch64"
+else
+    echo "Not support JDK" >&2
+fi
+
+if [ ! -z "$archVersion" ]; then
+    LIBRARY_PATH="${LIBRARY_PATH}:${HADOOP_HOME}/lib/native:${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/${archVersion}/server:${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/${archVersion}"
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HADOOP_HOME}/lib/native:${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/${archVersion}/server:${BIGDATA_CLIENT_HOME}/JDK/jdk/jre/lib/${archVersion}"
+
+    LIBRARY_PATH=$(delRepeatStr "$LIBRARY_PATH")
+    export LIBRARY_PATH="$LIBRARY_PATH"
+
+    LD_LIBRARY_PATH=$(delRepeatStr "$LD_LIBRARY_PATH")
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+fi
+

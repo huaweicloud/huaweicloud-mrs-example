@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <property>
+        <name>username.client.mapred.input</name>
+        <value>/user/mapred/example/input/</value>
+    </property>
+    <property>
+        <name>username.client.mapred.output</name>
+        <value>/user/mapred/example/output/</value>
+    </property>
+    <property>
+        <name>username.client.filelist.conf</name>
+        <value>log1.txt,log2.txt</value>
+    </property>
+    <property>
+        <name>mapreduce.app-submission.cross-platform</name>
+        <value>true</value>
+    </property>
+</configuration>
