@@ -1,0 +1,45 @@
+#!/bin/bash
+PYPATH=$HIVE_PY_HOME
+echo "Current path is : " $PYPATH
+
+export ZOO_LOG4J_PROP="OFF,CONSOLE"
+
+#Install setuptools
+echo "Install setuptools"
+cd $PYPATH
+which easy_install
+if [ $? -ne 0 ] ;then
+    echo "easy_install is not available,please download a setuptools(must more than 1.0) and install it."
+    exit 1
+else
+    echo "easy_install already exist."
+fi
+
+python_version=`python -V 2>&1`
+if [[ $python_version > "Python 2.7.0" ]] ;then
+    #Install python dependence package
+    echo "Install sasl"
+    easy_install $PYPATH/sasl-0.1.1-py2.7-linux-x86_64.egg
+
+    echo "Install thrift"
+    easy_install $PYPATH/thrift-0.9.1-py2.7-linux-x86_64.egg
+else
+    #Install python dependence package
+    echo "Install sasl"
+    easy_install $PYPATH/sasl-0.1.1-py2.6-linux-x86_64.egg
+
+    echo "Install thrift"
+    easy_install $PYPATH/thrift-0.9.1-py2.6-linux-x86_64.egg
+fi
+
+ZK_SERVER=`echo $CLIENT_HIVE_URI|awk -F 'jdbc:hive2://' '{print $2}'|awk -F ',' '{print $1}'`
+echo "The Zookeeper address is : " $ZK_SERVER
+NAME_SPACE=`echo $CLIENT_HIVE_URI|awk -F 'zooKeeperNamespace=' '{print $2}'|awk -F ';' '{print $1}'`
+
+MSG=`zkCli.sh -server $ZK_SERVER ls /$NAME_SPACE |awk -F 'serverUri=' '{print $2}'|awk -F ';' '{print $1}'|awk '{ field = $NF }; END{ print field }'`
+if [ $? -ne 0 ] ;then
+    echo "Failed to get Hive server address from Zookeeper Server."
+    exit 1
+fi
+echo 'The HiveServer  address is : ' $MSG
+python $PYPATH/pyline.py $MSG "$@"
