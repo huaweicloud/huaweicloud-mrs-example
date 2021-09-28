@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hive-jdbc-example-multizk</artifactId>
-    <version>3.1.0-hw-ei-311006</version>
+    <version>3.1.0-hw-ei-312005</version>
 
   <properties>
-    <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
-    <hive.version>3.1.0-hw-ei-311006</hive.version>
+    <hadoop.version>3.1.1-hw-ei-312005</hadoop.version>
+    <hive.version>3.1.0-hw-ei-312005</hive.version>
   </properties>
 
   <dependencies>

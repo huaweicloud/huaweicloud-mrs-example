@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>FlinkConfigtableJavaExample</artifactId>
-    <version>8.1.1-311006</version>
+    <version>8.1.2-312005</version>
 
     <properties>
-        <flink.version>1.12.2-hw-ei-311006</flink.version>
-        <jedisclient.version>8.1.1-311006</jedisclient.version>
+        <flink.version>1.12.2-hw-ei-312005</flink.version>
+        <jedisclient.version>8.1.2-312005</jedisclient.version>
         <wcc_krb5.version>8.1.1-311070</wcc_krb5.version>
         <lib_path>lib</lib_path>
     </properties>

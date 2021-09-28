@@ -21,7 +21,7 @@ public class JDBCExampleZk {
     private static Properties properties = new Properties();
 
     private static void init() throws ClassNotFoundException {
-        properties.setProperty("user", "hivetest");
+        properties.setProperty("user", "YourUserName");
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "simple");

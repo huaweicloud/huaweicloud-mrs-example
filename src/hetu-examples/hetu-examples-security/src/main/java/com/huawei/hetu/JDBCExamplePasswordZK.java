@@ -21,10 +21,10 @@ import java.util.Properties;
 public class JDBCExamplePasswordZK {
     private static Properties properties = new Properties();
     private final static String PATH_TO_HETUSERVER_JKS = Objects.requireNonNull(JDBCExamplePasswordZK.class.getClassLoader()
-            .getResource("hetuserver.jks"))
+                    .getResource("hetuserver.jks"))
             .getPath();
     private final static String PATH_TO_KRB5_CONF = Objects.requireNonNull(JDBCExamplePasswordZK.class.getClassLoader()
-            .getResource("krb5.conf"))
+                    .getResource("krb5.conf"))
             .getPath();
 
     private static void init() throws ClassNotFoundException {
@@ -54,11 +54,10 @@ public class JDBCExamplePasswordZK {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-            + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
 
         try {
             init();
-
             String sql = "show tables";
             connection = DriverManager.getConnection(url, properties);
             statement = connection.prepareStatement(sql.trim());

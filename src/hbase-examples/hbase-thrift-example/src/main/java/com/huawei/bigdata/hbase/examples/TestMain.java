@@ -31,7 +31,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * ¹¦ÄÜÃèÊö
+ * Function description:
+ *
  * hbase-thrift-example test main class
  *
  * @since 2013

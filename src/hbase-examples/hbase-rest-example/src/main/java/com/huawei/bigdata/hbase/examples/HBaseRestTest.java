@@ -64,7 +64,8 @@ import javax.security.auth.login.LoginException;
 
 
 /**
- * 功能描述
+ * Function description:
+ *
  * hbase rest test class
  *
  * @since 2013

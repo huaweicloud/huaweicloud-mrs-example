@@ -6,13 +6,13 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples</artifactId>
-    <version>1.2.0-hw-ei-311006</version>
+    <version>1.2.0-hw-ei-312005</version>
 
     <dependencies>
         <dependency>
             <groupId>io.hetu.core</groupId>
             <artifactId>hetu-jdbc</artifactId>
-            <version>1.2.0-hw-ei-311006</version>
+            <version>1.2.0-hw-ei-312005</version>
             <exclusions>
                 <exclusion>
                     <artifactId>zookeeper</artifactId>
@@ -47,6 +47,21 @@
                     <groupId>io.hetu.core</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17-atlassian-13</version>
         </dependency>
     </dependencies>
     <build>

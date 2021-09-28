@@ -9,10 +9,10 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <es.version>7.10.2-hw-ei-311006</es.version>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <es.version>7.10.2-hw-ei-312005</es.version>
+        <spark.version>3.1.1-hw-ei-312005</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
+        <hadoop.version>3.1.1-hw-ei-312005</hadoop.version>
     </properties>
 
     <dependencies>

@@ -23,23 +23,19 @@ public class HdfsExample {
 
     private static final String STORAGE_POLICY_HOT = "HOT";
 
-    private static final String PATH_TO_HDFS_SITE_XML = HdfsExample.class.getClassLoader()
-        .getResource("hdfs-site.xml")
-        .getPath();
+    private static final String PATH_TO_HDFS_SITE_XML = System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "hdfs-site.xml";
 
-    private static final String PATH_TO_CORE_SITE_XML = HdfsExample.class.getClassLoader()
-        .getResource("core-site.xml")
-        .getPath();
+    private static final String PATH_TO_CORE_SITE_XML =  System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "core-site.xml";
 
     private static final String PRNCIPAL_NAME = "hdfsDeveloper";
 
-    private static final String PATH_TO_KEYTAB = HdfsExample.class.getClassLoader()
-        .getResource("user.keytab")
-        .getPath();
+    private static final String PATH_TO_KEYTAB = System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "user.keytab";
 
-    private static final String PATH_TO_KRB5_CONF = HdfsExample.class.getClassLoader()
-        .getResource("krb5.conf")
-        .getPath();
+    private static final String PATH_TO_KRB5_CONF = System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "krb5.conf";
 
     private static Configuration conf = null;
 

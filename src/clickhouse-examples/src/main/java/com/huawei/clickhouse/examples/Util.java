@@ -136,13 +136,14 @@ public class Util {
                         for (int i = 0; i < batchRows; i++) {
                             preparedStatement.setString(1, "huawei_" + (i + j * 10));
                             preparedStatement.setInt(2, ((int) (Math.random() * 100)));
-                            preparedStatement.setDate(3, generateRandomDate("2018-01-01", "2021-12-31"));
+                            preparedStatement.setDate(3, generateRandomDate("2020-01-01", "2021-12-31"));
                             preparedStatement.addBatch();
                         }
                         long begin = System.currentTimeMillis();
                         preparedStatement.executeBatch();
                         long end = System.currentTimeMillis();
                         log.info("Insert batch time is {} ms", end - begin);
+                        Thread.sleep(1500);
                     }
                     long allBatchEnd = System.currentTimeMillis();
                     log.info("Inert all batch time is {} ms", allBatchEnd - allBatchBegin);

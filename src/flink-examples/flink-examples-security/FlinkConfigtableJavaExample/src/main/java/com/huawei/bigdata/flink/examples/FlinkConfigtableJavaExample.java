@@ -5,9 +5,11 @@
 package com.huawei.bigdata.flink.examples;
 
 import com.huawei.bigdata.security.LoginUtil;
+import com.huawei.jredis.client.SslSocketFactoryUtil;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -35,6 +37,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLSocketFactory;
+
 /**
  * Read stream data and join from configure table from redis.
  *
@@ -42,6 +46,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class FlinkConfigtableJavaExample {
 
+    private static final int MAX_ATTEMPTS = 2;
 
     private static final int TIMEOUT = 60000;
     /**
@@ -50,19 +55,17 @@ public class FlinkConfigtableJavaExample {
      */
     public static void main(String[] args) throws Exception {
         // print comment for command to use run flink
-        System.out.println("use command as: \n" +
-                "./bin/flink run --class com.huawei.bigdata.flink.examples.FlinkConfigtableJavaExample" +
-                " -m yarn-cluster -yt /opt/config -yn 3 -yjm 1024 -ytm 1024 " +
-                "/opt/FlinkConfigtableJavaExample.jar --dataPath config/data.txt" +
-                "******************************************************************************************\n" +
-                "Especially you may write following content into config filePath, as in config/read.properties: \n" +
-                "ReadFields=username,age,company,workLocation,educational,workYear,phone,nativeLocation,school\n" +
-                "Redis_Security=true\n" +
-                "Redis_IP_Port=SZV1000064084:22400,SZV1000064082:22400,SZV1000064085:22400\n" +
-                "Redis_Principal=test11@HADOOP.COM\n" +
-                "Redis_KeytabFile=config/user.keytab\n" +
-                "Redis_Krb5File=config/krb5.conf\n" +
-                "******************************************************************************************");
+        System.out.println("use command as: \n"
+            + "./bin/flink run --class com.huawei.bigdata.flink.examples.FlinkConfigtableJavaExample"
+            + " -m yarn-cluster -yt /opt/config -yn 3 -yjm 1024 -ytm 1024 "
+            + "/opt/FlinkConfigtableJavaExample.jar --dataPath config/data.txt"
+            + "******************************************************************************************\n"
+            + "Especially you may write following content into config filePath, as in config/read.properties: \n"
+            + "ReadFields=username,age,company,workLocation,educational,workYear,phone,nativeLocation,school\n"
+            + "Redis_Security=true\n" + "Redis_IP_Port=SZV1000064084:22400,SZV1000064082:22400,SZV1000064085:22400\n"
+            + "Redis_Principal=test11@HADOOP.COM\n" + "Redis_KeytabFile=config/user.keytab\n"
+            + "Redis_Krb5File=config/krb5.conf\n"
+            + "******************************************************************************************");
 
         // set up the execution environment
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -273,7 +276,12 @@ public class FlinkConfigtableJavaExample {
                 }
                 hosts.add(hostAndPort);
             }
-            client = new JedisCluster(hosts, TIMEOUT);
+            JedisPoolConfig poolConfig = new JedisPoolConfig();
+            final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
+
+            client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
+                "","", poolConfig, ssl, socketFactory, null,
+                null, null);
             System.out.println("JedisCluster init, getClusterNodes: " + client.getClusterNodes().size());
         }
 

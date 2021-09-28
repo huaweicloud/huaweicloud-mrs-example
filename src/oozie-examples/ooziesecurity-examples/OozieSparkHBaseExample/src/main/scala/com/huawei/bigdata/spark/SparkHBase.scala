@@ -3,7 +3,8 @@ package com.huawei.bigdata.spark
 import java.io.IOException
 import java.security.PrivilegedExceptionAction
 
-import com.huawei.bigdata.utils.KerberosTableInputFormat
+import com.huawei.bigdata.utils.{HBaseUtil, KerberosTableInputFormat}
+import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client.{Connection, ConnectionFactory, Put, Result}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.util.Bytes
@@ -43,7 +44,6 @@ object SparkHBase {
 
     val config = HBaseConfiguration.create
     config.addResource("hbase-site.xml")
-
     config.set(KerberosTableInputFormat.INPUT_TABLE,"SparkHBase")
 
     val HBaseRDD = sparkSession.sparkContext.newAPIHadoopRDD(config,
@@ -107,6 +107,7 @@ object SparkHBase {
     try {
       val config = HBaseConfiguration.create
       config.addResource("hbase-site.xml")
+      HBaseUtil.zkSslUtil(config)
       val connection = ConnectionFactory.createConnection(config)
       connection
     } catch {

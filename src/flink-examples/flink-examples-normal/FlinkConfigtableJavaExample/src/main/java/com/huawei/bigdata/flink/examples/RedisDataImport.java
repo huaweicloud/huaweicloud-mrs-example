@@ -4,8 +4,11 @@
 
 package com.huawei.bigdata.flink.examples;
 
+import com.huawei.jredis.client.SslSocketFactoryUtil;
+
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.supercsv.cellprocessor.constraint.NotNull;
@@ -23,12 +26,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.net.ssl.SSLSocketFactory;
+
 /**
  * Read data from csv file and import to redis.
  * 
  * @since 2019/9/30
  */
 public class RedisDataImport {
+
+    private static final int MAX_ATTEMPTS = 2;
 
     private static final int TIMEOUT = 15000;
 
@@ -55,6 +62,7 @@ public class RedisDataImport {
                 ParameterTool.fromPropertiesFile(configureFilePath).getBoolean("CsvHeaderExist", true);
         final String csvScheme = ParameterTool.fromPropertiesFile(configureFilePath).get("ColumnNames");
         final String redisIPPort = ParameterTool.fromPropertiesFile(configureFilePath).get("Redis_IP_Port");
+        final boolean ssl = ParameterTool.fromPropertiesFile(configureFilePath).getBoolean("Redis_ssl_on", false);
 
         // init redis client
         Set<HostAndPort> hosts = new HashSet<HostAndPort>();
@@ -65,7 +73,12 @@ public class RedisDataImport {
             }
             hosts.add(hostAndPort);
         }
-        final JedisCluster client = new JedisCluster(hosts, TIMEOUT);
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
+
+        final JedisCluster client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
+            "","", poolConfig, ssl, socketFactory, null,
+            null, null);
 
 
         // get all files under csv file path

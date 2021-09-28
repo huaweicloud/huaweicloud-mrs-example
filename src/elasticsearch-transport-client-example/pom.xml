@@ -6,15 +6,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>elasticsearch-transport-client-example</artifactId>
-    <version>8.1.1-311006</version>
+    <version>8.1.2-312005</version>
 
     <properties>
         <libthrift.version>0.14.1-hw-ei-311001</libthrift.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <elasticsearch.version>7.10.2-hw-ei-311006</elasticsearch.version>
-        <hadoop.core.version>3.1.1-hw-ei-311006</hadoop.core.version>
-        <mrs.version>8.1.1-311006</mrs.version>
+        <elasticsearch.version>7.10.2-hw-ei-312005</elasticsearch.version>
+        <hadoop.core.version>3.1.1-hw-ei-312005</hadoop.core.version>
+        <mrs.version>8.1.2-312005</mrs.version>
         <httpclient.version>4.5.13</httpclient.version>
     </properties>
 

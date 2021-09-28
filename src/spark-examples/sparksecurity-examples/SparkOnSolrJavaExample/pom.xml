@@ -9,10 +9,10 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <spark.version>3.1.1-hw-ei-312005</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
-        <solr.version>8.4.0-hw-ei-311006</solr.version>
+        <hadoop.version>3.1.1-hw-ei-312005</hadoop.version>
+        <solr.version>8.4.0-hw-ei-312005</solr.version>
     </properties>
 
     <dependencies>

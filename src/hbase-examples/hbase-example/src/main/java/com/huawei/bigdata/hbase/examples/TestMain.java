@@ -17,7 +17,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 功能描述
+ * Function description:
+ *
  * hbase-example test main class
  *
  * @since 2013

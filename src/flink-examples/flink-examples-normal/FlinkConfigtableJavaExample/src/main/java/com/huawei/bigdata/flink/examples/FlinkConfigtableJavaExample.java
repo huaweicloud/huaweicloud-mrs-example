@@ -4,8 +4,11 @@
 
 package com.huawei.bigdata.flink.examples;
 
+import com.huawei.jredis.client.SslSocketFactoryUtil;
+
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -33,12 +36,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.SSLSocketFactory;
+
 /**
  * Read stream data and join from configure table from redis.
  * 
  * @since 2019/9/30
  */
 public class FlinkConfigtableJavaExample {
+
+    private static final int MAX_ATTEMPTS = 2;
 
     private static final int TIMEOUT = 60000;
 
@@ -274,6 +281,7 @@ public class FlinkConfigtableJavaExample {
             String configPath = "config/read.properties";
             fields = ParameterTool.fromPropertiesFile(configPath).get("ReadFields");
             final String hostPort = ParameterTool.fromPropertiesFile(configPath).get("Redis_IP_Port");
+            final boolean ssl = ParameterTool.fromPropertiesFile(configPath).getBoolean("Redis_ssl_on", false);
             // create jedisCluster client
             Set<HostAndPort> hosts = new HashSet<HostAndPort>();
             for (String node : hostPort.split(",")) {
@@ -283,7 +291,12 @@ public class FlinkConfigtableJavaExample {
                 }
                 hosts.add(hostAndPort);
             }
-            client = new JedisCluster(hosts, TIMEOUT);
+            JedisPoolConfig poolConfig = new JedisPoolConfig();
+            final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
+
+            client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
+                "","", poolConfig, ssl, socketFactory, null,
+                null, null);
             System.out.println("JedisCluster init, getClusterNodes: " + client.getClusterNodes().size());
         }
 

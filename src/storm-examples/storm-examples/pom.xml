@@ -6,13 +6,13 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>storm-examples</artifactId>
-    <version>1.2.1-hw-ei-311006</version>
+    <version>1.2.1-hw-ei-312005</version>
 
     <properties>
-        <storm.version>1.2.1-hw-ei-311006</storm.version>
+        <storm.version>1.2.1-hw-ei-312005</storm.version>
         <curator.version>2.10.0</curator.version>
-        <kafka.version>2.4.0-hw-ei-311006</kafka.version>
-        <solr.version>8.4.0-hw-ei-311006</solr.version>
+        <kafka.version>2.4.0-hw-ei-312005</kafka.version>
+        <solr.version>8.4.0-hw-ei-312005</solr.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>manager-examples</artifactId>
-    <version>8.1.1-hw-ei-311006</version>
+    <version>8.1.2-hw-ei-312005</version>
 
     <build>
         <plugins>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.0.12.RELEASE</version>
+            <version>5.0.19.RELEASE</version>
         </dependency>
     </dependencies>
 

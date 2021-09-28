@@ -13,7 +13,7 @@ MRS_3.1.1 Components mapping:
 | Tez                   | 0.9.2     |
 | Spark                 | 3.1.1 |
 | CarbonData            | 2.2.0  |
-| Hudi | 0.8.0 |
+| Hudi                  | 0.9.0 |
 | Hadoop                | 3.1.1     |
 | HBase                 | 2.2.3     |
 | ZooKeeper             | 3.6.3  |
@@ -25,11 +25,11 @@ MRS_3.1.1 Components mapping:
 | Storm                 | 1.2.1    |
 | Solr                  | 8.4.0     |
 | Phoenix               | 5.0.0     |
-| Elasticsearch       | 7.10.2    |
+| Elasticsearch         | 7.10.2    |
 | ClickHouse            | 21.3.4.25 |
 | IoTDB                 | 0.12.0    |
 | Redis                 | 6.0.12    |
-| HetuEngine | 1.2.0 |
+| HetuEngine            | 1.2.0 |
 
 ### Quick Links:
 

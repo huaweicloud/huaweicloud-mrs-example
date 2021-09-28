@@ -10,12 +10,14 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>2.2.3-hw-ei-311006</version>
+    <version>2.2.3-hw-ei-312005</version>
     <properties>
-        <hbase.version>2.2.3-hw-ei-311006</hbase.version>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
-        <phoenix-core.version>5.0.0-HBase-2.0-hw-ei-311006</phoenix-core.version>
-        <dualclient.version>8.1.1-311006</dualclient.version>
+        <hbase.version>2.2.3-hw-ei-312005</hbase.version>
+        <hadoop.version>3.1.1-hw-ei-312005</hadoop.version>
+        <phoenix-core.version>5.0.0-HBase-2.0-hw-ei-312005</phoenix-core.version>
+        <dualclient.version>8.1.2-312005</dualclient.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>

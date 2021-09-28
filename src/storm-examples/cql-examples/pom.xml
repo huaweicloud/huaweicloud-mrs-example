@@ -7,13 +7,13 @@
     <groupId>com.huawei.mrs</groupId>
     <artifactId>cql-examples</artifactId>
 <!--    <version>1.0</version>-->
-    <version>8.1.1</version>
+    <version>8.1.2</version>
 
     <properties>
         <cql.version>1.0</cql.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compiler.version>2.0.2</compiler.version>
-        <mrs.version>8.1.1-311006</mrs.version>
+        <mrs.version>8.1.2-312005</mrs.version>
     </properties>
 
     <dependencies> 

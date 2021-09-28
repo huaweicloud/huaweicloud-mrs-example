@@ -20,7 +20,7 @@ public class JDBCExampleBroker {
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement statement = null;

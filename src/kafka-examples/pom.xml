@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>kafka-examples</artifactId>
-    <version>2.4.0-hw-ei-311006</version>
+    <version>2.4.0-hw-ei-312005</version>
 
     <properties>
-        <zookeeper.version>3.6.3-hw-ei-311006</zookeeper.version>
-        <kafka.version>2.4.0-hw-ei-311006</kafka.version>
+        <zookeeper.version>3.6.3-hw-ei-312005</zookeeper.version>
+        <kafka.version>2.4.0-hw-ei-312005</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -189,6 +189,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

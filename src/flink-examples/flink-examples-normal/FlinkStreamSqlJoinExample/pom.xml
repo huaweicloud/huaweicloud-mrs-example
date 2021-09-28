@@ -6,11 +6,10 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>FlinkStreamSqlJoinExample</artifactId>
-    <version>8.1.1-311006</version>
+    <version>8.1.2-312005</version>
 
     <properties>
-        <flink.version>1.12.2-hw-ei-311006</flink.version>
-        <flink.kafka.version>1.12.2</flink.kafka.version>
+        <flink.version>1.12.2-hw-ei-312005</flink.version>
     </properties>
 
     <dependencies>
@@ -68,7 +67,7 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka_2.11</artifactId>
-            <version>${flink.kafka.version}</version>
+            <version>${flink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>

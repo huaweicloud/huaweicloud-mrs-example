@@ -11,9 +11,11 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
   <packaging>jar</packaging>
 
   <properties>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
     <checkstyle.skip>true</checkstyle.skip>
-    <hudi.version>0.8.0-hw-ei-311006</hudi.version>
-    <spark.version>3.1.1-hw-ei-311006</spark.version>
+    <hudi.version>0.9.0-hw-ei-312005</hudi.version>
+    <spark.version>3.1.1-hw-ei-312005</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
   </properties>
 
@@ -38,14 +40,6 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -85,7 +79,7 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
     <dependency>
       <groupId>org.apache.hudi</groupId>
       <artifactId>hudi-utilities-bundle_2.12</artifactId>
-      <version>0.8.0-hw-ei-311006</version>
+      <version>${hudi.version}</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -97,7 +91,7 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
     <dependency>
       <groupId>org.apache.hudi</groupId>
       <artifactId>hudi-utilities-bundle_2.12</artifactId>
-      <version>0.8.0-hw-ei-311006</version>
+      <version>${hudi.version}</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>

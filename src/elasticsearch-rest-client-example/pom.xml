@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>elasticsearch-rest-client-example</artifactId>
-    <version>8.1.1-311006</version>
+    <version>8.1.2-312005</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <elasticsearch.version>7.10.2-hw-ei-311006</elasticsearch.version>
-        <opendistro.version>1.13.0.0-hw-ei-311006</opendistro.version>
+        <elasticsearch.version>7.10.2-hw-ei-312005</elasticsearch.version>
+        <opendistro.version>1.13.0.0-hw-ei-312005</opendistro.version>
     </properties>
     <dependencies>
         <dependency>
@@ -157,6 +157,12 @@
             <groupId>com.amazon.opendistroforelasticsearch.client</groupId>
             <artifactId>opendistro-sql-jdbc</artifactId>
             <version>${opendistro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                    <artifactId>jackson-dataformat-cbor</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

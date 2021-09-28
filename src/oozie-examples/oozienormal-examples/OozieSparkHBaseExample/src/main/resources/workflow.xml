@@ -20,7 +20,7 @@
         <name>SparkHBase</name>
         <class>com.huawei.bigdata.spark.SparkHBase</class>
         <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/lib/OoizeSparkHBase-1.0.jar</jar>
-        <spark-opts>--conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.1.0/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x</spark-opts>
+        <spark-opts>--conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.1.2/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x</spark-opts>
         <file>hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/hbase-site.xml</file>
     </spark>
     <ok to="end" />

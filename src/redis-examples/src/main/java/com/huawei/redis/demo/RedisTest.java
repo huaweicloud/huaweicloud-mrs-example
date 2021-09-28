@@ -5,6 +5,7 @@
 package com.huawei.redis.demo;
 
 import com.huawei.jredis.client.KerberosUtil;
+import com.huawei.jredis.client.SslSocketFactoryUtil;
 import com.huawei.medis.ClusterBatch;
 import com.huawei.redis.Const;
 import com.huawei.redis.LoginUtil;
@@ -14,6 +15,7 @@ import redis.clients.jedis.GeoRadiusResponse;
 import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.params.GeoRadiusParam;
 import redis.clients.jedis.params.SetParams;
 
@@ -28,6 +30,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * 测试类
@@ -63,10 +67,14 @@ public class RedisTest {
         hosts.add(new HostAndPort(Const.IP_1, Const.PORT_1));
         hosts.add(new HostAndPort(Const.IP_2, Const.PORT_2));
         // add more host...
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
 
         // socket timeout, unit: ms
         int timeout = 5000;
-        client = new JedisCluster(hosts, timeout);
+        int maxAttempts = 2;
+        boolean ssl = false;
+        client = new JedisCluster(hosts, timeout, timeout, maxAttempts,"","", poolConfig, ssl, socketFactory, null, null, null);
     }
 
     /**
@@ -105,7 +113,7 @@ public class RedisTest {
         LOGGER.info("geohash info of test1 and test2 is " + hashInfo.toString());
 
         List<GeoRadiusResponse> memberInfoByNumber =
-                client.georadius("location", 11, 31, 500, GeoUnit.KM, GeoRadiusParam.geoRadiusParam().withDist());
+            client.georadius("location", 11, 31, 500, GeoUnit.KM, GeoRadiusParam.geoRadiusParam().withDist());
 
         LOGGER.info("Get location info by longitude and latitude : ");
         for (GeoRadiusResponse geoRadiusResponse : memberInfoByNumber) {
@@ -113,12 +121,12 @@ public class RedisTest {
         }
 
         List<GeoRadiusResponse> memberInfoByLocation =
-                client.georadiusByMember(
-                        "location",
-                        "test3",
-                        500,
-                        GeoUnit.KM,
-                        GeoRadiusParam.geoRadiusParam().sortAscending().withDist().count(3));
+            client.georadiusByMember(
+                "location",
+                "test3",
+                500,
+                GeoUnit.KM,
+                GeoRadiusParam.geoRadiusParam().sortAscending().withDist().count(3));
 
         LOGGER.info("Get location info by member : ");
         for (GeoRadiusResponse geoRadiusResponse : memberInfoByLocation) {
@@ -438,7 +446,7 @@ public class RedisTest {
      * @throws IOException IOException
      */
     public static void init() throws IOException {
-        System.setProperty("redis.authentication.jaas", "true");
+        System.setProperty("redis.authentication.jaas", "false");
 
         if (System.getProperty("redis.authentication.jaas", "false").equals("true")) {
             LoginUtil.setKrb5Config(getResource("config/krb5.conf"));

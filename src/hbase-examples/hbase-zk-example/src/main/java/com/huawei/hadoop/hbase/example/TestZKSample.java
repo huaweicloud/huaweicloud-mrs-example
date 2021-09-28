@@ -25,7 +25,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 /**
- * 功能描述
+ * Function description:
+ *
  * hbase zk sample test class
  *
  * @since 2013
