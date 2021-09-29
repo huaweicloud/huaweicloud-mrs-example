@@ -1,6 +1,6 @@
 # Huawei Cloud MRS example code
 
-The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, HetuEngine, Spark, Storm etc. You can get started in minutes using **Maven**.
+The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, HetuEngine, Spark, Elasticsearch, ClickHouse etc. You can get started in minutes using **Maven**.
 
 ### Version Mapping:
 
