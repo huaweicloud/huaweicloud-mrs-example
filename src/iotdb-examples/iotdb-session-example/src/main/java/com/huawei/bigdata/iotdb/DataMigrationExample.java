@@ -28,8 +28,8 @@ import java.util.concurrent.Future;
  * Migrate all data belongs to a path from one IoTDB to another IoTDB Each thread migrate one
  * series, the concurrent thread can be configured by concurrency
  *
- * <p>This example is migrating all timeseries from a local IoTDB with 22260 port to a local IoTDB
- * with 22270 port
+ * <p>This example is migrating all timeseries from a IoTDB with 127.0.0.1 ip and 22260 port to a IoTDB
+ * with 127.0.0.2 ip and 22260 port
  * 
  * @since 2021-06-15
  */
@@ -41,6 +41,8 @@ public class DataMigrationExample {
   private static SessionPool writerPool;
   // concurrent thread of loading timeseries data
   private static int concurrency = 5;
+
+  private static final String POINT = ".";
 
   public static void main(String[] args)
           throws IoTDBConnectionException, StatementExecutionException, ExecutionException,
@@ -55,7 +57,7 @@ public class DataMigrationExample {
     }
 
     readerPool = new SessionPool("127.0.0.1", 22260, "root", "root", concurrency);
-    writerPool = new SessionPool("127.0.0.1", 22270, "root", "root", concurrency);
+    writerPool = new SessionPool("127.0.0.2", 22260, "root", "root", concurrency);
 
     SessionDataSetWrapper schemaDataSet =
         readerPool.executeQueryStatement("count timeseries " + path);
@@ -106,8 +108,11 @@ public class DataMigrationExample {
 
     public LoadThread(int i, Path series, TSDataType dataType) {
       this.i = i;
-      this.device = series.getDevice();
-      this.measurement = series.getMeasurement();
+      String timeseriesPath = series.getFullPath();
+      int index = timeseriesPath.lastIndexOf(POINT);
+
+      this.device = timeseriesPath.substring(0, index);
+      this.measurement = timeseriesPath.substring(index + 1);
       this.dataType = dataType;
       this.series = series;
       List<MeasurementSchema> schemaList = new ArrayList<>();

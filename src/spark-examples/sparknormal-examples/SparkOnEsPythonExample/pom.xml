@@ -72,8 +72,8 @@
         <!-- 以下依赖均来自开源，可从 Maven 中心仓库获取 -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-spark-20_2.11</artifactId>
-            <version>7.6.0</version>
+            <artifactId>elasticsearch-spark-30_2.12</artifactId>
+            <version>7.12.0</version>
         </dependency>
 
         <dependency>

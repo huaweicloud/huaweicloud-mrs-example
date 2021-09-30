@@ -371,37 +371,31 @@ public class SessionExample {
     List<MeasurementSchema> schemaList = new ArrayList<>();
     schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
     schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
-    schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
 
     Tablet tablet1 = new Tablet(ROOT_SG1_D1, schemaList, 100);
     Tablet tablet2 = new Tablet("root.sg1.d2", schemaList, 100);
-    Tablet tablet3 = new Tablet("root.sg1.d3", schemaList, 100);
 
     Map<String, Tablet> tabletMap = new HashMap<>();
     tabletMap.put(ROOT_SG1_D1, tablet1);
     tabletMap.put("root.sg1.d2", tablet2);
-    tabletMap.put("root.sg1.d3", tablet3);
 
     // Method 1 to add tablet data
     long timestamp = System.currentTimeMillis();
     for (long row = 0; row < 100; row++) {
       int row1 = tablet1.rowSize++;
       int row2 = tablet2.rowSize++;
-      int row3 = tablet3.rowSize++;
       tablet1.addTimestamp(row1, timestamp);
       tablet2.addTimestamp(row2, timestamp);
-      tablet3.addTimestamp(row3, timestamp);
-      for (int i = 0; i < 3; i++) {
+
+      for (int i = 0; i < 2; i++) {
         long value = new Random().nextLong();
         tablet1.addValue(schemaList.get(i).getMeasurementId(), row1, value);
         tablet2.addValue(schemaList.get(i).getMeasurementId(), row2, value);
-        tablet3.addValue(schemaList.get(i).getMeasurementId(), row3, value);
       }
       if (tablet1.rowSize == tablet1.getMaxRowNumber()) {
         session.insertTablets(tabletMap, true);
         tablet1.reset();
         tablet2.reset();
-        tablet3.reset();
       }
       timestamp++;
     }
@@ -410,7 +404,6 @@ public class SessionExample {
       session.insertTablets(tabletMap, true);
       tablet1.reset();
       tablet2.reset();
-      tablet3.reset();
     }
 
     // Method 2 to add tablet data
@@ -418,30 +411,23 @@ public class SessionExample {
     Object[] values1 = tablet1.values;
     long[] timestamps2 = tablet2.timestamps;
     Object[] values2 = tablet2.values;
-    long[] timestamps3 = tablet3.timestamps;
-    Object[] values3 = tablet3.values;
 
     for (long time = 0; time < 100; time++) {
       int row1 = tablet1.rowSize++;
       int row2 = tablet2.rowSize++;
-      int row3 = tablet3.rowSize++;
       timestamps1[row1] = time;
       timestamps2[row2] = time;
-      timestamps3[row3] = time;
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 2; i++) {
         long[] sensor1 = (long[]) values1[i];
         sensor1[row1] = i;
         long[] sensor2 = (long[]) values2[i];
         sensor2[row2] = i;
-        long[] sensor3 = (long[]) values3[i];
-        sensor3[row3] = i;
       }
       if (tablet1.rowSize == tablet1.getMaxRowNumber()) {
         session.insertTablets(tabletMap, true);
 
         tablet1.reset();
         tablet2.reset();
-        tablet3.reset();
       }
     }
 
@@ -449,7 +435,6 @@ public class SessionExample {
       session.insertTablets(tabletMap, true);
       tablet1.reset();
       tablet2.reset();
-      tablet3.reset();
     }
   }
 

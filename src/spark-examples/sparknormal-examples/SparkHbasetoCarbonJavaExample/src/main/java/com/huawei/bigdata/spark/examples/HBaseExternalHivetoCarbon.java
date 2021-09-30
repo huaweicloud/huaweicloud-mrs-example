@@ -33,11 +33,11 @@ public class HBaseExternalHivetoCarbon {
     }
 
     public static void main(String[] args) throws Exception {
-        spark = SparkSession.builder().appName("HBaseExternalHiveToCarbon").getOrCreate();
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
+                spark = SparkSession.builder().appName("HBaseExternalHiveToCarbon").getOrCreate();
+
                 timeEnd = timeStart + TIMEWINDOW;
 
                 queryTimeStart = transferDateToStr(timeStart);
