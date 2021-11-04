@@ -35,11 +35,11 @@ public class ProducerDemo {
         kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<String, String>(kafkaProps);
-        Random random = new Random(10000);
+        Random random = new Random();
         for (int i = 0; i < 100; i++) {
             producer
                 .send(new ProducerRecord<String, String>(topicName, "{\"age\":\"" + random.nextInt() + "\",\"id\":\""
-                    + i + "\",\"job\":\"" + random.nextInt(5) + "\",\"name\":\"" + random.nextInt() + "\"}"));
+                    + i + "\",\"job\":\"" + i % 4 + "\",\"name\":\"" + random.nextInt() + "\"}"));
         }
         producer.close();
     }
