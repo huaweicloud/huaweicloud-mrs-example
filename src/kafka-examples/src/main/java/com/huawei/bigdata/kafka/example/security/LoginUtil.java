@@ -16,7 +16,7 @@ public class LoginUtil {
      * no JavaDoc
      */
     public enum Module {
-        STORM("StormClient"), KAFKA("KafkaClient"), ZOOKEEPER("Client");
+        KAFKA("KafkaClient"), ZOOKEEPER("Client");
         
         private String name;
         

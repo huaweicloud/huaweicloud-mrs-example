@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
@@ -446,6 +448,18 @@ public class LoginUtil {
                 return baseConfig.getAppConfigurationEntry(appName);
             }
             return (null);
+        }
+    }
+
+    /**
+     * process system property if zookeeper ssl enable
+     *
+     * @param clientInfo parameter properties
+     */
+    public static void processZkSsl(Properties clientInfo) {
+        if (clientInfo != null && "true".equalsIgnoreCase(clientInfo.getProperty("zk.ssl.enable"))) {
+            System.setProperty("zookeeper.clientCnxnSocket", "org.apache.zookeeper.ClientCnxnSocketNetty");
+            System.setProperty("zookeeper.client.secure", "true");
         }
     }
 }

@@ -19,14 +19,13 @@ import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 /**
- * Login Util for Client of Storm, Kafka, Elasticsearch and ZooKeeper.
+ * Login Util for Client of Kafka, Elasticsearch and ZooKeeper.
  */
 public class LoginUtil {
     /**
      * The module of each Client
      */
     public enum Module {
-        STORM("StormClient"),
         KAFKA("KafkaClient"),
         ELASTICSEARCH("EsClient"),
         ZOOKEEPER("Client");

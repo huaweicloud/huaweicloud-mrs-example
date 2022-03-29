@@ -11,10 +11,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hive.group>org.apache.hive</hive.group>
-        <hive.version>3.1.0-hw-ei-311006</hive.version>
+        <hive.version>3.1.0-h0.cbu.mrs.313.r10</hive.version>
         <hive.deps.scope>compile</hive.deps.scope>
-        <scala.version>2.12.10</scala.version>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <scala.version>2.12.14</scala.version>
+        <spark.version>3.1.1-h0.cbu.mrs.313.r10</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 

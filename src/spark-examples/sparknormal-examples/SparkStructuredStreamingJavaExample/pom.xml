@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <spark.version>3.1.1-h0.cbu.mrs.313.r10</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <kafka.version>2.4.0-hw-ei-311006</kafka.version>
+        <kafka.version>2.4.0-h0.cbu.mrs.313.r10</kafka.version>
     </properties>
 
     <dependencies>

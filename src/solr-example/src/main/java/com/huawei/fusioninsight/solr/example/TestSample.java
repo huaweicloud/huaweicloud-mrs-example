@@ -47,6 +47,8 @@ public class TestSample {
 
     private String zkHost;
 
+    private boolean zkSslEnable;
+
     private String zookeeperDefaultServerPrincipal;
 
     private String collectionName;
@@ -77,6 +79,10 @@ public class TestSample {
         testSample.initProperties();
         if (testSample.solrKbsEnable) {
             testSample.setSecConfig();
+        }
+
+        if (testSample.zkSslEnable) {
+            LoginUtil.setZKSSLParameters();
         }
 
         CloudSolrClient cloudSolrClient = null;
@@ -135,6 +141,7 @@ public class TestSample {
         zkClientTimeout = Integer.parseInt(properties.getProperty("zkClientTimeout"));
         zkConnectTimeout = Integer.parseInt(properties.getProperty("zkConnectTimeout"));
         zkHost = properties.getProperty("zkHost");
+        zkSslEnable = Boolean.parseBoolean(properties.getProperty("zkSslEnable"));
         zookeeperDefaultServerPrincipal = properties.getProperty("ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL");
         collectionName = properties.getProperty("COLLECTION_NAME");
         defaultConfigName = properties.getProperty("DEFAULT_CONFIG_NAME");

@@ -3,22 +3,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>redis-demo</artifactId>
-	<version>8.1.1-311006</version>
+	<version>8.1.3-313.r10</version>
 
 	<properties>
-		<jedisclient.version>8.1.1-311006</jedisclient.version>
-		<commons-pools2.version>2.8.0</commons-pools2.version>
+		<commons-pools2.version>2.11.1</commons-pools2.version>
 		<log4j.version>1.2.17-atlassian-13</log4j.version>
 		<wcc_krb5.version>8.1.1-311070</wcc_krb5.version>
+		<jedis.version>3.5.2-h0.cbu.mrs.313.r10</jedis.version>
 	</properties>
 	<dependencies>
 
 		<dependency>
-			<groupId>com.huawei.mrs</groupId>
-			<artifactId>jredisclient</artifactId>
-			<version>${jedisclient.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.huawei.mrs</groupId>

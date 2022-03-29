@@ -78,7 +78,6 @@ public class JDBCExamplePreLogin {
         } finally {
             if (fileInputStream != null) {
                 fileInputStream.close();
-                fileInputStream = null;
             }
         }
         /**
@@ -106,6 +105,9 @@ public class JDBCExamplePreLogin {
             // Zookeeper登录认证
             LoginUtil.login(USER_NAME, USER_KEYTAB_FILE, KRB5_FILE, CONF);
         }
+
+        //zookeeper开启ssl时需要设置JVM参数
+        LoginUtil.processZkSsl(clientInfo);
     }
 
     /**

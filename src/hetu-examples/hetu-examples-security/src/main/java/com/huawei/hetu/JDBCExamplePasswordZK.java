@@ -14,17 +14,17 @@ import java.util.Objects;
 import java.util.Properties;
 
 /**
- * The example code to connect presto jdbc server and execute sql statement
+ * The example code to connect hetu jdbc server and execute sql statement
  *
  * @since 2019-12-01
  */
 public class JDBCExamplePasswordZK {
     private static Properties properties = new Properties();
     private final static String PATH_TO_HETUSERVER_JKS = Objects.requireNonNull(JDBCExamplePasswordZK.class.getClassLoader()
-            .getResource("hetuserver.jks"))
+                    .getResource("hetuserver.jks"))
             .getPath();
     private final static String PATH_TO_KRB5_CONF = Objects.requireNonNull(JDBCExamplePasswordZK.class.getClassLoader()
-            .getResource("krb5.conf"))
+                    .getResource("krb5.conf"))
             .getPath();
 
     private static void init() throws ClassNotFoundException {
@@ -38,7 +38,7 @@ public class JDBCExamplePasswordZK {
         properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosRemoteServiceName", "HTTP");
         properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
-        properties.setProperty("tenant", "default");
+        properties.setProperty("tenant", "YourTenant");
         properties.setProperty("deploymentMode", "on_yarn");
 
         Class.forName("io.prestosql.jdbc.PrestoDriver");
@@ -54,11 +54,10 @@ public class JDBCExamplePasswordZK {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-            + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
 
         try {
             init();
-
             String sql = "show tables";
             connection = DriverManager.getConnection(url, properties);
             statement = connection.prepareStatement(sql.trim());

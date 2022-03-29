@@ -50,7 +50,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 功能描述
+ * Function description:
+ *
  * HBase Development Instruction Sample Code The sample code uses user
  * information as source data,it introduces how to implement businesss process
  * development using HBase API
@@ -64,8 +65,18 @@ public class HBaseSample {
 
     private Connection conn = null;
 
+    /**
+     * Properties for enabling encrypted HBase ZooKeeper communication
+     */
+    private static final String ZK_CLIENT_CNXN_SOCKET = "zookeeper.clientCnxnSocket";
+
+    private static final String ZK_CLIENT_SECURE = "zookeeper.client.secure";
+
+    private static final String ZK_SSL_SOCKET_CLASS = "org.apache.zookeeper.ClientCnxnSocketNetty";
+
     public HBaseSample(Configuration conf) throws IOException {
         this.tableName = TableName.valueOf("hbase_sample_table");
+        handlZkSslEnabled(conf);
         this.conn = ConnectionFactory.createConnection(conf);
     }
 
@@ -96,6 +107,24 @@ public class HBaseSample {
                 } catch (IOException e1) {
                     LOG.error("Failed to close the connection ", e1);
                 }
+            }
+        }
+    }
+
+    /*
+     * If SSL-encrypted communication is enabled for ZooKeeper in the cluster, HBase needs to perform adaptation.
+     */
+    private void handlZkSslEnabled(Configuration conf) {
+        boolean zkSslEnabled = conf.getBoolean("HBASE_ZK_SSL_ENABLED", false);
+        if (zkSslEnabled) {
+            System.setProperty(ZK_CLIENT_CNXN_SOCKET, ZK_SSL_SOCKET_CLASS);
+            System.setProperty(ZK_CLIENT_SECURE, "true");
+        } else {
+            if (System.getProperty(ZK_CLIENT_CNXN_SOCKET) != null) {
+                System.clearProperty(ZK_CLIENT_CNXN_SOCKET);
+            }
+            if (System.getProperty(ZK_CLIENT_SECURE) != null) {
+                System.clearProperty(ZK_CLIENT_SECURE);
             }
         }
     }

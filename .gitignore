@@ -1,0 +1,8 @@
+*.idea/
+*.iml
+*target/
+/build
+.project
+*.settings/
+dependency-reduced-pom.xml
+.checkstyle

@@ -25,7 +25,6 @@ import java.util.Map;
 public class LoginUtil {
     /** ENUM of Module */
     public enum Module {
-        STORM("StormClient"),
         KAFKA("KafkaClient"),
         ZOOKEEPER("Client");
 

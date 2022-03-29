@@ -48,7 +48,8 @@ public class HoodieWriteClientExample {
 		String tablePath = args[0];
 		String tableName = args[1];
 		SparkConf sparkConf = HoodieExampleSparkUtils.defaultSparkConf("hoodie-client-example");
-
+		SparkRDDWriteClient<HoodieAvroPayload> client = null;
+		FileSystem fs = null;
 		try (JavaSparkContext jsc = new JavaSparkContext(sparkConf)) {
 
 			// Generator of some records to be loaded in.
@@ -56,7 +57,7 @@ public class HoodieWriteClientExample {
 
 			// initialize the table, if not done already
 			Path path = new Path(tablePath);
-			FileSystem fs = FSUtils.getFs(tablePath, jsc.hadoopConfiguration());
+			fs = FSUtils.getFs(tablePath, jsc.hadoopConfiguration());
 			if (!fs.exists(path)) {
 				HoodieTableMetaClient.withPropertyBuilder()
 						.setTableType(tableType)
@@ -71,7 +72,7 @@ public class HoodieWriteClientExample {
 					.withDeleteParallelism(2).forTable(tableName)
 					.withIndexConfig(HoodieIndexConfig.newBuilder().withIndexType(HoodieIndex.IndexType.BLOOM).build())
 					.withCompactionConfig(HoodieCompactionConfig.newBuilder().archiveCommitsWith(20, 30).build()).build();
-			SparkRDDWriteClient<HoodieAvroPayload> client = new SparkRDDWriteClient<>(new HoodieSparkEngineContext(jsc), cfg);
+			client = new SparkRDDWriteClient<>(new HoodieSparkEngineContext(jsc), cfg);
 
 			// inserts
 			String newCommitTime = client.startCommit();
@@ -106,7 +107,13 @@ public class HoodieWriteClientExample {
 				JavaRDD<WriteStatus> writeStatues = client.compact(instant.get());
 				client.commitCompaction(instant.get(), writeStatues, Option.empty());
 			}
-
+		} finally {
+			if (client != null) {
+				client.close();
+			}
+			if (fs != null) {
+				fs.close();
+			}
 		}
 	}
 

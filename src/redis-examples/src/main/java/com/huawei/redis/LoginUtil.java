@@ -35,7 +35,6 @@ public class LoginUtil {
      * @since 2020-09-30
      */
     public enum Module {
-        STORM("StormClient"),
         KAFKA("KafkaClient"),
         ZOOKEEPER("Client");
 

@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -39,12 +42,23 @@ public class Bulk {
 
     private static PreBuiltHWTransportClient client;
 
+
+    private static final BlockingQueue<Runnable> blockingQueue;
+
+    private static final ThreadPoolExecutor pool;
+
+    static {
+        blockingQueue = new LinkedBlockingDeque<>(THREAD_NUM);
+        pool = new ThreadPoolExecutor(THREAD_NUM, THREAD_NUM, 60L, TimeUnit.SECONDS, blockingQueue);
+    }
+
+
     /**
      * put data
      *
      * @param recordNum 单次bulk写入的文档数
      */
-    private static void dataInput(long recordNum, String index, String type) {
+    private static boolean dataInput(long recordNum, String index, String type) {
         long circleCommit = recordNum / BULK_NUM;
         Map<String, Object> esJson = new HashMap<>();
 
@@ -64,26 +78,38 @@ public class Bulk {
             BulkResponse bulkResponse = bulkRequest.get();
             if (bulkResponse.hasFailures()) {
                 LOG.warn("Batch indexing fail.");
+                return false;
             } else {
                 LOG.info("Batch indexing success and put data time is {}.", (System.currentTimeMillis() - startTime));
             }
         }
+        return true;
     }
 
     private static void startThreadInput() {
-        BlockingQueue<Runnable> blockingQueue = new LinkedBlockingDeque<>(THREAD_NUM);
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(THREAD_NUM, THREAD_NUM, 60L, TimeUnit.SECONDS, blockingQueue);
         MultipleThInputRun[] multipleThInputRuns = new MultipleThInputRun[THREAD_NUM];
         for (int i = 0; i < THREAD_NUM; i++) {
             multipleThInputRuns[i] = new MultipleThInputRun();
         }
         LOG.info("begin to execute bulk threads.");
+        Map<MultipleThInputRun, Future<Boolean>> result = new HashMap<>();
         for (MultipleThInputRun multipleThInputRun : multipleThInputRuns) {
             if (multipleThInputRun != null) {
-                pool.execute(multipleThInputRun);
+                result.put(multipleThInputRun, pool.submit(multipleThInputRun));
             }
         }
+        result.forEach(Bulk::accept);
         LOG.info("execute bulk threads successfully.");
+    }
+
+    private static void accept(MultipleThInputRun multipleThInputRun, Future<Boolean> future) {
+        try {
+            if (!future.get()) {
+                LOG.error("execute bulk thread, get result false");
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            LOG.error("execute bulk thread failed, {}", e.getMessage(), e);
+        }
     }
 
     public static void main(String[] args) {
@@ -100,14 +126,17 @@ public class Bulk {
                 client.close();
                 LOG.info("Close the client successful in main.");
             }
+            if (!pool.isShutdown()){
+                pool.shutdown();
+            }
         }
         System.exit(0);
     }
 
-    static class MultipleThInputRun implements Runnable {
+    static class MultipleThInputRun implements Callable<Boolean> {
         @Override
-        public void run() {
-            Bulk.dataInput(Bulk.threadCommitNum, "example-indexname", "type");
+        public Boolean call() {
+            return dataInput(Bulk.threadCommitNum, "example-indexname", "type");
         }
     }
 }

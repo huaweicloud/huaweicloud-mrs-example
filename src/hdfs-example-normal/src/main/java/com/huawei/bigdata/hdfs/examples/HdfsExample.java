@@ -21,18 +21,17 @@ public class HdfsExample {
 
     private static final String STORAGE_POLICY_HOT = "HOT";
 
-    private final static String PATH_TO_HDFS_SITE_XML = HdfsExample.class.getClassLoader()
-        .getResource("hdfs-site.xml")
-        .getPath();
+    private static final String PATH_TO_HDFS_SITE_XML = System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "hdfs-site.xml";
 
-    private final static String PATH_TO_CORE_SITE_XML = HdfsExample.class.getClassLoader()
-        .getResource("core-site.xml")
-        .getPath();
+    private static final String PATH_TO_CORE_SITE_XML =  System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "core-site.xml";
 
     private static Configuration conf = null;
 
     // private static String PATH_TO_SMALL_SITE_XML =
-    // HdfsMain.class.getClassLoader().getResource("smallfs-site.xml").getPath();
+    // System.getProperty("user.dir") + File.separator + "conf"
+    //            + File.separator + "smallfs-site.xml";
 
     private FileSystem fSystem; /* HDFS file system */
 

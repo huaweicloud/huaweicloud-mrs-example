@@ -17,7 +17,6 @@ import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
 public class LoginUtil {
     public enum Module {
-        STORM("StormClient"),
         KAFKA("KafkaClient"),
         ZOOKEEPER("Client");
 

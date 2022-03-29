@@ -6,7 +6,6 @@ import java.io.IOException;
 
 public class LoginUtil {
     public enum Module {
-        STORM("StormClient"),
         KAFKA("KafkaClient"),
         ZOOKEEPER("Client");
 

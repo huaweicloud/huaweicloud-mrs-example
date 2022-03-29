@@ -28,7 +28,8 @@
 
 6. 运行 ***TestZKSample.java*** 
 
-***Tips*** : ***connectApacheZK()*** 函数为连接开源zookeeper源使用，若未安装，进行配置，最后报错： ***org.apache.zookeeper.KeeperException$ConnectionLossException*** 为正常现象
-
+***Tips*** :  
+A.***connectApacheZK()*** 函数为连接开源zookeeper源使用，若未安装，进行配置，最后报错： ***org.apache.zookeeper.KeeperException$ConnectionLossException*** 为正常现象  
+B.当集群中ZooKeeper开启SSL加密通信时，本样例不适用。
 
 

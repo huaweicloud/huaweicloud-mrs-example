@@ -204,6 +204,7 @@ public class KerberosTableInputFormat extends TableInputFormatBase implements Co
         // in this context?
         TableName tableName = TableName.valueOf(conf.get(INPUT_TABLE));
         try {
+            HBaseUtil.zkSslUtil(conf);
             initializeTable(ConnectionFactory.createConnection(new Configuration(conf), user), tableName);
         } catch (Exception e) {
             LOG.error(StringUtils.stringifyException(e));

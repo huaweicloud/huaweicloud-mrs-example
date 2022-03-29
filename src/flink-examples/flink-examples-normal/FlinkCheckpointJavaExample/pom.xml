@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>FlinkCheckpointJavaExample</artifactId>
-    <version>8.1.1-311006</version>
+    <version>8.1.3-313.r10</version>
     <packaging>jar</packaging>
 
     <properties>
-        <flink.version>1.12.2-hw-ei-311006</flink.version>
+        <flink.version>1.12.2-h0.cbu.mrs.313.r10</flink.version>
     </properties>
 
     <dependencies>

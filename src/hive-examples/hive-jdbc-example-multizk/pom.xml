@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hive-jdbc-example-multizk</artifactId>
-    <version>3.1.0-hw-ei-311006</version>
+    <version>8.1.3-313.r10</version>
 
   <properties>
-    <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
-    <hive.version>3.1.0-hw-ei-311006</hive.version>
+    <hadoop.version>3.1.1-h0.cbu.mrs.313.r10</hadoop.version>
+    <hive.version>3.1.0-h0.cbu.mrs.313.r10</hive.version>
   </properties>
 
   <dependencies>
@@ -40,15 +40,15 @@
       <version>${hadoop.version}</version>
     </dependency>
   </dependencies>
-  <build>  
-	  <plugins>     
-		<plugin>       
-		  <groupId>org.apache.maven.plugins</groupId>       
-		  <artifactId>maven-assembly-plugin</artifactId>       
-		  <version>2.3</version>       
-		  <configuration>        
-			<archive>           
-			  <manifest>           
+  <build>
+	  <plugins>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-assembly-plugin</artifactId>
+		  <version>2.3</version>
+		  <configuration>
+			<archive>
+			  <manifest>
 				<mainClass>com.huawei.bigdata.hive.example.JDBCExample</mainClass>
 			  </manifest>
 			</archive>

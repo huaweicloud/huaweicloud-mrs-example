@@ -34,8 +34,8 @@ public class SessionPoolExample {
 
     insertRecord();
     queryByRowRecord();
-    Thread.sleep(1000);
     queryByIterator();
+    Thread.sleep(1000);
     pool.close();
     service.shutdown();
   }

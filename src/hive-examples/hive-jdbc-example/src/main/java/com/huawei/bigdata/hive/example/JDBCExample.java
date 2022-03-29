@@ -5,6 +5,7 @@
 package com.huawei.bigdata.hive.example;
 
 import com.huawei.bigdata.security.KerberosUtil;
+import com.huawei.bigdata.security.LoginUtil;
 
 import org.apache.hadoop.conf.Configuration;
 import org.slf4j.Logger;
@@ -97,7 +98,6 @@ public class JDBCExample {
         } finally {
             if (fileInputStream != null) {
                 fileInputStream.close();
-                fileInputStream = null;
             }
         }
         /**
@@ -121,6 +121,9 @@ public class JDBCExample {
             ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/" + getUserRealm();
             System.setProperty(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL);
         }
+
+        //zookeeper开启ssl时需要设置JVM参数
+        LoginUtil.processZkSsl(clientInfo);
     }
 
     /**

@@ -9,10 +9,10 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <es.version>7.10.2-hw-ei-311006</es.version>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <es.version>7.10.2-h0.cbu.mrs.313.r10</es.version>
+        <spark.version>3.1.1-h0.cbu.mrs.313.r10</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
+        <hadoop.version>3.1.1-h0.cbu.mrs.313.r10</hadoop.version>
     </properties>
 
     <dependencies>
@@ -72,8 +72,8 @@
         <!-- 以下依赖均来自开源，可从 Maven 中心仓库获取 -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-spark-20_2.11</artifactId>
-            <version>7.6.0</version>
+            <artifactId>elasticsearch-spark-30_2.12</artifactId>
+            <version>7.12.0</version>
         </dependency>
 
         <dependency>

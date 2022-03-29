@@ -39,7 +39,7 @@ public class ProducerDemo {
         for (int i = 0; i < 100; i++) {
             producer
                 .send(new ProducerRecord<String, String>(topicName, "{\"age\":\"" + random.nextInt() + "\",\"id\":\""
-                    + i + "\",\"job\":\"" + random.nextInt() + "\",\"name\":\"" + random.nextInt() + "\"}"));
+                    + i + "\",\"job\":\"" + random.nextInt(5) + "\",\"name\":\"" + random.nextInt() + "\"}"));
         }
         producer.close();
     }

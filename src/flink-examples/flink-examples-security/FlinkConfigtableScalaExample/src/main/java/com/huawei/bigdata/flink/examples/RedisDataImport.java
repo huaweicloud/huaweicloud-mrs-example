@@ -5,9 +5,11 @@
 package com.huawei.bigdata.flink.examples;
 
 import com.huawei.bigdata.security.LoginUtil;
+import com.huawei.jredis.client.SslSocketFactoryUtil;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.supercsv.cellprocessor.constraint.NotNull;
@@ -25,6 +27,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.net.ssl.SSLSocketFactory;
+
 /**
  * Read data from csv file and import to redis.
  *
@@ -32,6 +36,7 @@ import java.util.Set;
  */
 public class RedisDataImport {
 
+    private static final int MAX_ATTEMPTS = 2;
 
     private static final int TIMEOUT = 15000;
 
@@ -41,22 +46,19 @@ public class RedisDataImport {
      */
     public static void main(String[] args) throws Exception {
         // print comment for command to use run flink
-        System.out.println("use command as: \n" +
-                "java -cp /opt/FI-Client/Flink/flink/lib/*:/opt/FlinkConfigtableJavaExample.jar" +
-                " com.huawei.bigdata.flink.examples.RedisDataImport --configPath <config filePath>" +
-                "******************************************************************************************\n" +
-                "<config filePath> is for configure file to load\n" +
-                "you may write following content into config filePath: \n" +
-                "CsvPath=config/configtable.csv\n" +
-                "CsvHeaderExist=true\n" +
-                "ColumnNames=username,age,company,workLocation,educational,workYear,phone,nativeLocation,school\n" +
-                "Redis_Security=true\n" +
-                "Redis_IP_Port=SZV1000064084:22400,SZV1000064082:22400,SZV1000064085:22400\n" +
-                "Redis_Principal=test11@HADOOP.COM\n" +
-                "Redis_KeytabFile=config/user.keytab\n" +
-                "Redis_Krb5File=config/krb5.conf\n" +
-                "Redis_ssl_on=true\n" +
-                "******************************************************************************************");
+        System.out.println(
+            "use command as: \n" + "java -cp /opt/FI-Client/Flink/flink/lib/*:/opt/FlinkConfigtableJavaExample.jar"
+                + " com.huawei.bigdata.flink.examples.RedisDataImport --configPath <config filePath>"
+                + "******************************************************************************************\n"
+                + "<config filePath> is for configure file to load\n"
+                + "you may write following content into config filePath: \n" + "CsvPath=config/configtable.csv\n"
+                + "CsvHeaderExist=true\n"
+                + "ColumnNames=username,age,company,workLocation,educational,workYear,phone,nativeLocation,school\n"
+                + "Redis_Security=true\n"
+                + "Redis_IP_Port=SZV1000064084:22400,SZV1000064082:22400,SZV1000064085:22400\n"
+                + "Redis_Principal=test11@HADOOP.COM\n" + "Redis_KeytabFile=config/user.keytab\n"
+                + "Redis_Krb5File=config/krb5.conf\n" + "Redis_ssl_on=true\n"
+                + "******************************************************************************************");
 
         // read all configures
         final String configureFilePath = ParameterTool.fromArgs(args).get("configPath", "config/import.properties");
@@ -71,6 +73,7 @@ public class RedisDataImport {
         final String principal = ParameterTool.fromPropertiesFile(configureFilePath).get("Redis_Principal");
         final String keytab = ParameterTool.fromPropertiesFile(configureFilePath).get("Redis_KeytabFile");
         final String krb5 = ParameterTool.fromPropertiesFile(configureFilePath).get("Redis_Krb5File");
+        final boolean ssl = ParameterTool.fromPropertiesFile(configureFilePath).getBoolean("Redis_ssl_on", false);
 
         // init redis client
         initRedis(isSecurity, principal, keytab, krb5);
@@ -82,7 +85,12 @@ public class RedisDataImport {
             }
             hosts.add(hostAndPort);
         }
-        final JedisCluster client = new JedisCluster(hosts, TIMEOUT);
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
+
+        final JedisCluster client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
+            "","", poolConfig, ssl, socketFactory, null,
+            null, null);
 
         // get all files under csv file path
         ArrayList<File> files = getListFiles(csvFilePath);

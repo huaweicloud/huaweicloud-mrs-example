@@ -21,7 +21,7 @@
         <name>Hive2Hive</name>
         <class>com.huawei.bigdata.spark.Hive2Hive</class>
         <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/lib/OoizeSparkHive-1.0.jar</jar>
-        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.1.0/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x --conf spark.sql.session.state.builder=org.apache.spark.sql.hive.FIHiveACLSessionStateBuilder --conf spark.sql.hive.implementation=org.apache.spark.sql.hive.HiveACLClientImpl --conf spark.sql.catalog.class=org.apache.spark.sql.hive.HiveACLExternalCatalog</spark-opts>
+        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.1.3/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x</spark-opts>
         <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/user.keytab</file>
         <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/krb5.conf</file>
     </spark>

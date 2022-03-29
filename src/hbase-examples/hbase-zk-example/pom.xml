@@ -10,10 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-zk-example</artifactId>
-    <version>2.2.3-hw-ei-311006</version>
+    <version>8.1.3-313.r10</version>
     <properties>
-        <hbase.version>2.2.3-hw-ei-311006</hbase.version>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
+        <hbase.version>2.2.3-h0.cbu.mrs.313.r10</hbase.version>
+        <hadoop.version>3.1.1-h0.cbu.mrs.313.r10</hadoop.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>

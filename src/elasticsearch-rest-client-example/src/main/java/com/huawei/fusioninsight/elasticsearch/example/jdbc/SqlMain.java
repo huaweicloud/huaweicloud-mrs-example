@@ -84,38 +84,31 @@ public class SqlMain {
     }
 
     public static void main(String[] args) {
-        RestHighLevelClient highLevelClient;
-        Connection con;
-        HwRestClient hwRestClient = HwRestClientUtils.getHwRestClient(args);
-        highLevelClient = new RestHighLevelClient(hwRestClient.getRestClientBuilder());
-        SqlConnect connector = new SqlConnect();
-        con = connector.sqlConnect();
-        if (con == null) {
-            LOG.error("Get connect failed.");
-            return;
-        }
-        boolean isSucceed = true;
-        if (HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, "example-sql1")) {
-            isSucceed = createIndexForHighLevel(highLevelClient, "example-sql1");
-        }
-        if (HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, "example-sql2")) {
-            isSucceed = isSucceed && createIndexForHighLevel(highLevelClient, "example-sql2");
-        }
-        if (isSucceed) {
-            insertData(highLevelClient, "example-sql1", "Tom");
-            insertData(highLevelClient, "example-sql2", "Linda");
-            SqlSearch.allSearch(con);
-            SqlDelete.deleteData(con);
-            DeleteIndex.deleteIndex(highLevelClient, "example-sql1");
-            DeleteIndex.deleteIndex(highLevelClient, "example-sql2");
-        }
-        try {
-            highLevelClient.close();
-            con.close();
-        } catch (IOException e) {
-            LOG.error("Failed to close RestHighLevelClient.", e);
-        } catch (SQLException e) {
-            LOG.error("Filed to close connection.");
+        try (RestHighLevelClient highLevelClient = new RestHighLevelClient(HwRestClientUtils.getHwRestClient(args).getRestClientBuilder());
+             Connection con = new SqlConnect().sqlConnect()){
+
+            boolean isSucceed = true;
+            if (!HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, "example-sql1")) {
+                isSucceed = createIndexForHighLevel(highLevelClient, "example-sql1");
+            }
+            if (isSucceed && !HwRestClientUtils.isExistIndexForHighLevel(highLevelClient, "example-sql2")) {
+                isSucceed = isSucceed && createIndexForHighLevel(highLevelClient, "example-sql2");
+            }
+
+            if (isSucceed) {
+                insertData(highLevelClient, "example-sql1", "Tom");
+                insertData(highLevelClient, "example-sql2", "Linda");
+                SqlSearch.allSearch(con);
+                SqlDelete.deleteData(con);
+                DeleteIndex.deleteIndex(highLevelClient, "example-sql1");
+                DeleteIndex.deleteIndex(highLevelClient, "example-sql2");
+            }
+        } catch (SQLException sqlException) {
+            LOG.error("Filed to close connection.", sqlException);
+        } catch (IOException ioException) {
+            LOG.error("Failed to close RestHighLevelClient.", ioException);
+        } catch (Exception exception) {
+            LOG.error("Unknown error.", exception);
         }
     }
 }

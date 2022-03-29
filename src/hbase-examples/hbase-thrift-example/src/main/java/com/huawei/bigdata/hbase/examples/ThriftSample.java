@@ -42,7 +42,8 @@ import javax.security.sasl.SaslClient;
 import javax.security.sasl.SaslException;
 
 /**
- * ¹¦ÄÜÃèÊö
+ * Function description:
+ *
  * HBase Development Instruction Sample Code The sample code uses user
  * information as source data,it introduces how to implement businesss process
  * development using HBase Thrift API

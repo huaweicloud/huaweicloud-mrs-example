@@ -30,11 +30,10 @@ public class ColocationExample {
     private static final String LOGIN_CONTEXT_NAME = "Client";
 
     private static final String PATH_TO_KEYTAB = System.getProperty("user.dir") + File.separator + "conf"
-        + File.separator + "user.keytab";
+            + File.separator + "user.keytab";
 
-    private static final String PATH_TO_KRB5_CONF = ColocationExample.class.getClassLoader()
-        .getResource("krb5.conf")
-        .getPath();
+    private static final String PATH_TO_KRB5_CONF = System.getProperty("user.dir") + File.separator + "conf"
+            + File.separator + "krb5.conf";
 
     private static String zookeeperDefaultServerPrincipal = null;
 

@@ -1,10 +1,9 @@
 package com.huawei.bigdata.flink.examples
 
-import java.util.HashSet
-import java.util.Set
+import java.util.{HashSet, Set}
 import java.util.concurrent.TimeUnit
 
-import javax.net.ssl.SSLSocketFactory
+import com.huawei.jredis.client.SslSocketFactoryUtil
 import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks
@@ -21,6 +20,8 @@ import scala.concurrent.{ExecutionContext, Future}
  * Read stream data and join from configure table from redis.
  */
 object FlinkConfigtableScalaExample {
+
+  private val MAX_ATTEMPTS = 2
 
   private val TIMEOUT = 60000
 
@@ -61,6 +62,7 @@ object FlinkConfigtableScalaExample {
           val configPath = "config/read.properties"
           val fields = ParameterTool.fromPropertiesFile(configPath).get("ReadFields")
           val hostPort = ParameterTool.fromPropertiesFile(configPath).get("Redis_IP_Port")
+          val ssl = ParameterTool.fromPropertiesFile(configPath).getBoolean("Redis_ssl_on", false)
 
           // create jedisCluster client
           val hosts: Set[HostAndPort]  = new HashSet[HostAndPort]()
@@ -70,7 +72,10 @@ object FlinkConfigtableScalaExample {
               hosts.add(hostAndPort);
             }
           })
-          val client = new JedisCluster(hosts, TIMEOUT)
+          val poolConfig = new JedisPoolConfig
+          val socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory
+
+          val client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS, "", "", poolConfig, ssl, socketFactory, null, null, null)
 
           if (client.getClusterNodes.size() <= 0) {
             System.out.println("JedisCluster init failed, getClusterNodes: " + client.getClusterNodes.size())

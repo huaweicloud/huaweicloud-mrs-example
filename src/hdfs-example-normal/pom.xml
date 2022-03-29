@@ -4,14 +4,14 @@
 
     <groupId>main.java.examples</groupId>
     <artifactId>HDFSTest</artifactId>
-    <version>8.1.1</version>
+    <version>8.1.3-313.r10</version>
     <packaging>jar</packaging>
-    <name>hdfs-test</name>
+    <name>hdfs-test-normal</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.1.1-hw-ei-311006</hadoop.version>
-        <hadoop.ext.version>8.1.1-311006</hadoop.ext.version>
+        <hadoop.version>3.1.1-h0.cbu.mrs.313.r10</hadoop.version>
+        <hadoop.ext.version>8.1.3-313.r10</hadoop.ext.version>
     </properties>
 
     <dependencies>

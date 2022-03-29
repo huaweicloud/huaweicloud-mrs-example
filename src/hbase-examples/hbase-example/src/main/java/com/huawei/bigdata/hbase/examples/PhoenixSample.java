@@ -5,6 +5,7 @@
 package com.huawei.bigdata.hbase.examples;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.phoenix.jdbc.PhoenixDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,8 @@ public class PhoenixSample {
     Configuration conf = null;
     java.util.Properties props = new java.util.Properties();
 
-    public PhoenixSample(Configuration conf) {
+    public PhoenixSample(Configuration conf) throws SQLException {
+        DriverManager.registerDriver(PhoenixDriver.INSTANCE);
         this.conf = conf;
         Iterator<Entry<String, String>> it = conf.iterator();
         while (it.hasNext()) {

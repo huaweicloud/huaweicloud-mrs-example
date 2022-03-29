@@ -43,11 +43,11 @@ public class HBaseExternalHivetoCarbon {
         Configuration hadoopConf = new Configuration();
         LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
 
-        spark = SparkSession.builder().appName("HBaseExternalHiveToCarbon").getOrCreate();
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
+                spark = SparkSession.builder().appName("HBaseExternalHiveToCarbon").getOrCreate();
+
                 timeEnd = timeStart + TIMEWINDOW;
 
                 queryTimeStart = transferDateToStr(timeStart);

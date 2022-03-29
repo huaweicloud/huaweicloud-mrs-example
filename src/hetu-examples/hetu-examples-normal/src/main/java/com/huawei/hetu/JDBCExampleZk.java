@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * The example code to connect presto jdbc server and execute sql statement
+ * The example code to connect hetu jdbc server and execute sql statement
  *
  * @since 2019-12-01
  */
@@ -21,7 +21,7 @@ public class JDBCExampleZk {
     private static Properties properties = new Properties();
 
     private static void init() throws ClassNotFoundException {
-        properties.setProperty("user", "hivetest");
+        properties.setProperty("user", "YourUserName");
         properties.setProperty("tenant", "default");
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "simple");

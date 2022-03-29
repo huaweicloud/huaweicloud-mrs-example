@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-hw-ei-311006</spark.version>
+        <spark.version>3.1.1-h0.cbu.mrs.313.r10</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 

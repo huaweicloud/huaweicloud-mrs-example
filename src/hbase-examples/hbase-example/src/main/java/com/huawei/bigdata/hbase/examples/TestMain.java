@@ -15,9 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
- * 功能描述
+ * Function description:
+ *
  * hbase-example test main class
  *
  * @since 2013
@@ -53,9 +55,12 @@ public class TestMain {
 
         // test phoenix
         PhoenixSample anotherSample;
-        anotherSample = new PhoenixSample(conf);
-        anotherSample.test();
-
+        try {
+            anotherSample = new PhoenixSample(conf);
+            anotherSample.test();
+        } catch (SQLException e) {
+            LOG.error("Failed to test Phoenix because ", e);
+        }
         LOG.info("-----------finish Phoenix -------------------");
     }
 

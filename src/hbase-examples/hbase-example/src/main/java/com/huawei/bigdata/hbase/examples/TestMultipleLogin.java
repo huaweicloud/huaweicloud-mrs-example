@@ -15,12 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * π¶ƒ‹√Ë ˆ
+ * Function description:
+ *
  * hbase-example test multiple login main class
  *
  * @since 2013
@@ -29,13 +31,10 @@ import java.util.List;
 public class TestMultipleLogin {
     private static final Logger LOG = LoggerFactory.getLogger(TestMain.class.getName());
     private static final String ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME = "Client";
-    private static final String ZOOKEEPER_SERVER_PRINCIPAL_KEY = "zookeeper.server.principal";
-    private static final String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/hadoop.hadoop.com";
 
     private static String krb5File = null;
     private static String userName = null;
     private static String userKeytabFile = null;
-    private static int CONF_DIR_NUM = 2;
 
     public static void main(String[] args) {
         List<String> confDirectorys = new ArrayList<>();
@@ -65,19 +64,22 @@ public class TestMultipleLogin {
                 oneSample.test();
                 i++;
             }
-
         } catch (IOException e) {
             LOG.error("Failed to test HBase because ", e);
         }
         LOG.info("-----------finish HBase -------------------");
 
-        int j = 1;
-        for (Configuration conf : confs) {
-            // test phoenix
-            LOG.info("-----------Start Phoenix sample {} test-------------", j);
-            PhoenixSample anotherSample = new PhoenixSample(conf);
-            anotherSample.test();
-            j++;
+        // test phoenix
+        try {
+            int j = 1;
+            for (Configuration conf : confs) {
+                LOG.info("-----------Start Phoenix sample {} test-------------", j);
+                PhoenixSample anotherSample = new PhoenixSample(conf);
+                anotherSample.test();
+                j++;
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed to test Phoenix because ", e);
         }
 
         LOG.info("-----------finish Phoenix -------------------");
