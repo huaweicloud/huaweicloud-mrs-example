@@ -1,0 +1,7 @@
+username,age,company,workLocation,educational,workYear,phone,nativeLocation,school
+LiuYang,25,Microsoft,hangzhou,college,5,13512345678,hangzhou zhejiang,wuhan university
+YuanJing,26,Oracle,shanghai,master,6,13512345679,shijiazhuang hebei,zhejiang university
+GuoYijun,27,Alibaba,beijing,college,7,13512345680,suzhou jiangsu,qinghua university
+CaiXuyu,28,Coca Cola,shenzheng,master,8,13512345681,hefei anhui,beijing university
+Liyuan,29,Tencent,chengdou,doctor,9,13512345682,nanchang jiangxi,nanjing university
+FangBo,30,Huawei,qingdao,doctor,10,13512345683,xiamen fujian,fudan university

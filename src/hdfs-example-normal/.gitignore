@@ -1,0 +1,9 @@
+/bin/
+
+/
+lib/
+/.settings/
+/conf/krb5.conf
+/conf/user.keytab
+/conf/core-site.xml
+/conf/hdfs-site.xml
