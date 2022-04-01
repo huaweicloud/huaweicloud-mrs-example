@@ -111,14 +111,14 @@ public class JDBCExample {
         zooKeeperNamespace = clientInfo.getProperty("zooKeeperNamespace");
         serviceDiscoveryMode = clientInfo.getProperty("serviceDiscoveryMode");
         principal = clientInfo.getProperty("principal");
+        KRB5_FILE = userdir + "krb5.conf";
+        System.setProperty("java.security.krb5.conf", KRB5_FILE);
         // 设置新建用户的USER_NAME，其中"xxx"指代之前创建的用户名，例如创建的用户为user，则USER_NAME为user
         USER_NAME = "xxx";
 
         if ("KERBEROS".equalsIgnoreCase(auth)) {
-            // 设置客户端的keytab和krb5文件路径
+            // 设置客户端的keytab和zookeeper认证principal
             USER_KEYTAB_FILE = "src/main/resources/user.keytab";
-            KRB5_FILE = userdir + "krb5.conf";
-            System.setProperty("java.security.krb5.conf", KRB5_FILE);
             ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/" + getUserRealm();
             System.setProperty(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL);
         }

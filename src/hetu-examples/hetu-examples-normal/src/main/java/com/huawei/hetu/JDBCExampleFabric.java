@@ -21,7 +21,7 @@ public class JDBCExampleFabric {
     private static Properties properties = new Properties();
 
     private static void init() throws ClassNotFoundException {
-        properties.setProperty("user", "YourUserName");
+        properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
         properties.setProperty("SSL", "false");
         Class.forName("io.prestosql.jdbc.PrestoDriver");
     }
@@ -35,7 +35,7 @@ public class JDBCExampleFabric {
         Connection connection = null;
         ResultSet result = null;
         PreparedStatement statement = null;
-        String url = "jdbc:presto://192.168.1.130:29903,192.168.1.131:29903,192.168.1.132:29903/hive/default?serviceDiscoveryMode=hsfabric";
+        String url = "jdbc:presto://192.168.1.130:29903,192.168.1.131:29903,192.168.1.132:29903/hive/default?serviceDiscoveryMode=hsfabric"; // need to change the value based on the cluster information
 
         try {
             init();

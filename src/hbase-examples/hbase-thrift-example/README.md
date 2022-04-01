@@ -14,7 +14,7 @@
 
    - 方法一：根据 __《HBase开发指南》1.2.3.4访问ThriftServer服务认证__ 章节中所述步骤，获取集群中安装ThriftServer的对应节点配置文件
 
-   - 方法二：若只能通过 __《HBase开发指南》1.2.1准备开发和运行环境__ 章节中所述解压客户端文件的方法获取配置文件，在 ***hbase-site.xml*** 中手动添加以下配置项,其中 ***“hbase.thrift.security.qop"*** 值与步骤2修改保持一致。
+   - 方法二：若只能通过 __《HBase开发指南》1.2.1准备开发和运行环境__ 章节中所述解压客户端文件的方法获取配置文件，在 ***hbase-site.xml*** 中手动添加以下配置项,其中 ***“hbase.thrift.security.qop"*** 值与步骤2修改保持一致,***“hbase.thrift.keytab.file"*** 中FusionInsight_HD_8.x.x的值与版本保持一致。
       ```xml
       <property>
       <name>hbase.thrift.security.qop</name>
@@ -26,7 +26,7 @@
       </property>
       <property>
       <name>hbase.thrift.keytab.file</name>
-      <value>/opt/huawei/Bigdata/FusionInsight_HD_8.1.1/install/FusionInsight-HBase-2.2.3/keytabs/HBase/thrift.keytab</value>
+      <value>/opt/huawei/Bigdata/FusionInsight_HD_8.x.x/install/FusionInsight-HBase-2.2.3/keytabs/HBase/thrift.keytab</value>
       </property>
       ```
 

@@ -63,7 +63,7 @@ public class LoginUtil {
      * @param keytabPath
      * @throws IOException
      */
-    public static void setJaasFile(String principal, String keytabPath) throws IOException {
+    public static synchronized void setJaasFile(String principal, String keytabPath) throws IOException {
         String jaasPath =
                 new File(System.getProperty("java.io.tmpdir"))
                         + File.separator

@@ -31,14 +31,15 @@ public class JDBCExamplePasswordZK {
         System.setProperty("user.timezone", "UTC");
         System.setProperty("java.security.krb5.conf", PATH_TO_KRB5_CONF);
 
-        properties.setProperty("user", "YourUserName");
-        properties.setProperty("password", "YourPassword");
+        properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
+        properties.setProperty("password", "YourPassword"); // need to change the value based on the cluster information
         properties.setProperty("SSL", "true");
 
         properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosRemoteServiceName", "HTTP");
         properties.setProperty("SSLTrustStorePath", PATH_TO_HETUSERVER_JKS);
-        properties.setProperty("tenant", "YourTenant");
+        properties.setProperty("tenant", "YourTenant"); // need to change the value based on the cluster information
+        properties.setProperty("ZooKeeperServerPrincipal", "zookeeper/hadoop.YourDomainName"); // need to change the value based on the cluster information
         properties.setProperty("deploymentMode", "on_yarn");
 
         Class.forName("io.prestosql.jdbc.PrestoDriver");
@@ -54,7 +55,7 @@ public class JDBCExamplePasswordZK {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker"; // need to change the value based on the cluster information
 
         try {
             init();

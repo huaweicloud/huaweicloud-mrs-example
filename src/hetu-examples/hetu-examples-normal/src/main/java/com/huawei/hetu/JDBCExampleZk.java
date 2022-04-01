@@ -21,8 +21,8 @@ public class JDBCExampleZk {
     private static Properties properties = new Properties();
 
     private static void init() throws ClassNotFoundException {
-        properties.setProperty("user", "YourUserName");
-        properties.setProperty("tenant", "default");
+        properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
+        properties.setProperty("tenant", "default"); // need to change the value based on the cluster information
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "simple");
         Class.forName("io.prestosql.jdbc.PrestoDriver");
@@ -38,7 +38,7 @@ public class JDBCExampleZk {
         ResultSet result = null;
         PreparedStatement statement = null;
         String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
-                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker";
+                + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker"; // need to change the value based on the cluster information
 
         try {
             init();
