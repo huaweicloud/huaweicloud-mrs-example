@@ -1,10 +1,10 @@
 package utils;
 
-import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import javax.net.ssl.SSLContext;
@@ -37,7 +37,7 @@ public class WebClientDevWrapper {
      * @param userTLSVersion String
      * @return HttpClient
      */
-    public static HttpClient wrapClient(HttpClient base, String userTLSVersion) {
+    public static CloseableHttpClient wrapClient(CloseableHttpClient base, String userTLSVersion) {
         SSLContext sslContext = null;
         try {
             sslContext = SSLContext.getInstance(userTLSVersion);

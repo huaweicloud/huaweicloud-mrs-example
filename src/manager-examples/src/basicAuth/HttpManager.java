@@ -1,15 +1,15 @@
 package basicAuth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.MyHttpDelete;
@@ -44,9 +44,9 @@ public class HttpManager {
      * @param operationName String
      * @return 结果
      */
-    public String sendHttpGetRequest(HttpClient httpClient, String operationUrl, String operationName) {
+    public String sendHttpGetRequest(CloseableHttpClient httpClient, String operationUrl, String operationName) {
         LOG.info("Enter sendHttpGetRequest for userOperation {}.", operationName);
-        HttpResponse httpResponse = null;
+        CloseableHttpResponse httpResponse = null;
 
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
             LOG.error("The operationUrl is emptey.");
@@ -88,7 +88,7 @@ public class HttpManager {
      * @param operationName String
      * @throws FileNotFoundException 异常
      */
-    public void sendHttpPostRequest(HttpClient httpClient, String operationUrl, String jsonFilePath,
+    public void sendHttpPostRequest(CloseableHttpClient httpClient, String operationUrl, String jsonFilePath,
             String operationName) throws FileNotFoundException {
         LOG.info("Enter sendHttpPostRequest for userOperation {}.", operationName);
 
@@ -147,7 +147,7 @@ public class HttpManager {
                     }
                     LOG.info("The json content = {}.", jsonContent);
 
-                    HttpResponse httpResponse = null;
+                    CloseableHttpResponse httpResponse = null;
 
                     HttpPost httpPost = new HttpPost(operationUrl);
                     httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
@@ -188,7 +188,7 @@ public class HttpManager {
      * @return 结果
      * @throws FileNotFoundException 异常
      */
-    public String sendHttpPostRequestWithString(HttpClient httpClient, String operationUrl, String jsonString,
+    public String sendHttpPostRequestWithString(CloseableHttpClient httpClient, String operationUrl, String jsonString,
             String operationName) throws FileNotFoundException {
         LOG.info("Enter sendHttpPostRequest for userOperation {}.", operationName);
 
@@ -202,7 +202,7 @@ public class HttpManager {
         }
 
         try {
-            HttpResponse httpResponse = null;
+            CloseableHttpResponse httpResponse = null;
 
             HttpPost httpPost = new HttpPost(operationUrl);
             httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
@@ -234,7 +234,7 @@ public class HttpManager {
      * @param jsonFilePath  String
      * @param operationName String
      */
-    public void sendHttpPutRequest(HttpClient httpclient, String operationUrl, String jsonFilePath,
+    public void sendHttpPutRequest(CloseableHttpClient httpclient, String operationUrl, String jsonFilePath,
             String operationName) {
         LOG.info("Enter sendHttpPutRequest for userOperation {}.", operationName);
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
@@ -292,7 +292,7 @@ public class HttpManager {
                     }
                     LOG.info("The json content = {}.", jsonContent);
 
-                    HttpResponse httpResponse = null;
+                    CloseableHttpResponse httpResponse = null;
 
                     HttpPut httpPut = new HttpPut(operationUrl);
                     httpPut.addHeader("Content-Type", "application/json;charset=UTF-8");
@@ -331,7 +331,7 @@ public class HttpManager {
      * @param jsonString    String
      * @param operationName String
      */
-    public void sendHttpPutRequestWithString(HttpClient httpclient, String operationUrl, String jsonString,
+    public void sendHttpPutRequestWithString(CloseableHttpClient httpclient, String operationUrl, String jsonString,
             String operationName) {
         LOG.info("Enter sendHttpPutRequest for userOperation {}.", operationName);
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
@@ -346,7 +346,7 @@ public class HttpManager {
 
         try {
 
-            HttpResponse httpResponse = null;
+            CloseableHttpResponse httpResponse = null;
 
             HttpPut httpPut = new HttpPut(operationUrl);
             httpPut.addHeader("Content-Type", "application/json;charset=UTF-8");
@@ -375,7 +375,7 @@ public class HttpManager {
      * @param jsonString    String
      * @param operationName String
      */
-    public void sendHttpDeleteRequest(HttpClient httpClient, String operationUrl, String jsonString,
+    public void sendHttpDeleteRequest(CloseableHttpClient httpClient, String operationUrl, String jsonString,
             String operationName) {
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
             LOG.error("The operationUrl is emptey.");
@@ -389,7 +389,7 @@ public class HttpManager {
         LOG.info("The operationUrl is:{}", operationUrl);
         LOG.info("Enter sendHttpDeleteMessage for operation {}.", operationName);
         try {
-            HttpResponse httpResponse = null;
+            CloseableHttpResponse httpResponse = null;
 
             if (StringUtils.isEmpty(jsonString)) {
                 HttpDelete httpDelete = new HttpDelete(operationUrl);
@@ -413,7 +413,7 @@ public class HttpManager {
         }
     }
 
-    private String handleHttpResponse(HttpResponse httpResponse, String operationName) {
+    private String handleHttpResponse(CloseableHttpResponse httpResponse, String operationName) {
         String lineContent = "";
         if (httpResponse == null) {
             LOG.error("The httpResponse is empty.");
@@ -451,6 +451,13 @@ public class HttpManager {
                     fileOutputStream.close();
                 } catch (IOException e) {
                     LOG.info("Close fileOutputStream failed.");
+                }
+            }
+            if (httpResponse != null) {
+                try {
+                    httpResponse.close();
+                } catch (IOException e) {
+                    LOG.warn("Close http response failed.");
                 }
             }
         }

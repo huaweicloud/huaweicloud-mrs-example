@@ -5,10 +5,10 @@ import basicAuth.exception.FirstTimeAccessException;
 import basicAuth.exception.GetClientException;
 import basicAuth.exception.InvalidInputParamException;
 import basicAuth.exception.WrongUsernameOrPasswordException;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class BasicAuthAccess {
      * @throws FirstTimeAccessException         异常
      * @throws AuthenticationException          异常
      */
-    public HttpClient loginAndAccess(String webUrl, String userName, String password, String userTLSVersion)
+    public CloseableHttpClient loginAndAccess(String webUrl, String userName, String password, String userTLSVersion)
             throws InvalidInputParamException, GetClientException, WrongUsernameOrPasswordException,
             FirstTimeAccessException, AuthenticationException {
         LOG.info("Enter loginAndAccess.");
@@ -66,7 +66,7 @@ public class BasicAuthAccess {
         LOG.info("1.Get http client for sending https request, username is {}, webUrl is {}.", new Object[] {
                 userName, webUrl
         });
-        HttpClient httpClient = getHttpClient(userTLSVersion);
+        CloseableHttpClient httpClient = getHttpClient(userTLSVersion);
         LOG.info("The new http client is: {}.", httpClient);
         if (ParamsValidUtil.isNull(new Object[] {httpClient})) {
             LOG.error("Get http client error.");
@@ -84,23 +84,18 @@ public class BasicAuthAccess {
         }
 
         LOG.info("3. Send first access request, usename is {}.", userName);
-        HttpResponse firstAccessResp = firstAccessResp(webUrl, userName, authentication, httpClient);
-
-        if (ParamsValidUtil.isNull(new Object[] {firstAccessResp})) {
-            LOG.error("First access response error.");
-            throw new FirstTimeAccessException("First access response error.");
-        }
+        firstAccessResp(webUrl, userName, authentication, httpClient);
 
         return httpClient;
     }
 
-    private HttpClient getHttpClient(String userTLSVersion) {
+    private CloseableHttpClient getHttpClient(String userTLSVersion) {
         LOG.info("Enter getHttpClient.");
 
         ThreadSafeClientConnManager ccm = new ThreadSafeClientConnManager();
         ccm.setMaxTotal(100);
 
-        HttpClient httpclient = WebClientDevWrapper.wrapClient(new DefaultHttpClient(ccm), userTLSVersion);
+        CloseableHttpClient httpclient = WebClientDevWrapper.wrapClient(new DefaultHttpClient(ccm), userTLSVersion);
         LOG.info("Exit getHttpClient.");
         return httpclient;
     }
@@ -146,15 +141,20 @@ public class BasicAuthAccess {
         return keytabContent;
     }
 
-    private HttpResponse firstAccessResp(String webUrl, String userName, String authentication, HttpClient httpClient)
+    private String firstAccessResp(String webUrl, String userName, String authentication, CloseableHttpClient httpClient)
             throws WrongUsernameOrPasswordException, FirstTimeAccessException, AuthenticationException {
         HttpGet httpGet = new HttpGet(webUrl + "api/v2/session/status");
         httpGet.addHeader("Authorization", authentication);
         BufferedReader bufferedReader = null;
 
-        HttpResponse response = null;
+        CloseableHttpResponse response = null;
+        String responseContent = "";
         try {
             response = httpClient.execute(httpGet);
+            if (ParamsValidUtil.isNull(new Object[] {response})) {
+                LOG.error("First access response error.");
+                throw new FirstTimeAccessException("First access response error.");
+            }
             String stateLine = response.getStatusLine().toString();
             LOG.info("First access status is {}", stateLine);
 
@@ -163,6 +163,7 @@ public class BasicAuthAccess {
             String lineContent = "";
             lineContent = bufferedReader.readLine();
             LOG.info("Response content is {} ", lineContent);
+            responseContent = lineContent;
 
             if (!(stateLine.equals("HTTP/1.1 200 "))) {
                 throw new AuthenticationException("Authorize failed!");
@@ -204,7 +205,14 @@ public class BasicAuthAccess {
                     LOG.warn("Close buffer reader failed.");
                 }
             }
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    LOG.warn("Close http response failed.");
+                }
+            }
         }
-        return response;
+        return responseContent;
     }
 }

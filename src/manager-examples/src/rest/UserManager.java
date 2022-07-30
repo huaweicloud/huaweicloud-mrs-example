@@ -2,7 +2,7 @@ package rest;
 
 import basicAuth.BasicAuthAccess;
 import basicAuth.HttpManager;
-import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +46,7 @@ public class UserManager {
 
         InputStream userInfo = null;
         ResourceBundle resourceBundle = null;
+        CloseableHttpClient httpClient = null;
         try {
             File file = new File(userFilePath);
             if (!file.exists()) {
@@ -83,7 +84,7 @@ public class UserManager {
             // 调用firstAccess接口完成登录认证
             LOG.info("Begin to get httpclient and first access.");
             BasicAuthAccess authAccess = new BasicAuthAccess();
-            HttpClient httpClient = authAccess.loginAndAccess(webUrl, userName, password, userTLSVersion);
+            httpClient = authAccess.loginAndAccess(webUrl, userName, password, userTLSVersion);
 
             LOG.info("Start to access REST API.");
 
@@ -132,7 +133,14 @@ public class UserManager {
                 try {
                     userInfo.close();
                 } catch (IOException e) {
-                    LOG.error("IOException.");
+                    LOG.warn("Close userInfo failed.");
+                }
+            }
+            if (httpClient != null) {
+                try {
+                    httpClient.close();
+                } catch (IOException e) {
+                    LOG.warn("Close httpclient failed.");
                 }
             }
         }
