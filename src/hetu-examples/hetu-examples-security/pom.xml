@@ -46,7 +46,7 @@
                     <artifactId>presto-client</artifactId>
                     <groupId>io.hetu.core</groupId>
                 </exclusion>
-				<exclusion>
+                <exclusion>
                     <artifactId>hetu-common</artifactId>
                     <groupId>io.hetu.core</groupId>
                 </exclusion>
