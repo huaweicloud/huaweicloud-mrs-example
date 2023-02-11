@@ -1,0 +1,15 @@
+#!/bin/bash
+PYPATH=$(cd $(dirname $0); pwd)
+echo "Current path is : " $PYPATH
+
+ZK_SERVER=`echo $CLIENT_HIVE_URI|awk -F 'jdbc:hive2://' '{print $2}'|awk -F ',' '{print $1}'`
+echo "The Zookeeper address is : " $ZK_SERVER
+NAME_SPACE=`echo $CLIENT_HIVE_URI|awk -F 'zooKeeperNamespace=' '{print $2}'|awk -F ';' '{print $1}'`
+
+MSG=`zkCli.sh -server $ZK_SERVER ls /$NAME_SPACE |awk -F 'serverUri=' '{print $2}'|awk -F ';' '{print $1}'|awk '{ field = $NF }; END{ print field }'`
+if [ $? -ne 0 ] ;then
+    echo "Failed to get Hive server address from Zookeeper Server."
+    exit 1
+fi
+echo 'The HiveServer address is : ' $MSG
+python $PYPATH/pyline.py $MSG "$@"

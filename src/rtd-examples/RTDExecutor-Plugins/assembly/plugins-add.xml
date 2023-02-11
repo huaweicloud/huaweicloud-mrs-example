@@ -1,0 +1,24 @@
+<!--
+ Describes the plugin archive
+-->
+<assembly>
+	<id>add</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+
+		<fileSet>
+			<directory>${project.basedir}/DecisionFlowPlugin/target</directory>
+			<outputDirectory>/DecisionFlowPlugin</outputDirectory>
+			<includes>
+				<include>*.zip</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+
+
+</assembly>

@@ -1,0 +1,13 @@
+hosts: []
+port: 22381
+serializer: { className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV3d0, config: { ioRegistries: [org.janusgraph.graphdb.tinkerpop.JanusGraphIoRegistry] }}
+protocol: gremlinserver
+jaasEntry: gremlinclient
+connectionPool: {
+  enableSsl: true,
+  sslSkipCertValidation: true,
+  maxContentLength: 65536000,
+  maxInProcessPerConnection: 8,
+  maxSize: 16,
+  resultIterationBatchSize: 960
+}
