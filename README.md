@@ -1,44 +1,41 @@
 # Huawei Cloud MRS example code
 
-The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, Presto, Spark, Storm. You can get started in minutes using **Maven**.
+The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, HetuEngine, Spark, Elasticsearch, ClickHouse etc. You can get started in minutes using **Maven**.
 
 ### Version Mapping:
 
-- Branch  mrs-2.0 is for MRS 2.0.X version
+MRS_3.2.0.1 Components mapping:
 
-- Branch mrs-1.9 is for MRS 1.9.X version
-
-- Branch mrs-1.8 is for MRS 1.8.X version
-
-  Components mapping:
-
-| Component\MRS version | MRS 1.8.X | MRS 1.9.X | MRS 2.0.X           |
-| --------------------- | --------- | --------- | ------------------- |
-| Zookeeper             | 3.5.1     | 3.5.1     | 3.5.1               |
-| Hadoop                | 2.8.3     | 2.8.3     | 3.1.1               |
-| HBase                 | 1.3.1     | 1.3.1     | 2.1.1               |
-| OpenTSDB              | 2.3.0     | 2.3.0     | NA                  |
-| Tez                   | NA        | 0.9.1     | 0.9.1               |
-| Hive                  | 1.3.0     | 2.3.3     | 3.1.0               |
-| Hive_Spark            | 1.2.1     | 1.2.1     | 1.2.1               |
-| Spark                 | 2.2.1     | 2.2.2     | 2.3.2               |
-| Carbon                | 1.6.1     | 1.6.1     | 1.5.1               |
-| Presto                | 0.215     | 0.216     | 308                 |
-| Kafka                 | 1.1.0     | 1.1.0     | 1.1.0               |
-| KafkaManager          | 1.3.3.18  | 1.3.3.1   | 1.3.3.18            |
-| Flink                 | 1.7.0     | 1.7.0     | NA(Plan to support) |
-| Storm                 | 1.2.1     | 1.2.1     | 1.2.1               |
-| Flume                 | 1.6.0     | 1.6.0     | 1.6.0               |
-| Hue                   | 3.11.0    | 3.11.0    | 3.11.0              |
-| Loader(Sqoop)         | 1.99.7    | 1.99.7    | 1.99.7              |
-
-
+| Component\MRS version | MRS 3.2.0.1 |
+| --------------------- | --------- |
+| Flink                 | 1.15.0    |
+| Hive                  | 3.1.0     |
+| Tez                   | 0.9.2     |
+| Spark                 | 3.1.1 |
+| CarbonData            | 2.2.0  |
+| Hudi                  | 0.11.0 |
+| Hadoop                | 3.3.1     |
+| HBase                 | 2.2.3     |
+| ZooKeeper             | 3.6.3  |
+| Hue                   | 4.7.0     |
+| Oozie                 | 5.1.0     |
+| Flume                 | 1.9.0     |
+| Kafka                 | 2.4.0     |
+| Ranger                | 2.0.0     |
+| Solr                  | 8.4.0     |
+| Phoenix               | 5.0.0     |
+| Elasticsearch         | 7.10.2    |
+| ClickHouse            | 22.3.2.2 |
+| IoTDB                 | 0.14.0    |
+| Redis                 | 6.0.12    |
+| HetuEngine            | 1.2.0 |
 
 ### Quick Links:
 
 - [Sample Course](https://education.huaweicloud.com:8443/courses/course-v1:HuaweiX+CBUCNXE006+Self-paced/about?isAuth=0&cfrom=hwc), can get the introductory tutorial of MRS.
 - [MRS Homepage](https://www.huaweicloud.com/en-us/product/mrs.html), or Chinese language site [MapReduce服务](https://www.huaweicloud.com/product/mrs.html)
 - [Deveployer Guide](https://support.huaweicloud.com/devg-mrs/mrs_06_0001.html)
+- [FusionInsight Forum](https://bbs.huaweicloud.com/forum/forum-1103-1.html)
 - [MRS Forum](https://bbs.huaweicloud.com/forum/forum-612-1.html)
 
 ## Getting Started
@@ -52,18 +49,21 @@ To run the examples required:
 - Java 1.8+
 - Maven 3.0+
 
-
-
 #### Specify the Maven Repository
 
-​	Set the repository in your local **setting.xml** of maven
+Add the following open source mirror repository address to **mirrors** in the **settings.xml** configuration file.
 
 ```
 <mirror>
     <id>repo2</id>
     <mirrorOf>central</mirrorOf>
-    <url>http://repo2.maven.org/maven2/</url>
+    <url>https://repo1.maven.org/maven2/</url>
 </mirror>
+```
+
+Add the following mirror repository address to **profiles** in the **settings.xml** configuration file.
+
+```
 <profile>
     <id>huaweicloudsdk</id>
     <repositories>
@@ -75,6 +75,26 @@ To run the examples required:
         </repository>
     </repositories>
 </profile>
+<profile>
+    <id>JDK1.8</id>
+    <activation>
+        <activeByDefault>true</activeByDefault>
+        <jdk>1.8</jdk>
+    </activation>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+    </properties>
+</profile>
+```
+
+Add the following mirror repository address to the **activeProfiles** node in the **settings.xml** file.
+
+```
 <activeProfile>huaweicloudsdk</activeProfile>
 ```
 
@@ -83,7 +103,7 @@ To run the examples required:
 Once you check out the code from GitHub, you can build it using maven for every child project, eg:
 
 ```
-cd huaweicloud-mrs-example\src\presto-examples
+cd src\hdfs-example-security
 mvn clean install
 ```
 

@@ -1,0 +1,32 @@
+<!--
+ Describes the plugin archive
+-->
+<assembly>
+	<id>update</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<fileSets>
+
+		<fileSet>
+			<directory>${project.basedir}/DecisionFlowPlugin/target</directory>
+			<outputDirectory>/DecisionFlowPlugin</outputDirectory>
+			<includes>
+				<include>*.zip</include>
+			</includes>
+		</fileSet>
+
+		<fileSet>
+			<directory>${project.basedir}/VarsExtensionPlugin/target</directory>
+			<outputDirectory>/VarsExtensionPlugin</outputDirectory>
+			<includes>
+				<include>*.zip</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+
+
+</assembly>

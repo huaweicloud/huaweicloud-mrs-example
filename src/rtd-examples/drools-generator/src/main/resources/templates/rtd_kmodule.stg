@@ -1,0 +1,8 @@
+droolsKModuleXml() ::= <<
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
+    <kbase name="rtdDecisionBase" default="true" eventProcessingMode="stream" packages="com.huawei.fi.rtd.drools.common">
+        <ksession default="true" type="stateless" name="rtdDecisionStateless"/>
+    </kbase>
+</kmodule>
+>>

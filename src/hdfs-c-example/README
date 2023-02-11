@@ -1,0 +1,16 @@
+[info]
+This example is used to test that the client using C API 
+connects to HDFS and put a string to a file.
+
+[pre condition]
+	1.export the env: source bigdata_env
+	2.login as hdfs: kinit hdfs
+	
+[compile]
+	make
+
+[run]
+	make run
+
+[debug]
+	make gdb
