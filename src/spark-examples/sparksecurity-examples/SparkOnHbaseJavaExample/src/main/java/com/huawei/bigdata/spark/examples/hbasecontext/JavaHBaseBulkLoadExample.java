@@ -19,9 +19,14 @@ package com.huawei.bigdata.spark.examples.hbasecontext;
 import com.huawei.hadoop.security.LoginUtil;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.RegionLocator;
+import org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles;
 import org.apache.hadoop.hbase.spark.FamilyHFileWriteOptions;
 import org.apache.hadoop.hbase.spark.JavaHBaseContext;
 import org.apache.hadoop.hbase.spark.KeyFamilyQualifier;
@@ -90,6 +95,14 @@ public final class JavaHBaseBulkLoadExample {
                     new HashMap<byte[], FamilyHFileWriteOptions>(),
                     false,
                     HConstants.DEFAULT_MAX_FILE_SIZE);
+
+
+            // 通过以下代码，实现将hfile数据加载到hbase表
+            Connection connection = ConnectionFactory.createConnection(conf);
+            RegionLocator locator = connection.getRegionLocator(TableName.valueOf(tableName));
+            LoadIncrementalHFiles loader = new LoadIncrementalHFiles(conf);
+            loader.doBulkLoad(new Path(outputPath),connection.getAdmin(),connection.getTable(TableName.valueOf(tableName)),locator);
+
         } finally {
             jsc.stop();
         }
