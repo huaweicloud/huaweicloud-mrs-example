@@ -16,6 +16,8 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,21 +31,20 @@ public class Util {
 
     private static final String JDBC_PREFIX = "jdbc:clickhouse://";
 
-    ArrayList<ArrayList<ArrayList<String>>> exeSql(ArrayList<String> sqlList) throws Exception {
-        ArrayList<ArrayList<ArrayList<String>>> multiSqlResults = new ArrayList<ArrayList<ArrayList<String>>>();
+    private static final String ERROR_CODE = "999";
+
+    List<List<List<String>>> exeSql(ArrayList<String> sqlList) throws Exception {
+        List<List<List<String>>> multiSqlResults = new ArrayList<>();
         for (String sql : sqlList) {
-            ArrayList<ArrayList<String>> singleSqlResult = exeSql(sql);
+            List<List<String>> singleSqlResult = exeSql(sql);
             multiSqlResults.add(singleSqlResult);
         }
         return multiSqlResults;
     }
 
-    ArrayList<ArrayList<String>> exeSql(String sql) throws Exception {
-        ArrayList<ArrayList<String>> resultArrayList = new ArrayList<ArrayList<String>>();
+    List<List<String>> exeSql(String sql) throws Exception {
+        List<List<String>> resultArrayList = new ArrayList<>();
         List<String> serverList = Demo.ckLbServerList;
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet;
         String user = Demo.user;
         String password = Demo.password;
         try {
@@ -60,38 +61,30 @@ public class Util {
             }
             for (int tries = 1; tries <= serverList.size(); tries++) {
                 try {
-                    log.info("Current load balancer is {}", serverList.get(tries - 1));
-                    ClickHouseDataSource clickHouseDataSource =
-                            new ClickHouseDataSource(JDBC_PREFIX + serverList.get(tries - 1), clickHouseProperties);
-                    connection = clickHouseDataSource.getConnection(user, password);
-                    statement = connection.createStatement();
-                    log.info("Execute query:{}", sql);
-                    long begin = System.currentTimeMillis();
-                    resultSet = statement.executeQuery(sql);
-                    long end = System.currentTimeMillis();
-                    log.info("Execute time is {} ms", end - begin);
-                    if (null != resultSet && null != resultSet.getMetaData()) {
-                        int columnCount = resultSet.getMetaData().getColumnCount();
-                        ArrayList<String> rowResultArray = new ArrayList<String>();
-                        for (int j = 1; j <= columnCount; j++) {
-                            rowResultArray.add(resultSet.getMetaData().getColumnName(j));
-                        }
-                        resultArrayList.add(rowResultArray);
-                        while (resultSet.next()) {
-                            rowResultArray = new ArrayList<String>();
-                            for (int j = 1; j <= columnCount; j++) {
-                                rowResultArray.add(resultSet.getString(j));
-                            }
-                            if (rowResultArray.size() != 0) {
-                                resultArrayList.add(rowResultArray);
-                            }
-                        }
-                    }
+                    resultArrayList = exeSqlNow(sql, serverList.get(tries - 1), clickHouseProperties, user, password);
                 } catch (Exception e) {
-                    log.warn(e.toString());
                     log.info("this is the {}s try.", tries);
-                    if (tries == serverList.size()) {
-                        throw e;
+                    // 对session过期等与zookeeper连接异常的场景，即返回错误码为999时，进行重试，如果成功则继续；如果失败，则再继续重连致1分钟。
+                    String[] errCode = e.toString().split("Code: ");
+                    String code = errCode[1].substring(0, errCode[1].indexOf("."));
+                    if (ERROR_CODE.equals(code)) {
+                        log.info("The error code is 999. Reconnection is required.");
+                        long begin = System.currentTimeMillis();
+                        long end = System.currentTimeMillis();
+                        while (end - begin < 60000) {
+                            try {
+                                resultArrayList = exeSqlNow(sql, serverList.get(tries - 1), clickHouseProperties, user, password);
+                                log.info("Retry succeeded.");
+                                break;
+                            } catch (Exception exception) {
+                                end = System.currentTimeMillis();
+                                log.info("Used Time is the {} ms.", end - begin);
+                            }
+                        }
+                    } else {
+                        if (tries == serverList.size()) {
+                            throw e;
+                        }
                     }
                     continue;
                 }
@@ -100,24 +93,46 @@ public class Util {
         } catch (Exception e) {
             log.error(e.toString());
             throw e;
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                log.error(e.getMessage());
-            }
         }
         return resultArrayList;
     }
 
+    List<List<String>> exeSqlNow(String sql, String server, ClickHouseProperties clickHouseProperties, String user, String password) throws Exception {
+        ClickHouseDataSource clickHouseDataSource = new ClickHouseDataSource(JDBC_PREFIX + server, clickHouseProperties);
+        List<List<String>> resArrayList = new ArrayList<>();
+        long begin = System.currentTimeMillis();
+        try (Connection connection = clickHouseDataSource.getConnection(user, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            log.info("Current load balancer is {}", server);
+            log.info("Execute query:{}", sql);
+            long end = System.currentTimeMillis();
+            log.info("Execute time is {} ms", end - begin);
+            if (null != resultSet && null != resultSet.getMetaData()) {
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                List<String> rowResultArray = new ArrayList<String>();
+                for (int j = 1; j <= columnCount; j++) {
+                    rowResultArray.add(resultSet.getMetaData().getColumnName(j));
+                }
+                resArrayList.add(rowResultArray);
+                while (resultSet.next()) {
+                    rowResultArray = new ArrayList<String>();
+                    for (int j = 1; j <= columnCount; j++) {
+                        rowResultArray.add(resultSet.getString(j));
+                    }
+                    if (rowResultArray.size() != 0) {
+                        resArrayList.add(rowResultArray);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new SQLException("Sql exec failed.");
+        }
+        return resArrayList;
+    }
+
     void insertData(String databaseName, String tableName, int batchNum, int batchRows) throws Exception {
         List<String> serverList = Demo.ckLbServerList;
-        Connection connection = null;
         String user = Demo.user;
         String password = Demo.password;
         try {
@@ -134,33 +149,31 @@ public class Util {
             }
             for (int tries = 1; tries <= serverList.size(); tries++) {
                 try {
-                    log.info("Current load balancer is {}", serverList.get(tries - 1));
-                    ClickHouseDataSource clickHouseDataSource =
-                            new ClickHouseDataSource(JDBC_PREFIX + serverList.get(tries - 1), clickHouseProperties);
-                    connection = clickHouseDataSource.getConnection(user, password);
-                    String insertSql = "insert into " + databaseName + "." + tableName + " values (?,?,?)";
-                    PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
-                    long allBatchBegin = System.currentTimeMillis();
-                    for (int j = 0; j < batchNum; j++) {
-                        for (int i = 0; i < batchRows; i++) {
-                            preparedStatement.setString(1, "huawei_" + (i + j * 10));
-                            preparedStatement.setInt(2, ((int) (Math.random() * 100)));
-                            preparedStatement.setDate(3, generateRandomDate("2020-01-01", "2021-12-31"));
-                            preparedStatement.addBatch();
-                        }
-                        long begin = System.currentTimeMillis();
-                        preparedStatement.executeBatch();
-                        long end = System.currentTimeMillis();
-                        log.info("Insert batch time is {} ms", end - begin);
-                        Thread.sleep(1500);
-                    }
-                    long allBatchEnd = System.currentTimeMillis();
-                    log.info("Inert all batch time is {} ms", allBatchEnd - allBatchBegin);
+                    runInsertData(serverList.get(tries - 1), clickHouseProperties, user, password, databaseName, tableName, batchNum, batchRows);
                 } catch (Exception e) {
                     log.warn(e.toString());
                     log.info("this is the {}s try.", tries);
-                    if (tries == serverList.size()) {
-                        throw e;
+                    // 对session过期等与zookeeper连接异常的场景，即返回错误码为999时，进行重试，如果成功则继续；如果失败，则再继续重连致1分钟。
+                    String[] errCode = e.toString().split("Code: ");
+                    String code = errCode[1].substring(0, errCode[1].indexOf("."));
+                    if (ERROR_CODE.equals(code)) {
+                        log.info("The error code is 999. Reconnection is required.");
+                        long begin = System.currentTimeMillis();
+                        long end = System.currentTimeMillis();
+                        while (end - begin < 60000) {
+                            try {
+                                runInsertData(serverList.get(tries - 1), clickHouseProperties, user, password, databaseName, tableName, batchNum, batchRows);
+                                log.info("Retry succeeded.");
+                                break;
+                            } catch (Exception exception) {
+                                end = System.currentTimeMillis();
+                                log.info("Used Time is the {} ms.", end - begin);
+                            }
+                        }
+                    } else {
+                        if (tries == serverList.size()) {
+                            throw e;
+                        }
                     }
                     continue;
                 }
@@ -169,14 +182,46 @@ public class Util {
         } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                log.error(e.getMessage());
+        }
+    }
+
+    private void runInsertData(String server, ClickHouseProperties clickHouseProperties, String user, String password, String databaseName, String tableName, int batchNum, int batchRows) throws Exception {
+        if (databaseName == null || tableName == null) {
+            log.error("Database or table is empty.");
+            return;
+        } else {
+            Pattern pt = Pattern.compile("^[0-9a-zA-Z_]+$");
+            Matcher databaseMatch = pt.matcher(databaseName);
+            Matcher tableMatch = pt.matcher(tableName);
+            if(!databaseMatch.matches() || !tableMatch.matches()) {
+                log.error("Database or table input format is incorrect.");
+                return;
             }
+        }
+        ClickHouseDataSource clickHouseDataSource = new ClickHouseDataSource(JDBC_PREFIX + server, clickHouseProperties);
+        String insertSql = "insert into " + databaseName + "." + tableName + " values (?,?,?)";
+        try (Connection connection = clickHouseDataSource.getConnection(user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            log.info("Current load balancer is {}", server);
+            long allBatchBegin = System.currentTimeMillis();
+            for (int j = 0; j < batchNum; j++) {
+                for (int i = 0; i < batchRows; i++) {
+                    preparedStatement.setString(1, "huawei_" + (i + j * 10));
+                    preparedStatement.setInt(2, ((int) (Math.random() * 100)));
+                    preparedStatement.setDate(3, generateRandomDate("2020-01-01", "2021-12-31"));
+                    preparedStatement.addBatch();
+                }
+                long begin = System.currentTimeMillis();
+                preparedStatement.executeBatch();
+                long end = System.currentTimeMillis();
+                log.info("Insert batch time is {} ms", end - begin);
+                Thread.sleep(1500);
+            }
+            long allBatchEnd = System.currentTimeMillis();
+            log.info("Inert all batch time is {} ms", allBatchEnd - allBatchBegin);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new SQLException("Insert exec failed.");
         }
     }
 

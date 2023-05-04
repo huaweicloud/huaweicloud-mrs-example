@@ -4,7 +4,6 @@
 
 package com.huawei.bigdata.iotdb;
 
-import org.apache.iotdb.flink.IoTDBSource;
 import org.apache.iotdb.flink.options.IoTDBSourceOptions;
 import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
@@ -32,7 +31,7 @@ public class FlinkIoTDBSource {
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  static final String IOTDB_SSL_ENABLE = "true";
+  public static final String IOTDB_SSL_ENABLE = "true";
   static final String LOCAL_HOST = "127.0.0.1";
   static final int LOCAL_PORT = 22260;
   static final String USER_NAME = "IoTDB登录用户名";
@@ -52,8 +51,9 @@ public class FlinkIoTDBSource {
         new IoTDBSourceOptions(
             LOCAL_HOST, LOCAL_PORT, USER_NAME, USER_PW, "select s1 from " + ROOT_SG1_D1 + " align by device");
 
-    IoTDBSource<RowRecord> source =
-        new IoTDBSource<RowRecord>(ioTDBSourceOptions) {
+
+    IoTDBSourceSSL<RowRecord> source =
+        new IoTDBSourceSSL<RowRecord>(ioTDBSourceOptions) {
           @Override
           public RowRecord convert(RowRecord rowRecord) {
             return rowRecord;
@@ -68,7 +68,7 @@ public class FlinkIoTDBSource {
     // set iotdb_ssl_enable
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
-      // set truststore.jks path
+      // set truststore.jks path, this file need to copy to FlinkResource Node
       System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
     }
 
@@ -97,7 +97,7 @@ public class FlinkIoTDBSource {
         }
       }
     } catch (StatementExecutionException e) {
-      if (e.getStatusCode() != TSStatusCode.PATH_ALREADY_EXIST_ERROR.getStatusCode()) {
+      if (e.getStatusCode() != TSStatusCode.PATH_ALREADY_EXIST.getStatusCode()) {
         throw e;
       }
     }

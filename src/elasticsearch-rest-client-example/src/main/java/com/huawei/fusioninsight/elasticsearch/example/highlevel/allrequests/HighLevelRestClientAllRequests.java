@@ -13,6 +13,7 @@ import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.Search;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.searchscroll.SearchScroll;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.update.Update;
 import com.huawei.fusioninsight.elasticsearch.example.util.HwRestClientUtils;
+import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexSorting;
 
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -108,6 +109,7 @@ public class HighLevelRestClientAllRequests {
             bulk(highLevelClient, indexName, "1");
             getIndex(highLevelClient, indexName, "1");
             Search.search(highLevelClient, indexName);
+            IndexSorting.doIndexSorting(highLevelClient);
             String scrollId = SearchScroll.searchScroll(highLevelClient, indexName);
             SearchScroll.clearScroll(highLevelClient, scrollId);
             DeleteIndex.deleteIndex(highLevelClient, indexName);

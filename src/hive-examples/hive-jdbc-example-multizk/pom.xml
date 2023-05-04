@@ -4,40 +4,190 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.huawei.mrs</groupId>
-    <artifactId>hive-jdbc-example-multizk</artifactId>
-    <version>8.2.0-320.r33</version>
+  <groupId>com.huawei.mrs</groupId>
+  <artifactId>hive-jdbc-example-multizk</artifactId>
+  <version>8.2.1-321.r13</version>
 
   <properties>
-     <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-     <hive.version>3.1.0-h0.cbu.mrs.320.r33</hive.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
+    <hive.version>3.1.0-h0.cbu.mrs.321.r13</hive.version>
+    <log4j2.version>2.17.1</log4j2.version>
+    <commons-lang3.version>3.9</commons-lang3.version>
+    <commons-lang.version>2.6</commons-lang.version>
+    <curator.version>5.1.0</curator.version>
+    <woodstox-core.version>5.4.0</woodstox-core.version>
+    <hadoop-shaded-guava.version>1.1.1</hadoop-shaded-guava.version>
+    <commons-collections.version>3.2.2</commons-collections.version>
+    <libthrift.version>0.14.1</libthrift.version>
+    <commons-configuration2.version>2.1.1</commons-configuration2.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-auth</artifactId>
-      <version>${hadoop.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-jdbc</artifactId>
       <version>${hive.version}</version>
-    </dependency>
-	<dependency>
-      <groupId>org.apache.hive</groupId>
-      <artifactId>hive-common</artifactId>
-      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hive</groupId>
-      <artifactId>hive-shims</artifactId>
+      <artifactId>hive-service-rpc</artifactId>
       <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-service</artifactId>
+      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-common</artifactId>
+      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-core</artifactId>
+      <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive.shims</groupId>
+      <artifactId>hive-shims-common</artifactId>
+      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-standalone-metastore</artifactId>
+      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-serde</artifactId>
+      <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
       <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+   </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-auth</artifactId>
+      <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+       <artifactId>log4j-slf4j-impl</artifactId>
+      <version>${log4j2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-framework</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.woodstox</groupId>
+      <artifactId>woodstox-core</artifactId>
+      <version>${woodstox-core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop.thirdparty</groupId>
+      <artifactId>hadoop-shaded-guava</artifactId>
+      <version>${hadoop-shaded-guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>${commons-collections.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>${libthrift.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-configuration2</artifactId>
+      <version>${commons-configuration2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons-lang3.version}</version>
     </dependency>
   </dependencies>
   <build>

@@ -22,14 +22,14 @@ public class JDBCExampleBroker {
     private static void init() throws ClassNotFoundException {
         properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
         properties.setProperty("password", "YourPassword"); // need to change the value based on the cluster information
-        Class.forName("io.prestosql.jdbc.PrestoDriver");
+        Class.forName("io.trino.jdbc.TrinoDriver");
     }
 
     public static void main(String[] args) {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement statement = null;
-        String url = "jdbc:presto://192.168.1.130:29860,192.168.1.131:29860,192.168.1.132:29860/hive/default?serviceDiscoveryMode=hsbroker"; // need to change the value based on the cluster information
+        String url = "jdbc:trino://192.168.1.130:29860,192.168.1.131:29860,192.168.1.132:29860/hive/default?serviceDiscoveryMode=hsbroker"; // need to change the value based on the cluster information
         try {
             init();
             String sql = "show tables";

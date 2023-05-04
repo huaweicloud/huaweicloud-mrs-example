@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-flink-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
     <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <iotdb.version>0.14.0-h0.cbu.mrs.320.r33</iotdb.version>
-    <flink.version>1.15.0-h0.cbu.mrs.320.r33</flink.version>
+    <iotdb.version>0.14.0-h0.cbu.mrs.321.r13</iotdb.version>
+    <flink.version>1.15.0-h0.cbu.mrs.321.r13</flink.version>
     </properties>
     <dependencies>
         <dependency>
@@ -48,6 +48,16 @@
                     <artifactId>flink-streaming-java_2.11</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.airlift</groupId>
+            <artifactId>slice</artifactId>
+            <version>0.41</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.2</version>
         </dependency>
 
         <dependency>

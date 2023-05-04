@@ -4,6 +4,12 @@
 
 package com.huawei.bigdata.iotdb;
 
+import static com.huawei.bigdata.iotdb.FlinkIoTDBSource.IOTDB_SSL_ENABLE;
+
+import com.google.common.collect.Lists;
+
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.iotdb.flink.DefaultIoTSerializationSchema;
 import org.apache.iotdb.flink.IoTDBSink;
 import org.apache.iotdb.flink.IoTSerializationSchema;
@@ -11,10 +17,6 @@ import org.apache.iotdb.flink.options.IoTDBSinkOptions;
 import org.apache.iotdb.tsfile.file.metadata.enums.CompressionType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSDataType;
 import org.apache.iotdb.tsfile.file.metadata.enums.TSEncoding;
-
-import com.google.common.collect.Lists;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -30,6 +32,12 @@ public class FlinkIoTDBSink {
   public static void main(String[] args) throws Exception {
     // run the flink job on local mini cluster
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    // set iotdb_ssl_enable
+    System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
+    if ("true".equals(IOTDB_SSL_ENABLE)) {
+      // set truststore.jks path
+      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+    }
 
     IoTDBSinkOptions options = new IoTDBSinkOptions();
     options.setHost("127.0.0.1");
@@ -46,7 +54,7 @@ public class FlinkIoTDBSink {
 
     IoTSerializationSchema serializationSchema = new DefaultIoTSerializationSchema();
     IoTDBSink ioTDBSink =
-        new IoTDBSink(options, serializationSchema)
+        new IoTDBSinkSSL(options, serializationSchema)
             // enable batching
             .withBatchSize(10)
             // how many connectons to the server will be created for each parallelism

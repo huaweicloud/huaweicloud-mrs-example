@@ -2,12 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.dap.alb</groupId>
     <artifactId>alb-plugins</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.2.1-321.r13</version>
     <packaging>war</packaging>
 
     <properties>
-        <tomcat.version>8.5.81</tomcat.version>
-        <farmer_version>8.2.0-320.r11</farmer_version>
+        <farmer_version>8.2.1-321.r13</farmer_version>
     </properties>
 
     <dependencies>

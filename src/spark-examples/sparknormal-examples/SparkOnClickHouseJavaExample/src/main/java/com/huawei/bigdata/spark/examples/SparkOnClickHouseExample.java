@@ -35,9 +35,11 @@ public class SparkOnClickHouseExample {
         String jdbcUrl = args[0];
         String ckDBName = args[1];
         String ckTableName = args[2];
+        String user = args[3];
 
         Properties props = new Properties();
         props.put("driver", DRIVER);
+        props.put("user", user);
 
         ClickHouseDriver ckDriver = new ClickHouseDriver();
         ClickHouseConnection ckConnect = ckDriver.connect(jdbcUrl, props);
@@ -57,6 +59,7 @@ public class SparkOnClickHouseExample {
         Dataset ckData = spark.read()
                 .format("jdbc")
                 .option("url", jdbcUrl)
+                .option("user", user)
                 .option("driver", DRIVER)
                 .option("dbtable", ckDBName+"."+ckTableName)
                 .load();

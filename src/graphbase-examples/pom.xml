@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>graphbase-examples</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
     <packaging>pom</packaging>
     <properties>
         <slf4j.version>1.7.36</slf4j.version>
@@ -15,8 +15,8 @@
         <gremlin.version>3.4.3</gremlin.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <groovy.version>2.5.7</groovy.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <janusgraph.version>0.2.0-h0.cbu.mrs.320.r33</janusgraph.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
+        <janusgraph.version>0.2.0-h0.cbu.mrs.321.r13</janusgraph.version>
     </properties>
     <modules>
         <module>graphbase-core-example</module>

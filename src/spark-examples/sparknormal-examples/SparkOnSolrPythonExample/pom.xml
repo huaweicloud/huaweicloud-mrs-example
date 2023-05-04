@@ -9,11 +9,11 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.321.r13</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <solr.version>8.4.0-h0.cbu.mrs.320.r33</solr.version>
-        <mrs.version>8.2.0-320.r33</mrs.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
+        <solr.version>8.11.2-h0.cbu.mrs.321.r13</solr.version>
+        <mrs.version>8.2.1-321.r13</mrs.version>
     </properties>
 
     <dependencies>

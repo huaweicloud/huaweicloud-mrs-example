@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs.rtd</groupId>
     <artifactId>drools-generator</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.2.1-321.r13</version>
 
     <dependencies>
         <dependency>

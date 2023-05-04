@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs.rtd</groupId>
     <artifactId>plugins-demo-pkg</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.2.1-321.r13</version>
     <packaging>pom</packaging>
     <name>RTD Plugins Demo Package</name>
 

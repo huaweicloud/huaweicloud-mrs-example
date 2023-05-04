@@ -149,9 +149,9 @@ public class Demo {
         ArrayList<String> sqlList = new ArrayList<String>();
         sqlList.add(querySql1);
         sqlList.add(querySql2);
-        ArrayList<ArrayList<ArrayList<String>>> result = util.exeSql(sqlList);
-        for (ArrayList<ArrayList<String>> singleResult : result) {
-            for (ArrayList<String> strings : singleResult) {
+        List<List<List<String>>> result = util.exeSql(sqlList);
+        for (List<List<String>> singleResult : result) {
+            for (List<String> strings : singleResult) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String string : strings) {
                     stringBuilder.append(string).append("\t");

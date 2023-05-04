@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs.rtd</groupId>
     <artifactId>rtdexecutor-plugins</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.2.1-321.r13</version>
     <packaging>pom</packaging>
     <name>RTDExecutor Plugins Parent</name>
 
@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <pf4j.version>3.5.0</pf4j.version>
-        <rtd.executor.core.version>3.2.0-h0.cbu.mrs.320.r11</rtd.executor.core.version>
+        <rtd.executor.core.version>3.2.0-h0.cbu.mrs.321.r13</rtd.executor.core.version>
     </properties>
 
     <build>

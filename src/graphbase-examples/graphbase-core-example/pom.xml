@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>graphbase-examples</artifactId>
-        <version>8.2.0-320.r33</version>
+        <version>8.2.1-321.r13</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>graphbase-core-example</artifactId>
@@ -78,4 +78,7 @@
             <version>1.2.2</version>
         </dependency>
     </dependencies>
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+    </build>
 </project>

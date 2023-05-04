@@ -4,16 +4,16 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>MRTest</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
     <packaging>jar</packaging>
     <name>mapreduce-test</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <hadoop.ext.version>8.2.0-320.r33</hadoop.ext.version>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r33</hbase.version>
-        <hive.version>3.1.0-h0.cbu.mrs.320.r33</hive.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
+        <hadoop.ext.version>8.2.1-321.r13</hadoop.ext.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.321.r13</hbase.version>
+        <hive.version>3.1.0-h0.cbu.mrs.321.r13</hive.version>
     </properties>
 
     <dependencies>

@@ -36,8 +36,8 @@ import org.apache.hadoop.hbase.hindex.protobuf.generated.HIndexProtos.ColumnQual
 import org.apache.hadoop.hbase.io.compress.Compression;
 import org.apache.hadoop.hbase.io.encoding.DataBlockEncoding;
 import org.apache.hadoop.hbase.security.access.AccessControlClient;
-import org.apache.hadoop.hbase.security.access.AccessControlLists;
 import org.apache.hadoop.hbase.security.access.Permission;
+import org.apache.hadoop.hbase.security.access.PermissionStorage;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -881,7 +881,7 @@ public class HBaseSample {
         Admin hAdmin = null;
         try {
             // Create ACL Instance
-            mt = conn.getTable(AccessControlLists.ACL_TABLE_NAME);
+            mt = conn.getTable(PermissionStorage.ACL_TABLE_NAME);
 
             Permission perm = new Permission(Bytes.toBytes(permissions));
 

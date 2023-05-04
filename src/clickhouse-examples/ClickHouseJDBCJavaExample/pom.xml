@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>clickhouse-examples</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.11.2</log4j2.version>
@@ -14,12 +14,12 @@
         <dependency>
             <groupId>ru.yandex.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.3.1-h0.cbu.mrs.320.r33</version>
+            <version>0.3.1-h0.cbu.mrs.321.r13</version>
         </dependency>
         <dependency>
             <groupId>com.github.housepower</groupId>
             <artifactId>clickhouse-native-jdbc</artifactId>
-            <version>2.6.4-h0.cbu.mrs.320.r33</version>
+            <version>2.6.4-h0.cbu.mrs.321.r13</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -52,6 +52,46 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <id>uber-jar</id>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.huawei.clickhouse.examples.Demo</mainClass>
+                                </transformer>
+                                <transformer implementation="com.github.edwgiz.mavenShadePlugin.log4j2CacheTransformer.PluginsCacheFileTransformer" />
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.edwgiz</groupId>
+                        <artifactId>maven-shade-plugin.log4j2-cachefile-transformer</artifactId>
+                        <version>2.6.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

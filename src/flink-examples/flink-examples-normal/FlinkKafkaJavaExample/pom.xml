@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.2.0-320.r33</version>
+        <version>8.2.1-321.r13</version>
     </parent>
     <artifactId>FlinkKafkaJavaExample</artifactId>
 
@@ -63,6 +63,17 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka</artifactId>
             <version>${flink.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>kafka-clients</artifactId>
+                    <groupId>org.apache.kafka</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
         </dependency>
     </dependencies>
 

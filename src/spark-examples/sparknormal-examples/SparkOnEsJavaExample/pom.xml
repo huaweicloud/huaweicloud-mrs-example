@@ -9,10 +9,10 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <es.version>7.10.2-h0.cbu.mrs.320.r33</es.version>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <es.version>7.10.2-h0.cbu.mrs.321.r13</es.version>
+        <spark.version>3.3.1-h0.cbu.mrs.321.r13</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
     </properties>
 
     <dependencies>

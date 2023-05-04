@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
     <properties>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r33</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <phoenix-core.version>5.0.0-HBase-2.0-h0.cbu.mrs.320.r33</phoenix-core.version>
-        <dualclient.version>8.2.0-320.r33</dualclient.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.321.r13</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.version>
+        <phoenix-core.version>5.1.2-h0.cbu.mrs.321.r13</phoenix-core.version>
+        <dualclient.version>8.2.1-321.r13</dualclient.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,6 +54,11 @@
         <dependency>
             <groupId>org.apache.phoenix</groupId>
             <artifactId>phoenix-core</artifactId>
+            <version>${phoenix-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-hbase-compat-2.4.1</artifactId>
             <version>${phoenix-core.version}</version>
         </dependency>
         <dependency>

@@ -49,7 +49,7 @@ public class JDBCExampleZk {
         properties.setProperty("ZooKeeperAuthType", "kerberos");
         properties.setProperty("ZooKeeperSaslClientConfig", "Client");
         properties.setProperty("ZooKeeperServerPrincipal", "zookeeper/hadoop.YourDomainName"); // need to change the value based on the cluster information
-        Class.forName("io.prestosql.jdbc.PrestoDriver");
+        Class.forName("io.trino.jdbc.TrinoDriver");
     }
 
     /**
@@ -61,7 +61,7 @@ public class JDBCExampleZk {
         Connection connection = null;
         ResultSet result = null;
         PreparedStatement statement = null;
-        String url = "jdbc:presto://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
+        String url = "jdbc:trino://192.168.1.130:24002,192.168.1.131:24002,192.168.1.132:24002/hive/default?"
                 + "serviceDiscoveryMode=zooKeeper&zooKeeperNamespace=hsbroker"; // need to change the value based on the cluster information
 
         try {

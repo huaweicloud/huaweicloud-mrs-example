@@ -6,19 +6,19 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>elasticsearch-transport-client-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.1-321.r13</version>
 
     <properties>
         <libthrift.version>0.14.1-hw-ei-311001</libthrift.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <elasticsearch.version>7.10.2-h0.cbu.mrs.320.r33</elasticsearch.version>
-        <hadoop.core.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.core.version>
-        <mrs.version>8.2.0-320.r33</mrs.version>
+        <elasticsearch.version>7.10.2-h0.cbu.mrs.321.r13</elasticsearch.version>
+        <hadoop.core.version>3.3.1-h0.cbu.mrs.321.r13</hadoop.core.version>
+        <mrs.version>8.2.1-321.r13</mrs.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <netty.version>4.1.71.Final</netty.version>
+        <netty.version>4.1.78.Final</netty.version>
         <log4j2.version>2.17.2</log4j2.version>
-        <lucene.version>8.7.0</lucene.version>
+        <lucene.version>8.7.0-hw-ei-css-v0.0.3</lucene.version>
     </properties>
 
     <dependencies>
@@ -369,7 +369,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.2.2</version>
+            <version>2.14.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
