@@ -1,0 +1,450 @@
+
+import org.apache.hudi.QuickstartUtils._
+import scala.collection.JavaConversions._
+import org.apache.spark.sql.SaveMode._
+import org.apache.hudi.DataSourceReadOptions._
+import org.apache.hudi.DataSourceWriteOptions._
+import org.apache.hudi.config.HoodieWriteConfig._
+import org.apache.hudi.keygen.SimpleKeyGenerator
+import org.apache.spark.sql.functions
+import org.apache.spark.sql.functions.{col, lit, udf}
+
+sql("create database if not exists tpcds_hudi_cow_1000")
+
+//（1）call_center
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.call_center")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "cc_call_center_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "cc_call_center_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "call_center").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "call_center").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/call_center")
+//（2）catalog_page
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.catalog_page")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "cp_catalog_page_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "cp_catalog_page_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "catalog_page").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "catalog_page").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/catalog_page")
+//（3）customer
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.customer")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "c_customer_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "c_customer_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "customer").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "customer").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "7").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/customer")
+//（4）customer_address
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.customer_address")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "ca_address_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "ca_address_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "customer_address").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "customer_address").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "3").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/customer_address")
+//（5）customer_demographics
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.customer_demographics")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "cd_demo_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "cd_demo_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "customer_demographics").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "customer_demographics").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/customer_demographics")
+//（6）date_dim
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.date_dim")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "d_date_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "d_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "date_dim").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "date_dim").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/date_dim")
+//（7）household_demographics
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.household_demographics")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "hd_demo_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "hd_demo_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "household_demographics").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "household_demographics").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/household_demographics")
+//（8）income_band
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.income_band")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "ib_income_band_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "ib_income_band_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "income_band").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "income_band").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/income_band")
+//（9）item
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.item")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "i_item_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "i_item_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "item").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "item").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/item")
+//（10）promotion
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.promotion")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "p_promo_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "p_promo_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "promotion").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "promotion").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/promotion")
+//（11）reason
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.reason")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "r_reason_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "r_reason_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "reason").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "reason").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/reason")
+//（12）ship_mode
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.ship_mode")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "sm_ship_mode_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "sm_ship_mode_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "ship_mode").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "ship_mode").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/ship_mode")
+//（13）store
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.store")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "s_store_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "s_store_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "store").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "store").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/store")
+//（14）time_dim
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.time_dim")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "t_time_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "t_time_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "time_dim").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "time_dim").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/time_dim")
+//（15）warehouse
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.warehouse")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "w_warehouse_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "w_warehouse_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "warehouse").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "warehouse").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/warehouse")
+//（16）web_page
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.web_page")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "wp_web_page_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "wp_web_page_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "web_page").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "web_page").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/web_page")
+//（17）web_site
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.web_site")
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "web_site_sk").
+option(PRECOMBINE_FIELD_OPT_KEY, "web_site_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "web_site").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "web_site").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(PARTITIONPATH_FIELD_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "1").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/web_site")
+//（18）inventory
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.inventory").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "inventory").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "inventory").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.NonPartitionedExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "").
+option(KEYGENERATOR_CLASS_OPT_KEY, "org.apache.hudi.keygen.NonpartitionedKeyGenerator").
+option("hoodie.bulkinsert.shuffle.parallelism", "68").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/inventory")
+
+//分区表：注意，除catalog_returns外，其余5个表的分区键均存在null，需要作个判断，当为空时写0，否则会导致写入转换Ing类型失败
+//（1）catalog_sales
+val base_data = spark.sql("select cs_sold_time_sk, cs_ship_date_sk, cs_bill_customer_sk, cs_bill_cdemo_sk, cs_bill_hdemo_sk, cs_bill_addr_sk, cs_ship_customer_sk, cs_ship_cdemo_sk, cs_ship_hdemo_sk, cs_ship_addr_sk, cs_call_center_sk, cs_catalog_page_sk, cs_ship_mode_sk, cs_warehouse_sk, cs_item_sk, cs_promo_sk, cs_order_number, cs_quantity, cs_wholesale_cost, cs_list_price, cs_sales_price, cs_ext_discount_amt, cs_ext_sales_price, cs_ext_wholesale_cost, cs_ext_list_price, cs_ext_tax, cs_coupon_amt, cs_ext_ship_cost, cs_net_paid, cs_net_paid_inc_tax, cs_net_paid_inc_ship, cs_net_paid_inc_ship_tax, cs_net_profit, if (cs_sold_date_sk is null,0,cs_sold_date_sk) as cs_sold_date_sk from tpcds_hive_spark2x_1000.catalog_sales").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "cs_sold_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "catalog_sales").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "catalog_sales").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "cs_sold_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "1000").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/catalog_sales")
+//（2）catalog_returns
+val base_data = spark.sql("select * from tpcds_hive_spark2x_1000.catalog_returns").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "cr_returned_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "catalog_returns").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "catalog_returns").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "cr_returned_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "120").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/catalog_returns")
+//（3）store_sales
+val base_data = spark.sql("select ss_sold_time_sk, ss_item_sk, ss_customer_sk, ss_cdemo_sk, ss_hdemo_sk, ss_addr_sk, ss_store_sk, ss_promo_sk, ss_ticket_number, ss_quantity, ss_wholesale_cost, ss_list_price, ss_sales_price, ss_ext_discount_amt, ss_ext_sales_price, ss_ext_wholesale_cost, ss_ext_list_price, ss_ext_tax, ss_coupon_amt, ss_net_paid, ss_net_paid_inc_tax, ss_net_profit, if (ss_sold_date_sk is null,0,ss_sold_date_sk) as ss_sold_date_sk from tpcds_hive_spark2x_1000.store_sales").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "ss_sold_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "store_sales").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "store_sales").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "ss_sold_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "1600").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/store_sales")
+//（4）store_returns
+val base_data = spark.sql("select sr_return_time_sk,sr_item_sk,sr_customer_sk,sr_cdemo_sk,sr_hdemo_sk,sr_addr_sk,sr_store_sk,sr_reason_sk,sr_ticket_number,sr_return_quantity,sr_return_amt,sr_return_tax,sr_return_amt_inc_tax,sr_fee,sr_return_ship_cost,sr_refunded_cash,sr_reversed_charge,sr_store_credit,sr_net_loss,if (sr_returned_date_sk is null,0,sr_returned_date_sk) as sr_returned_date_sk from tpcds_hive_spark2x_1000.store_returns").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "sr_returned_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "store_returns").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "store_returns").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "sr_returned_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "180").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/store_returns")
+//（5）web_sales
+val base_data = spark.sql("select ws_sold_time_sk, ws_ship_date_sk, ws_item_sk, ws_bill_customer_sk, ws_bill_cdemo_sk, ws_bill_hdemo_sk, ws_bill_addr_sk, ws_ship_customer_sk, ws_ship_cdemo_sk, ws_ship_hdemo_sk, ws_ship_addr_sk, ws_web_page_sk, ws_web_site_sk, ws_ship_mode_sk, ws_warehouse_sk, ws_promo_sk, ws_order_number, ws_quantity, ws_wholesale_cost, ws_list_price, ws_sales_price, ws_ext_discount_amt, ws_ext_sales_price, ws_ext_wholesale_cost, ws_ext_list_price, ws_ext_tax, ws_coupon_amt, ws_ext_ship_cost, ws_net_paid, ws_net_paid_inc_tax, ws_net_paid_inc_ship, ws_net_paid_inc_ship_tax, ws_net_profit, if(ws_sold_date_sk is null,0,ws_sold_date_sk)as ws_sold_date_sk from tpcds_hive_spark2x_1000.web_sales").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "ws_sold_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "web_sales").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "web_sales").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "ws_sold_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "600").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/web_sales")
+//（6）web_returns
+val base_data = spark.sql("select wr_returned_time_sk,wr_item_sk,wr_refunded_customer_sk,wr_refunded_cdemo_sk,wr_refunded_hdemo_sk,wr_refunded_addr_sk,wr_returning_customer_sk,wr_returning_cdemo_sk,wr_returning_hdemo_sk,wr_returning_addr_sk,wr_web_page_sk,wr_reason_sk,wr_order_number,wr_return_quantity,wr_return_amt,wr_return_tax,wr_return_amt_inc_tax,wr_fee,wr_return_ship_cost,wr_refunded_cash,wr_reversed_charge,wr_account_credit,wr_net_loss,if(wr_returned_date_sk is null,0,wr_returned_date_sk)as wr_returned_date_sk from tpcds_hive_spark2x_1000.web_returns").withColumn("id",functions.monotonically_increasing_id())
+base_data.write.format("org.apache.hudi").
+option(OPERATION_OPT_KEY, "bulk_insert").
+option(RECORDKEY_FIELD_OPT_KEY, "id").
+option(PRECOMBINE_FIELD_OPT_KEY, "id").
+option(PARTITIONPATH_FIELD_OPT_KEY, "wr_returned_date_sk").
+option(HIVE_DATABASE_OPT_KEY, "tpcds_hudi_cow_1000").
+option(HIVE_TABLE_OPT_KEY, "web_returns").
+option(HIVE_SYNC_ENABLED_OPT_KEY, "true").
+option(HIVE_USE_JDBC_OPT_KEY, "false").
+option(TABLE_NAME, "web_returns").
+option(HIVE_PARTITION_EXTRACTOR_CLASS_OPT_KEY, "org.apache.hudi.hive.MultiPartKeysValueExtractor").
+option(HIVE_PARTITION_FIELDS_OPT_KEY, "wr_returned_date_sk").
+option("hoodie.bulkinsert.shuffle.parallelism", "60").
+mode(Overwrite).
+save("/tmp/tpcds_hudi_cow_1000/web_returns")
+
+
+//检查Hudi表的总记录数，是否与hive表一致
+sql("select count(*) from tpcds_hudi_cow_1000.call_center").show
+sql("select count(*) from tpcds_hudi_cow_1000.catalog_page").show
+sql("select count(*) from tpcds_hudi_cow_1000.catalog_returns").show
+sql("select count(*) from tpcds_hudi_cow_1000.catalog_sales").show
+sql("select count(*) from tpcds_hudi_cow_1000.customer").show
+sql("select count(*) from tpcds_hudi_cow_1000.customer_address").show
+sql("select count(*) from tpcds_hudi_cow_1000.customer_demographics").show
+sql("select count(*) from tpcds_hudi_cow_1000.date_dim").show
+sql("select count(*) from tpcds_hudi_cow_1000.household_demographics").show
+sql("select count(*) from tpcds_hudi_cow_1000.income_band").show
+sql("select count(*) from tpcds_hudi_cow_1000.inventory").show
+sql("select count(*) from tpcds_hudi_cow_1000.item").show
+sql("select count(*) from tpcds_hudi_cow_1000.promotion").show
+sql("select count(*) from tpcds_hudi_cow_1000.reason").show
+sql("select count(*) from tpcds_hudi_cow_1000.ship_mode").show
+sql("select count(*) from tpcds_hudi_cow_1000.store").show
+sql("select count(*) from tpcds_hudi_cow_1000.store_returns").show
+sql("select count(*) from tpcds_hudi_cow_1000.store_sales").show
+sql("select count(*) from tpcds_hudi_cow_1000.time_dim").show
+sql("select count(*) from tpcds_hudi_cow_1000.warehouse").show
+sql("select count(*) from tpcds_hudi_cow_1000.web_page").show
+sql("select count(*) from tpcds_hudi_cow_1000.web_returns").show
+sql("select count(*) from tpcds_hudi_cow_1000.web_sales").show
+sql("select count(*) from tpcds_hudi_cow_1000.web_site").show
