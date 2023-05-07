@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.huawei.mrs</groupId>
+    <artifactId>flink-examples-normal</artifactId>
+    <version>8.2.1-321.r7</version>
+    <packaging>pom</packaging>
+    <properties>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scala.version>2.12.7</scala.version>
+        <flink.version>1.15.0-h0.cbu.mrs.321.r7</flink.version>
+        <jedisclient.version>8.2.1-321.r7</jedisclient.version>
+        <wcc_krb5.version>8.1.2-312080</wcc_krb5.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.321.r7</hbase.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <curator.version>4.0.0</curator.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.321.r7</hadoop.version>
+        <flink.shaded.version>15.0-h0.cbu.mrs.321.r7</flink.shaded.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <flink.connector.netty.version>1.15.0-h0.cbu.mrs.321.r7</flink.connector.netty.version>
+        <hudi.version>0.11.0-h0.cbu.mrs.321.r7</hudi.version>
+        <kafka.version>2.8.1-h0.cbu.mrs.321.r7</kafka.version>
+    </properties>
+    <modules>
+        <module>FlinkCheckpointJavaExample</module>
+        <module>FlinkCheckpointScalaExample</module>
+        <module>FlinkConfigtableJavaExample</module>
+        <module>FlinkConfigtableScalaExample</module>
+        <module>FlinkHBaseJavaExample</module>
+        <module>FlinkKafkaJavaExample</module>
+        <module>FlinkKafkaScalaExample</module>
+        <module>FlinkPipelineJavaExample</module>
+        <module>FlinkPipelineScalaExample</module>
+        <module>FlinkRESTAPIJavaExample</module>
+        <module>FlinkSqlJavaExample</module>
+        <module>FlinkStreamJavaExample</module>
+        <module>FlinkStreamScalaExample</module>
+        <module>FlinkStreamSqlJoinExample</module>
+        <module>FlinkHudiJavaExample</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>scala-2.12</id>
+            <properties>
+                <scala.version>2.12.7</scala.version>
+                <scala.binary.version>2.12</scala.binary.version>
+            </properties>
+            <activation>
+                <property>
+                    <name>!old-and-unsupported-scala-version</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- make sure we don't have any _2.10 or _2.11 dependencies when building
+                    for Scala 2.12 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-versions</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <bannedDependencies>
+                                            <excludes combine.children="append">
+                                                <exclude>*:*_2.11</exclude>
+                                                <exclude>*:*_2.10</exclude>
+                                            </excludes>
+                                            <message>Scala 2.10/2.11 dependencies are not allowed for Scala 2.12 builds. This can be caused by hard-coded scala versions, where the 'scala.binary.version' property should be used instead.</message>
+                                        </bannedDependencies>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

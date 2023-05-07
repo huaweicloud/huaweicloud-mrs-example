@@ -1,0 +1,23 @@
+
+- mapping:
+    from:
+        url: /Service/QueryInfo
+    to:
+        service:
+            name: /service1
+            version: '*'
+            httpMethod: POST
+            methodPath:
+            queryString: 
+
+
+- mapping:
+    from:
+        url: /SimpleWar*
+    to:
+        service:
+            name: /service2
+            version: '*'
+            httpMethod: 
+            methodPath: (url)
+            queryString: 

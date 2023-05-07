@@ -1,0 +1,48 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.huawei.dap.alb</groupId>
+    <artifactId>alb-plugins</artifactId>
+    <version>8.2.1-321.r7</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <farmer_version>8.2.1-321.r7</farmer_version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.huawei.mrs</groupId>
+            <artifactId>alb-common</artifactId>
+            <version>${farmer_version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>bin.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
