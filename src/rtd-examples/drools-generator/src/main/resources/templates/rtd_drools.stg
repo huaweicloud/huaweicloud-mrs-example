@@ -1,0 +1,201 @@
+droolsCommonRuleHeader(metaData) ::= <<
+package com.huawei.fi.rtd.drools.common
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
+global java.util.HashMap <metaData>
+>>
+
+droolsGroupRuleBody(decisionMap, metaData, groupName, droolsResult, salience, functionName, weight, extender) ::= <<
+rule "<groupName>"
+salience <salience>
+dialect "java"
+no-loop true
+when
+    $factData : java.util.HashMap();
+    eval(!isTimeout($factData));
+then
+    Double groupScore = 0.0;
+    Set $elements = (Set) <metaData>.get("<groupName>");
+    Map $decisionMap = (Map) $factData.get("<decisionMap>");
+    Map $droolsResult = (Map) $factData.get("<droolsResult>");
+    Map $groupResult = (Map) $droolsResult.get("elementsGroups");
+
+    StringBuffer $extender = (StringBuffer) $factData.get("<extender>");
+    if($elements != null && $elements.size() > 0) {
+        <if(weight)>
+        groupScore = <functionName>($decisionMap, $elements);
+        <else>
+        groupScore = <functionName>($decisionMap, $elements, $extender);
+        <endif>
+    }
+
+    Map groupElements = new HashMap();
+    groupElements.put("groupScore", groupScore);
+    groupElements.put("missingValue", 0.0);
+    <if(weight)>
+    groupElements.put("weight", <weight>);
+    <else>
+    groupElements.put("weight", 1.0);
+    <endif>
+    $groupResult.put("<groupName>", groupElements);
+end
+>>
+
+droolsDecisionRuleBody(decisionName, droolsResult, salience, functionName, weight, extender) ::= <<
+rule "<decisionName>"
+salience <salience>
+dialect "java"
+no-loop true
+when
+    $factData : java.util.HashMap();
+    eval(!isTimeout($factData));
+then
+    Double decisionScore = 0.0;
+    Set $elements = new HashSet();
+    Map $groupResult = new HashMap();
+    Map $droolsResult = (Map) $factData.get("<droolsResult>");
+    Map $groupElements = (Map) $droolsResult.get("elementsGroups");
+
+    for(Object groupName : $groupElements.keySet()) {
+        Map groupMap = (Map) $groupElements.get(groupName);
+        $groupResult.put(groupName, groupMap.get("groupScore"));
+
+        Map elementMap = new HashMap();
+        elementMap.put("name", groupName);
+        elementMap.put("weight", groupMap.get("weight"));
+        elementMap.put("missingValue", groupMap.get("missingValue"));
+        $elements.add(elementMap);
+    }
+
+    StringBuffer $extender = (StringBuffer) $factData.get("<extender>");
+    if($elements != null && $elements.size() > 0) {
+        <if(weight)>
+        decisionScore = <functionName>($groupResult, $elements);
+        <else>
+        decisionScore = <functionName>($groupResult, $elements, $extender);
+        <endif>
+    }
+    $droolsResult.put("elementsGroups", $groupResult);
+    $droolsResult.put("droolsScore", Math.round(decisionScore));
+end
+>>
+
+droolsFunctionWeighting() ::= <<
+function double weighting(Map computeResults, Set metaDataSet) {
+
+    double resultScore = 0.0;
+    for(Object metaData : metaDataSet) {
+        String metaName = (String)((Map) metaData).get("name");
+        double metaWeight = (Double)((Map) metaData).get("weight");
+        double metaMissingValue = (Double)((Map) metaData).get("missingValue");
+
+        Object computedScore = computeResults.get(metaName);
+        computedScore = computedScore == null ? metaMissingValue : Double.parseDouble(computedScore.toString());
+        double finalComputedScore = (Double) computedScore * metaWeight;
+
+        resultScore += finalComputedScore;
+    }
+
+    return resultScore;
+}
+>>
+
+droolsFunctionMaximum() ::= <<
+function double maximum(Map computeResults, Set metaDataSet) {
+
+    double resultScore = 0.0;
+    boolean isFirstElement = true;
+    for(Object metaData : metaDataSet) {
+        String metaName = (String)((Map) metaData).get("name");
+        double metaWeight = (Double)((Map) metaData).get("weight");
+        double metaMissingValue = (Double)((Map) metaData).get("missingValue");
+
+        Object computedScore = computeResults.get(metaName);
+        computedScore = computedScore == null ? metaMissingValue : Double.parseDouble(computedScore.toString());
+        double finalComputedScore = (Double) computedScore * metaWeight;
+        if(isFirstElement) {
+            isFirstElement = false;
+            resultScore = finalComputedScore;
+        }
+        resultScore = Math.max(resultScore, finalComputedScore);
+    }
+
+    return resultScore;
+}
+>>
+
+droolsFunctionMinimum() ::= <<
+function double minimum(Map computeResults, Set metaDataSet) {
+
+    double resultScore = 0.0;
+    boolean isFirstElement = true;
+    for(Object metaData : metaDataSet) {
+        String metaName = (String)((Map) metaData).get("name");
+        double metaWeight = (Double)((Map) metaData).get("weight");
+        double metaMissingValue = (Double)((Map) metaData).get("missingValue");
+
+        Object computedScore = computeResults.get(metaName);
+        computedScore = computedScore == null ? metaMissingValue : Double.parseDouble(computedScore.toString());
+        double finalComputedScore = (Double) computedScore * metaWeight;
+        if(isFirstElement) {
+            isFirstElement = false;
+            resultScore = finalComputedScore;
+        }
+        resultScore = Math.min(resultScore, finalComputedScore);
+    }
+
+    return resultScore;
+}
+>>
+
+droolsFunctionAverage() ::= <<
+function double average(Map computeResults, Set metaDataSet) {
+
+    int count = 0;
+    double resultScore = 0.0;
+    for(Object metaData : metaDataSet) {
+        String metaName = (String)((Map) metaData).get("name");
+        double metaWeight = (Double)((Map) metaData).get("weight");
+        double metaMissingValue = (Double)((Map) metaData).get("missingValue");
+
+        Object computedScore = computeResults.get(metaName);
+        computedScore = computedScore == null ? metaMissingValue : Double.parseDouble(computedScore.toString());
+        double finalComputedScore = (Double) computedScore * metaWeight;
+        resultScore += finalComputedScore;
+        count += 1;
+    }
+
+    if(count > 0) {
+        resultScore = resultScore / count;
+    }
+
+    return resultScore;
+}
+>>
+
+droolsFunctionIsTimeout(droolsResult, startTime, timeout) ::= <<
+function boolean isTimeout(Map factData) {
+
+    Long timeout = (Long) factData.get("<timeout>");
+    Long startTime = (Long) factData.get("<startTime>");
+    Map droolsResult = (Map) factData.get("<droolsResult>");
+    if(timeout == null || timeout \<= 0) {
+        return false;
+    }
+
+    if(startTime == null) {
+        return false;
+    }
+
+    if(System.currentTimeMillis() - startTime > timeout) {
+        droolsResult.put("exception", "timeout");
+        return true;
+    }
+
+    return false;
+}
+>>

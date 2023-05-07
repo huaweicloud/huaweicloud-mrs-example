@@ -1,0 +1,148 @@
+{
+	"hops": [{
+		"from": "Table Input",
+		"to": "Hive Output"
+	}],
+	"steps": [{
+		"name": "Table Input",
+		"class": "org.apache.sqoop.steps.rdbtrans.DbInput",
+		"x": 353,
+		"y": 116,
+		"fields": [{
+			"length": null,
+			"position": 1,
+			"type": "VARCHAR",
+			"field_name": "col0"
+		},
+		{
+			"length": null,
+			"position": 2,
+			"type": "BIGINT",
+			"field_name": "col1"
+		},
+		{
+			"length": null,
+			"position": 3,
+			"type": "TIMESTAMP",
+			"field_name": "col2"
+		},
+		{
+			"length": null,
+			"position": 4,
+			"type": "VARCHAR",
+			"field_name": "col3"
+		},
+		{
+			"length": null,
+			"position": 5,
+			"type": "TIMESTAMP",
+			"field_name": "col4"
+		},
+		{
+			"length": 20,
+			"position": 6,
+			"type": "DECIMAL",
+			"field_name": "col5"
+		},
+		{
+			"length": null,
+			"position": 7,
+			"type": "DOUBLE",
+			"field_name": "col6"
+		},
+		{
+			"length": null,
+			"position": 8,
+			"type": "FLOAT",
+			"field_name": "col7"
+		},
+		{
+			"length": null,
+			"position": 9,
+			"type": "INTEGER",
+			"field_name": "col8"
+		}]
+	},
+	{
+		"name": "Hive Output",
+		"class": "org.apache.sqoop.steps.hivetrans.HiveOutput",
+		"x": 501,
+		"y": 116,
+		"hive_file_storage_format": "ORC",
+		"hive_file_compresssion_format": "NONE",
+		"hive_orc_file_version": "0.12",
+		"delimiter": "",
+		"fields": [{
+			"position": 1,
+			"field_name": "col0",
+			"type": "VARCHAR",
+			"decimal_format": "",
+			"length": 225,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 2,
+			"field_name": "col1",
+			"type": "BIGINT",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 3,
+			"field_name": "col2",
+			"type": "TIMESTAMP",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 4,
+			"field_name": "col3",
+			"type": "VARCHAR",
+			"decimal_format": "",
+			"length": 225,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 5,
+			"field_name": "col4",
+			"type": "TIMESTAMP",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 6,
+			"field_name": "col5",
+			"type": "DECIMAL",
+			"decimal_format": "10,4",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 7,
+			"field_name": "col6",
+			"type": "DOUBLE",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 8,
+			"field_name": "col7",
+			"type": "FLOAT",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		},
+		{
+			"position": 9,
+			"field_name": "col8",
+			"type": "INTEGER",
+			"decimal_format": "",
+			"length": null,
+			"is_partitionkey": "false"
+		}]
+	}]
+}

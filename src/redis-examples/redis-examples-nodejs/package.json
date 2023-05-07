@@ -1,0 +1,45 @@
+{
+  "name": "krb5auth",
+  "version": "1.0.0",
+  "description": "kerberos auth for huawei Redis",
+  "main": "index.js",
+  "files": [
+    "lib",
+    "src",
+    "binding.gyp"
+  ],
+  "scripts": {
+    "install": "prebuild-install --runtime napi || node-gyp rebuild",
+    "format-cxx": "git-clang-format",
+    "format-js": "eslint lib test --fix",
+    "check:lint": "eslint lib test",
+    "precommit": "check-clang-format",
+    "test": "mocha test",
+    "docs": "jsdoc2md --template etc/README.hbs --plugin dmd-clear --files lib/kerberos.js > README.md",
+    "rebuild": "prebuild --runtime napi --compile",
+    "prebuild": "prebuild --runtime napi --strip --verbose --all",
+    "release": "standard-version -i HISTORY.md"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^4.3.0",
+    "prebuild-install": "^7.1.1",
+    "redis-parser": "^3.0.0"
+  },
+  "keywords": [
+    "kerberos",
+    "security",
+    "authentication",
+    "huawei"
+  ],
+  "engines": {
+    "node": ">=12.9.0"
+  },
+  "binary": {
+    "napi_versions": [
+      4
+    ]
+  },
+  "author": "huawei",
+  "license": "ISC"
+}
