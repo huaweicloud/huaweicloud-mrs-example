@@ -29,6 +29,7 @@ MRS_3.2.1.1 Components mapping:
 | IoTDB                 | 0.15.0   |
 | Redis                 | 6.2.7 |
 | HetuEngine            | 2.0.0 |
+| RTDService | 3.2.0 |
 
 ### Quick Links:
 
