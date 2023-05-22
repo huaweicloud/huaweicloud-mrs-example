@@ -6,13 +6,13 @@ name=$1
 
 rm -rf CSVfiles/${name}.csv;
 
-echo "sql,`cat ${name}/onequery/monitor.log |awk '{print$1}'|uniq|sed ":a;N;s/\n/,/g;ta"`" >>CSVfiles/${name}.csv;
+echo "sql,`cat ${name}/HetuEngine/monitor.log |awk '{print$1}'|uniq|sed ":a;N;s/\n/,/g;ta"`" >>CSVfiles/${name}.csv;
 
-sqlname=$(cat ${name}/onequery/monitor.log | awk '{print$3}'|sort|uniq)
+sqlname=$(cat ${name}/HetuEngine/monitor.log | awk '{print$3}'|sort|uniq)
 
 for i in ${sqlname}
 do
-    echo "${i},`cat ${name}/onequery/monitor.log |awk '{print$1,$3,$8}'|grep "${i}"|awk '{print$3}'|sed ":a;N;s/\n/,/g;ta"`" >>CSVfiles/${name}.csv;
+    echo "${i},`cat ${name}/HetuEngine/monitor.log |awk '{print$1,$3,$8}'|grep "${i}"|awk '{print$3}'|sed ":a;N;s/\n/,/g;ta"`" >>CSVfiles/${name}.csv;
 done
 
 }
