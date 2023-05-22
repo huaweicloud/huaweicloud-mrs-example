@@ -97,6 +97,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
         hdfs dfs -mkdir -p /tmp/tpcds-generate/${SCALE}
 
         例如：hdfs dfs -mkdir -p /tmp/tpcds-generate/1
+		      hdfs dfs -mkdir -p obs://obsdir/tmp/tpcds-generate/1
 
         切换到数据目录tpc-ds-master/data，上传本地TPC-DS数据到HDFS。例如下
         cd tpc-ds-master/data
@@ -104,23 +105,34 @@ HetuEngine tpc-ds性能测试工具使用方法：
         hdfs dfs -put ./* ${DIR}/${SCALE}/
 
         例如：hdfs dfs -put ./* /tmp/tpcds-generate/1
+		      hdfs dfs -put ./* obs://obsdir/tmp/tpcds-generate/1
 
         使用Hive客户端创建TPC-DS数据表，其中${SCALE}为TPC-DS数据规模，${FORMAT}为TPC-DS数据格式，${temp_dir}为TPC-DS数据的HDFS路径，${database_path}为生成的TPC-DS表的存储路径
 
         sh run.sh ${SCALE} ${FORMAT} ${temp_dir} ${database_path}
 
-        例如：sh /home/longrun/datainstall/run.sh 1 orc
+        例如:
+           sh /home/longrun/datainstall/run.sh 1 orc /tmp/tpcds-generate /user/hive/warehose
+           sh /home/longrun/datainstall/run.sh 1 orc obs://obsdir/tmp/tpcds-generate obs://obsdir/user/hive/warehose
+           sh /home/longrun/datainstall/run.sh 1 orc /tmp/tpcds-generate
+           sh /home/longrun/datainstall/run.sh 1 orc
+           sh /home/longrun/datainstall/run.sh 1
+
 
     2、使用hetu客户端对数据进行analyze：
 
     1) 根据性能调优指导书对hetu集群进行性能调优;
     2) cd /home/longrun/datainstall;
-    3) source 客户端，认证用户;
-    4) sh analyze.sh ${catalog} ${schema}
+    3) source 客户端，认证用户，安全环境必须执行此操作；
+    4) hetu-cli --tenant <tenantname> --catalog <catalogname> -- shcema <schemaname> --user <username> -f /home/longrun/datainstall/sqlfiles/analyze_hetu.sql
         注：
         执行该脚本之前最好手动拉起Hetu的计算实例，不然有可能导致脚本中的某个analyze因首次提交任务集群拉起超时，导致执行失败。
-        catalog：指定数据所在的catalog（使用共部署的话，catalog是hive）
-        schema：执行数据库名称
+		tenantname:在那个计算实例上运行；
+        catalogname：指定数据所在的catalog（使用共部署的话，catalog是hive）；
+        schemaname：执行数据库名称；
+		username：登录HetuEngine客户端执行业务的用户，非安全环境必须指定此用户，安全模式可不指定。
+		
+		例如：hetu-cli --tenant default --catalog hive -- shcema tpcds_hdfs_orc_1 --user admintest -f /home/longrun/datainstall/sqlfiles/analyze_hetu.sql
 
     3、tpcds任务运行：
 
@@ -128,23 +140,25 @@ HetuEngine tpc-ds性能测试工具使用方法：
         注：
         periodLenth=100000  #不用修改
         loopLenth=84000     #不用修改
-        maxloopNum=1000     #表示执行轮次，tpcds语句103个sql全部跑完为一个轮次
+        maxloopNum=1000     #表示执行轮次，tpcds语句99个sql全部跑完为一个轮次
 
     2) vi /home/longrun/longsql/hetu_tpcds/options.cfg
         注：
-        instance=onequery   #不用修改
-        pmaxNum=1           #并发数
-        ifAlz=0             #不用修改
-        batchInverval=10    #不用修改
-        sqlInterval=3       #每个sql执行间隔
-        waitInterval=10     #监控脚本等待刷新时间，不必修改
-        biasThreshold=0.1   #偏差，不必修改
+		[General]
+        instance=HetuEngine  #不用修改
+        pmaxNum=1            #并发数
+        ifAlz=0              
+        batchInverval=10     #不用修改
+        sqlInterval=3        #每个sql执行间隔
+        waitInterval=10      #监控脚本等待刷新时间，不必修改
+        biasThreshold=0.1    #偏差，不必修改
         workdir=/home/longrun/script    #不必修改
         pythondir=/home/longrun/script  #不必修改
-        preconditionStr=echo <client password>  | source /opt/client/bigdata_env admintest; source /opt/client/bigdata_env;    #source客户端，认证用户，<client password> 需修改为真实的客户端认证密码
-        prefix=use tpcds_orc_hive_1000;     #tpcds数据名称
-        getconcurrent=ps -ef | grep "hetu-cli --tenant default --catalog hive --schema tpcds_orc_hive_1000 -f" | grep -v grep | grep -v "/bin/bash"   #命令行监控，使用该命令监控正在执行的sql，可手动执行测试，使用命令行执行一条sql时，执行该命令，查出一条记录即可，如果查询出来不是一条，可能导致并发参数失效
-        runcmd=hetu-cli --tenant default --catalog hive --schema tpcds_orc_hive_1000 -f    #命令行
+        preconditionStr=echo <userpassword> | source /opt/client/bigdata_env <username>; source /opt/client/bigdata_env;    #source客户端，认证用户，<username>执行业务的用户名，<userpassword> 执行业务的用户名的密码。
+        prefix=use <catalogname>.<schemaname>;      #<catalogname>改成需要访问的数据源名称，<schemaname>需要访问的数据库名称。
+        getconcurrent=ps -ef | grep "hetu-cli --tenant <tenantname> --user <username> -f" | grep -v grep | grep -v "/bin/bash"   #命令行监控，使用该命令监控正在执行的sql，可手动执行测试，使用命令行执行一条sql时，执行该命令，查出一条记录即可，如果查询出来不是一条，可能导致并发参数失效。
+        runcmd=hetu-cli --tenant <tenantname> --user <username> -f  #<tenantname>指定在那个计算实例上运行，<username>指定使用那个用户登录客户端。	
+		
 
     3) cd /home/longrun/script;
 
@@ -164,10 +178,10 @@ HetuEngine tpc-ds性能测试工具使用方法：
     6) cd /home/longrun/result;
         注：
         #hetu_tpcds目录下存放任务运行的结果
-            onequery #存放监控显示的内容
-            onequery-output #存放脚本运行的日志
-                onequery-stat  #无需关注
-            onequery-tmptask  #中间sql，无需关注
+            HetuEngine                 #存放监控显示的内容
+            HetuEngine-output          #存放脚本运行的日志
+            HetuEngine-stat            #无需关注
+            HetuEngine-tmptask         #中间sql，无需关注
         #sh GetExcel.sh
             使用该脚本，会将任务运行结果整理收集到CSVfiles目录下的hetu_tpcds.csv文件中，可打开查看
 

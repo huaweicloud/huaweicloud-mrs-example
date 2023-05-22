@@ -17,7 +17,7 @@ FACTS="store_sales store_returns web_sales web_returns catalog_sales catalog_ret
 
 
 function usage {
-    echo -e "\nUsage:\n    sh run.sh \${Scale} [\${Format}] [\${temp_dir}] [\${database_path}]\n\nExample:\n    sh run.sh 1000 orc /tmp/tpcds-generate /user/hive/warehose\n    sh run.sh 1000 orc obs://obsdir/tmp/tpcds-generate obs://obsdir/user/hive/warehose\n    sh run.sh 1000 orc /tmp/tpcds-generate\n    sh run.sh 1000 orc\n    sh run.sh 1000\n"
+    echo -e "\nUsage:\n    sh run.sh \${Scale} [\${Format}] [\${temp_dir}] [\${database_path}]\n\nExample:\n    sh run.sh 1 orc /tmp/tpcds-generate /user/hive/warehose\n    sh run.sh 1 orc obs://obsdir/tmp/tpcds-generate obs://obsdir/user/hive/warehose\n    sh run.sh 1 orc /tmp/tpcds-generate\n    sh run.sh 1 orc\n    sh run.sh 1\n"
     exit 1
 }
 
@@ -83,6 +83,8 @@ if [[ $? -ne 0 ]];then
     echo "Dir \"${DBPATH}/${DATABASETEXT}.db\" create failed , Please check !"
     exit 1
 fi
+
+mkdir -p ${currentpath}/log;
 
 $HIVE -i ${currentpath}/settings/load-flat.sql -f ${currentpath}/ddl-tpcds/text/alltables.sql --hivevar DB=${DATABASETEXT} --hivevar LOCATION=${DIR}/${SCALE} --hivevar LOCATIONPATH=${DBPATH} 2> ${currentpath}/log/CreateText_${SCALE}.log 1> ${currentpath}/log/CreateText_${SCALE}.log
 
