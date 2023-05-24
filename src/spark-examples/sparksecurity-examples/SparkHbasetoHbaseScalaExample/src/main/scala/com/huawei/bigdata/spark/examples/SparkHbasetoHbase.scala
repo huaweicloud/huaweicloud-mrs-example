@@ -1,0 +1,163 @@
+package com.huawei.bigdata.spark.examples
+
+import java.io.IOException
+import java.util
+
+import com.esotericsoftware.kryo.Kryo
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.hbase.{TableName, CellUtil, HBaseConfiguration}
+import org.apache.hadoop.hbase.client._
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable
+import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.protobuf.ProtobufUtil
+import org.apache.hadoop.hbase.util.Bytes
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil
+import org.apache.spark.serializer.KryoRegistrator
+import org.apache.spark.{SparkContext, SparkConf}
+import com.huawei.hadoop.security.LoginUtil
+import com.huawei.hadoop.security.KerberosUtil
+
+/**
+  * calculate data from hbase1/hbase2,then update to hbase2
+  */
+object SparkHbasetoHbase {
+
+  case class FemaleInfo(name: String, gender: String, stayTime: Int)
+
+  def main(args: Array[String]) {
+    val userPrincipal = "sparkuser"
+    val userKeytabPath = "/opt/FIclient/user.keytab"
+    val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
+    val principalName = KerberosUtil.getKrb5DomainRealm()
+    val ZKServerPrincipal = "zookeeper/hadoop." + principalName
+
+    val ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME: String = "Client"
+    val ZOOKEEPER_SERVER_PRINCIPAL_KEY: String = "zookeeper.server.principal"
+    val hadoopConf: Configuration = new Configuration()
+    LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, userPrincipal, userKeytabPath)
+    LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZKServerPrincipal)
+    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf)
+
+    val conf = new SparkConf().setAppName("SparkHbasetoHbase")
+    conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    conf.set("spark.kryo.registrator", "com.huawei.bigdata.spark.examples.MyRegistrator")
+    val sc = new SparkContext(conf)
+    // Create the configuration parameter to connect the HBase. The hbase-site.xml must be included in the classpath.
+    val hbConf = HBaseConfiguration.create(sc.hadoopConfiguration)
+
+    // Declare the information of the table to be queried.
+    val scan = new Scan()
+    scan.addFamily(Bytes.toBytes("cf")) //colomn family
+    val proto = ProtobufUtil.toScan(scan)
+    val scanToString = TableMapReduceUtil.convertScanToString(new Scan())
+    hbConf.set(TableInputFormat.INPUT_TABLE, "table1") //table name
+    hbConf.set(TableInputFormat.SCAN, scanToString)
+
+    //  Obtain the data in the table through the Spark interface.
+    val rdd = sc.newAPIHadoopRDD(hbConf, classOf[TableInputFormat], classOf[ImmutableBytesWritable], classOf[Result])
+
+    // Traverse every Partition in the HBase table1 and update the HBase table2
+    // If less data, you can use rdd.foreach()
+    rdd.foreachPartition(x => hBaseWriter(x))
+
+    sc.stop()
+  }
+
+  /**
+    * write to table2 in exetutor
+    *
+    * @param iterator partition data from table1
+    */
+  def hBaseWriter(iterator: Iterator[(ImmutableBytesWritable, Result)]): Unit = {
+    //read hbase
+    val tableName = "table2"
+    val columnFamily = "cf"
+    val qualifier = "cid"
+    val conf = HBaseConfiguration.create()
+    var table: Table = null
+    var connection: Connection = null
+
+    try {
+      connection = ConnectionFactory.createConnection(conf)
+      table = connection.getTable(TableName.valueOf(tableName))
+
+      val iteratorArray = iterator.toArray
+      val rowList = new util.ArrayList[Get]()
+      for (row <- iteratorArray) {
+        val get = new Get(row._2.getRow)
+        rowList.add(get)
+      }
+
+      //get data from hbase table2
+      val resultDataBuffer = table.get(rowList)
+
+      //set data for hbase
+      val putList = new util.ArrayList[Put]()
+      for (i <- 0 until iteratorArray.size) {
+        val resultData = resultDataBuffer(i) //hbase2 row
+        if (!resultData.isEmpty) {
+          //query hbase1Value
+          var hbase1Value = ""
+          val it = iteratorArray(i)._2.listCells().iterator()
+          while (it.hasNext) {
+            val c = it.next()
+            // query table1 value by colomn family and colomn qualifier
+            if (columnFamily.equals(Bytes.toString(CellUtil.cloneFamily(c)))
+              && qualifier.equals(Bytes.toString(CellUtil.cloneQualifier(c)))) {
+              hbase1Value = Bytes.toString(CellUtil.cloneValue(c))
+            }
+          }
+
+          val hbase2Value = Bytes.toString(resultData.getValue(columnFamily.getBytes, qualifier.getBytes))
+          val put = new Put(iteratorArray(i)._2.getRow)
+
+          //calculate result value
+          val resultValue = hbase1Value.toInt + hbase2Value.toInt
+          //set data to put
+          put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(qualifier), Bytes.toBytes(resultValue.toString))
+          putList.add(put)
+        }
+      }
+
+      if (putList.size() > 0) {
+        table.put(putList)
+      }
+    } catch {
+      case e: IOException =>
+        e.printStackTrace();
+    } finally {
+      if (table != null) {
+        try {
+          table.close()
+        } catch {
+          case e: IOException =>
+            e.printStackTrace();
+        }
+      }
+      if (connection != null) {
+        try {
+          // Close the HBase connection.
+          connection.close()
+        } catch {
+          case e: IOException =>
+            e.printStackTrace()
+        }
+      }
+    }
+  }
+}
+
+/**
+  * Define serializer class.
+  */
+class MyRegistrator extends KryoRegistrator {
+  override def registerClasses(kryo: Kryo) {
+    kryo.register(classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable])
+    kryo.register(classOf[org.apache.hadoop.hbase.client.Result])
+    kryo.register(classOf[Array[(Any, Any)]])
+    kryo.register(classOf[Array[org.apache.hadoop.hbase.Cell]])
+    kryo.register(classOf[org.apache.hadoop.hbase.NoTagsKeyValue])
+    kryo.register(classOf[org.apache.hadoop.hbase.protobuf.generated.ClientProtos.RegionLoadStats])
+  }
+
+}

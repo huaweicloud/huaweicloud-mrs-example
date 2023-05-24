@@ -1,16 +1,40 @@
 # Huawei Cloud MRS example code
 
-The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, Presto, Spark, Storm. You can get started in minutes using **Maven**.
+The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, HetuEngine, Spark, Elasticsearch, ClickHouse etc. You can get started in minutes using **Maven**.
 
-### MRS component versions:
+### Version Mapping:
 
-[MRS component versions](https://support.huaweicloud.com/intl/en-us/productdesc-mrs/mrs_08_0005.html)
+MRS_3.1.5 Components mapping:
+
+| Component\MRS version | MRS 3.1.5 |
+| --------------------- | --------- |
+| Flink                 | 1.12.2    |
+| Hive                  | 3.1.0     |
+| Tez                   | 0.9.2     |
+| Spark                 | 3.1.1 |
+| CarbonData            | 2.2.0  |
+| Hudi                  | 0.9.0 |
+| Hadoop                | 3.1.1     |
+| HBase                 | 2.2.3     |
+| ZooKeeper             | 3.6.3  |
+| Hue                   | 4.7.0     |
+| Oozie                 | 5.1.0     |
+| Flume                 | 1.9.0     |
+| Kafka                 | 2.4.0     |
+| Ranger                | 2.0.0     |
+| Phoenix               | 5.0.0     |
+| ClickHouse            | 21.3.4.25 |
+| Impala            | 3.4.0 |
+| Kudu            | 1.12.1 |
+| Preso            | 333 |
+| Sqoop            | 1.4.7 |
 
 ### Quick Links:
 
 - [Sample Course](https://education.huaweicloud.com:8443/courses/course-v1:HuaweiX+CBUCNXE006+Self-paced/about?isAuth=0&cfrom=hwc), can get the introductory tutorial of MRS.
 - [MRS Homepage](https://www.huaweicloud.com/en-us/product/mrs.html), or Chinese language site [MapReduce服务](https://www.huaweicloud.com/product/mrs.html)
 - [Deveployer Guide](https://support.huaweicloud.com/devg-mrs/mrs_06_0001.html)
+- [FusionInsight Forum](https://bbs.huaweicloud.com/forum/forum-1103-1.html)
 - [MRS Forum](https://bbs.huaweicloud.com/forum/forum-612-1.html)
 
 ## Getting Started
@@ -24,18 +48,21 @@ To run the examples required:
 - Java 1.8+
 - Maven 3.0+
 
-
-
 #### Specify the Maven Repository
 
-​	Set the repository in your local **setting.xml** of maven
+Add the following open source mirror repository address to **mirrors** in the **settings.xml** configuration file.
 
 ```
 <mirror>
     <id>repo2</id>
     <mirrorOf>central</mirrorOf>
-    <url>http://repo2.maven.org/maven2/</url>
+    <url>https://repo1.maven.org/maven2/</url>
 </mirror>
+```
+
+Add the following mirror repository address to **profiles** in the **settings.xml** configuration file.
+
+```
 <profile>
     <id>huaweicloudsdk</id>
     <repositories>
@@ -47,6 +74,26 @@ To run the examples required:
         </repository>
     </repositories>
 </profile>
+<profile>
+    <id>JDK1.8</id>
+    <activation>
+        <activeByDefault>true</activeByDefault>
+        <jdk>1.8</jdk>
+    </activation>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+    </properties>
+</profile>
+```
+
+Add the following mirror repository address to the **activeProfiles** node in the **settings.xml** file.
+
+```
 <activeProfile>huaweicloudsdk</activeProfile>
 ```
 
@@ -55,7 +102,7 @@ To run the examples required:
 Once you check out the code from GitHub, you can build it using maven for every child project, eg:
 
 ```
-cd huaweicloud-mrs-example\src\presto-examples
+cd src\hdfs-example-security
 mvn clean install
 ```
 
