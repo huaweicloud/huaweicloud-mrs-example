@@ -1,0 +1,38 @@
+<workflow-app xmlns='uri:oozie:workflow:1.0' name='Spark2xHive'>
+<start to='spark-node' />
+
+<action name='spark-node'>
+    <spark xmlns="uri:oozie:spark-action:1.0">
+        <resource-manager>${resourceManager}</resource-manager>
+        <name-node>${nameNode}</name-node>
+        <job-xml>hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/hive-site.xml</job-xml>
+        <configuration>
+            <property>
+                <name>mapred.job.queue.name</name>
+                <value>${queueName}</value>
+            </property>
+            <property>
+                <name>oozie.action.sharelib.for.spark</name>
+                <value>spark2x</value>
+            </property>
+        </configuration>
+        <master>${master}</master>
+        <mode>${mode}</mode>
+        <name>Hive2Hive</name>
+        <class>com.huawei.bigdata.spark.Hive2Hive</class>
+        <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/lib/OoizeSparkHive-1.0.jar</jar>
+        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.1.2/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x</spark-opts>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/user.keytab</file>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/krb5.conf</file>
+    </spark>
+    <ok to="end" />
+    <error to="fail" />
+</action>
+
+<kill name="fail">
+    <message>Workflow failed, error
+        message[${wf:errorMessage(wf:lastErrorNode())}]
+    </message>
+</kill>
+<end name='end' />
+</workflow-app>
