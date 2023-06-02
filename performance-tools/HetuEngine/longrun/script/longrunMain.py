@@ -266,7 +266,7 @@ if __name__ == "__main__":
     global grunDir
     global gresultDir
 
-    gidStr = 'hetuEngine'
+    gidStr = 'HetuEngine'
     grunDir = grunbasepath + argv[1]
     gresultDir = gretbasepath + argv[1]
 

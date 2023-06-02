@@ -42,7 +42,7 @@ if __name__ == "__main__":
     tlabel = argv[4]
     tcost = argv[5]
 
-    gmainLog = gretbasepath + tproject + '/hetuEngine/main.log'
+    gmainLog = gretbasepath + tproject + '/HetuEngine/main.log'
 
     ret = calcost(idstr, tproject, tbatchname, tlabel, float(tcost))
 
