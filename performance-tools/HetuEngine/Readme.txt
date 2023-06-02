@@ -23,7 +23,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
 
     2) 编译并生成TPC-DS数据
         切换到tpc-ds-master/bin目录
-        cd tpc-ds-master/bin/
+        cd /home/tpc-ds-master/bin/
 
         编译数据生成器
         ./build-tool.sh
@@ -35,7 +35,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
         例如：./generate-data.sh 1
 
         切换到数据目录tpc-ds-master/data，并将生成的数据文件移动到对应tpc-ds表目录
-        cd tpc-ds-master/data
+        cd /home/tpc-ds-master/data
 
         mkdir call_center
         mkdir catalog_page
@@ -100,7 +100,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
 		      hdfs dfs -mkdir -p obs://obsdir/tmp/tpcds-generate/1
 
         切换到数据目录tpc-ds-master/data，上传本地TPC-DS数据到HDFS。例如下
-        cd tpc-ds-master/data
+        cd /home/tpc-ds-master/data
 
         hdfs dfs -put ./* ${DIR}/${SCALE}/
 
@@ -109,6 +109,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
 
         使用Hive客户端创建TPC-DS数据表，其中${SCALE}为TPC-DS数据规模，${FORMAT}为TPC-DS数据格式，${temp_dir}为TPC-DS数据的HDFS路径，${database_path}为生成的TPC-DS表的存储路径
 
+        cd /home/longrun/datainstall/
         sh run.sh ${SCALE} ${FORMAT} ${temp_dir} ${database_path}
 
         例如:
@@ -131,8 +132,8 @@ HetuEngine tpc-ds性能测试工具使用方法：
         catalogname：指定数据所在的catalog（使用共部署的话，catalog是hive）；
         schemaname：执行数据库名称；
 		username：登录HetuEngine客户端执行业务的用户，非安全环境必须指定此用户，安全模式可不指定。
-		
-		例如：hetu-cli --tenant default --catalog hive -- shcema tpcds_hdfs_orc_1 --user admintest -f /home/longrun/datainstall/sqlfiles/analyze_hetu.sql
+
+		例如：hetu-cli --tenant default --catalog hive --schema tpcds_hdfs_orc_1 --user admintest -f /home/longrun/datainstall/sqlfiles/analyze_hetu.sql
 
     3、tpcds任务运行：
 
@@ -147,7 +148,7 @@ HetuEngine tpc-ds性能测试工具使用方法：
 		[General]
         instance=HetuEngine  #不用修改
         pmaxNum=1            #并发数
-        ifAlz=0              
+        ifAlz=0
         batchInverval=10     #不用修改
         sqlInterval=3        #每个sql执行间隔
         waitInterval=10      #监控脚本等待刷新时间，不必修改
@@ -157,8 +158,8 @@ HetuEngine tpc-ds性能测试工具使用方法：
         preconditionStr=echo <userpassword> | source /opt/client/bigdata_env <username>; source /opt/client/bigdata_env;    #source客户端，认证用户，<username>执行业务的用户名，<userpassword> 执行业务的用户名的密码。
         prefix=use <catalogname>.<schemaname>;      #<catalogname>改成需要访问的数据源名称，<schemaname>需要访问的数据库名称。
         getconcurrent=ps -ef | grep "hetu-cli --tenant <tenantname> --user <username> -f" | grep -v grep | grep -v "/bin/bash"   #命令行监控，使用该命令监控正在执行的sql，可手动执行测试，使用命令行执行一条sql时，执行该命令，查出一条记录即可，如果查询出来不是一条，可能导致并发参数失效。
-        runcmd=hetu-cli --tenant <tenantname> --user <username> -f  #<tenantname>指定在那个计算实例上运行，<username>指定使用那个用户登录客户端。	
-		
+        runcmd=hetu-cli --tenant <tenantname> --user <username> -f  #<tenantname>指定在那个计算实例上运行，<username>指定使用那个用户登录客户端。
+
 
     3) cd /home/longrun/script;
 
