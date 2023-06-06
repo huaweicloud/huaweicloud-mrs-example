@@ -122,7 +122,7 @@ select  channel, item, return_ratio, return_rank, currency_rank from
  or 
  store.currency_rank <= 10
  )
- )
+ ) y
  order by 1,4,5,2
  LIMIT 100;
 

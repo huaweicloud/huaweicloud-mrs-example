@@ -2,9 +2,9 @@ spark-tpcds
 ==============
 SQL statement for the tpcds test table of the carbon and parquet tables
 
-test_sql_obs
+test_sql
 ==============
-Create the test table corresponding to the OBS path
+Create the test table corresponding to the OBS or HDFS path
 
 tpc-ds
 ==============
