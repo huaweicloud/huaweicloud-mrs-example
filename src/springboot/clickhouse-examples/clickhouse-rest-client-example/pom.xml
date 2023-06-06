@@ -40,16 +40,6 @@
             </exclusions>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>cbu-maven-public</id>
-            <url>https://maven.cloudartifact.lfg.dragon.tools.huawei.com/artifactory/cbu-maven-public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
     <build>
         <plugins>
             <plugin>
