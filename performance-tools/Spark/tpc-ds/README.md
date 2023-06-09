@@ -12,26 +12,27 @@
         1）下载tpc-ds工具。（下载链接：https://github.com/Altinity/tpc-ds/archive/refs/heads/master.zip）
 
         2）上传ZIP文件到FusionInsight MRS集群客户端安装节点。
-
+    
         3）在FusionInsight MRS集群客户端安装节点解压缩上传的ZIP文件。
         unzip tpc-ds-master.zip
-
+    
         注意：在FusionInsight MRS集群客户端安装节点执行如下命令检测是否安装gcc，如果没有则需单独安装gcc。
         gcc -v
-
+        如果当前集群节点的gcc版本不是4.8.5，则需要找一个安装4.8.5版本的gcc的节点执行下述第2步操作中编译数据生成器，将编译成功后的工具包拷贝到客户端安装节点再执行第2步操作中的4）继续生成数据。
+    
     2.编译并生成TPC-DS数据
         1）切换到tpc-ds-master/bin目录
         cd tpc-ds-master/bin/
-
+    
         2）编译数据生成器
         ./build-tool.sh
-
+    
         4）将工具自带数据目录tpc-ds-master/data删除，避免数据目录重复存在
         rm -rf ../data
-
+    
         5）生成数据（data scale = 1 (1GB of data)，数据格式为TEXT且以 | 作为内容分隔符）
         例如：./generate-data.sh 1
-
+    
         6）切换到数据目录tpc-ds-master/data，并将生成的数据文件移动到对应tpc-ds表目录
         cd tpc-ds-master/data
         mkdir call_center
@@ -84,17 +85,17 @@
         mv web_returns*.dat ./web_returns
         mv web_sales*.dat ./web_sales
         mv web_site*.dat ./web_site
-
+    
     3.加载TPC-DS数据
         1) 切换到FusionInsight MRS客户端安装目录。例如：/opt/client
         cd /opt/client
-
+    
         2) 执行source Spark客户端，并kinit认证客户端用户（如果是安全模式集群）
-
+    
         3) 使用客户端用户在FusionInsight MRS集群HDFS创建数据目录，若为存算分离场景，改成OBS目录。例如下，其中${SCALE}为TPC-DS数据规模
         hdfs dfs -mkdir -p /tmp/tpcds/${SCALE}
         例如：hdfs dfs -mkdir -p /tmp/tpcds/1
-
+    
         4) 切换到数据目录tpc-ds-master/data，上传本地TPC-DS数据到HDFS。例如下
         cd tpc-ds-master/data
         hdfs dfs -put ./* ${DIR}/${SCALE}/
