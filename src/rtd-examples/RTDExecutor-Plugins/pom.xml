@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.huawei.mrs.rtd</groupId>
+    <artifactId>rtdexecutor-plugins-bundle</artifactId>
+    <version>8.2.0-320.r11</version>
+    <packaging>pom</packaging>
+    <name>RTDExecutor Plugins Bundle</name>
+
+    <modules>
+        <module>rtdexecutor-plugins-parent</module>
+        <module>DecisionFlowPlugin</module>
+        <module>VarsExtensionPlugin</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.huawei.mrs.rtd</groupId>
+            <version>8.2.0-320.r11</version>
+            <artifactId>DecisionFlowPlugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.huawei.mrs.rtd</groupId>
+            <version>8.2.0-320.r11</version>
+            <artifactId>VarsExtensionPlugin</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <appendAssemblyId>true</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>assembly/plugins-add.xml</descriptor>
+                        <descriptor>assembly/plugins-update.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
