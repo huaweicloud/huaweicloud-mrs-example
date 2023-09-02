@@ -6,6 +6,7 @@ import basicAuth.exception.GetClientException;
 import basicAuth.exception.InvalidInputParamException;
 import basicAuth.exception.WrongUsernameOrPasswordException;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -154,8 +155,8 @@ public class BasicAuthAccess {
         HttpResponse response = null;
         try {
             response = httpClient.execute(httpGet);
-            String stateLine = response.getStatusLine().toString();
-            LOG.info("First access status is {}", stateLine);
+            int stateCode = response.getStatusLine().getStatusCode();
+            LOG.info("First access status is {}", stateCode);
 
             InputStream inputStream = response.getEntity().getContent();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -163,7 +164,7 @@ public class BasicAuthAccess {
             lineContent = bufferedReader.readLine();
             LOG.info("Response content is {} ", lineContent);
 
-            if (!(stateLine.equals("HTTP/1.1 200 "))) {
+            if (stateCode != HttpStatus.SC_OK) {
                 throw new AuthenticationException("Authorize failed!");
             }
 

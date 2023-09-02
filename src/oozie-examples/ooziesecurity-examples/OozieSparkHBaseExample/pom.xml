@@ -6,14 +6,14 @@
 
     <groupId>com.huawei.bigdata</groupId>
     <artifactId>OoizeSparkHBase</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.0-320.r48</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <oozie.version>5.1.0-h0.cbu.mrs.320.r33</oozie.version>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r33</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
+        <oozie.version>5.1.0-h0.cbu.mrs.320.r48</oozie.version>
+        <spark.version>3.1.1-h0.cbu.mrs.320.r48</spark.version>
+        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
