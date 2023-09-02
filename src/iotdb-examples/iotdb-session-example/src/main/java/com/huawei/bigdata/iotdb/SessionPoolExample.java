@@ -30,12 +30,18 @@ import java.util.concurrent.Executors;
 public class SessionPoolExample {
 
   private static final String ROOT_SG1_D1 = "root.sg1.d1";
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
   /**
    * set truststore.jks path only when iotdb_ssl_enable is true.
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  private static final String IOTDB_SSL_ENABLE = "true";
+  private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+  private static final String HOST = iotdbProps.getValues("local_host_1", "127.0.0.1");
+  private static final String PORT = iotdbProps.getValues("local_port", "22260");
+  private static final String USER = iotdbProps.getValues("username", "root");
+  private static final String PASSWORD = iotdbProps.getValues("password", "root");
+  private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
 
   private static SessionPool pool;
   private static ExecutorService service;
@@ -46,10 +52,10 @@ public class SessionPoolExample {
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
-    pool = new SessionPool("127.0.0.1", 22260, "root", "root", 3);
+    pool = new SessionPool(HOST, Integer.parseInt(PORT), USER, PASSWORD, 3);
     service = Executors.newFixedThreadPool(10);
 
     insertRecord();
@@ -64,7 +70,7 @@ public class SessionPoolExample {
 
   // more insert example, see SessionExample.java
   private static void insertRecord()
-          throws StatementExecutionException, IoTDBConnectionException, TTransportException {
+          throws StatementExecutionException, IoTDBConnectionException {
     String deviceId = "root.sg1.d1";
     List<String> measurements = new ArrayList<>();
     List<TSDataType> types = new ArrayList<>();

@@ -32,6 +32,7 @@ public class ApplicationDemo {
         String casUrl = properties.getProperty("casUrl");
         String hsconsoleEndPoint = properties.getProperty("hsconsoleEndpoint");
         String user = properties.getProperty("user");
+        // Passwords stored in plaintext pose security risks. Store them in ciphertext in configuration files or environment variables.
         String password = properties.getProperty("password");
 
         HSConsoleHttpClient hsConsoleHttpClient = new HSConsoleHttpClient();

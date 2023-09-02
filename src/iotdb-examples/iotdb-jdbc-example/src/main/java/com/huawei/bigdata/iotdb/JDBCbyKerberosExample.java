@@ -13,32 +13,34 @@ import java.util.Base64;
 import javax.security.auth.login.LoginException;
 
 public class JDBCbyKerberosExample {
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
+
+    private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+
+    private static final String JDBC_URL = iotdbProps.getValues("jdbc_url", "jdbc:iotdb://127.0.0.1:22260/");
+
+    private static final String USER = iotdbProps.getValues("username", "iotdb");
+
+    private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
 
     private static final String JAVA_KRB5_CONF = "java.security.krb5.conf";
     /**
      * Location of krb5.conf file
      */
-    private static final String KRB5_CONF_DEST = "下载的认证凭据中“krb5.conf”文件的位置";
+    private static final String KRB5_CONF_DEST = iotdbProps.getValues("krb5_conf_dest", "下载的认证凭据中“krb5.conf”文件的位置");
     /**
      * Location of keytab file
      */
-    private static final String KEY_TAB_DEST = "下载的认证凭据中“user.keytab”文件的位置";
+    private static final String KEY_TAB_DEST = iotdbProps.getValues("key_tab_dest", "下载的认证凭据中“user.keytab”文件的位置");
     /**
      * User principal
      */
-    private static final String CLIENT_PRINCIPAL = "对应user.keytab的用户名@HADOOP.COM";
+    private static final String CLIENT_PRINCIPAL = iotdbProps.getValues("client_principal", "对应user.keytab的用户名@HADOOP.COM");
 
     /**
      * Server principal, 'iotdb_server_kerberos_principal' in iotdb-datanode.properties
      */
     private static final String SERVER_PRINCIPAL = "iotdb/hadoop.hadoop.com@HADOOP.COM";
-
-    /**
-     * set truststore.jks path only when iotdb_ssl_enable is true.
-     * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
-     * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
-     */
-    private static final String IOTDB_SSL_ENABLE = "true";
 
     /**
      * Get kerberos token as password
@@ -60,11 +62,11 @@ public class JDBCbyKerberosExample {
         System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
         if ("true".equals(IOTDB_SSL_ENABLE)) {
             // set truststore.jks path
-            System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+            System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
         }
 
         try (Connection connection =
-                        DriverManager.getConnection("jdbc:iotdb://127.0.0.1:22260/", "iotdb", getAuthToken());
+                        DriverManager.getConnection(JDBC_URL, USER, getAuthToken());
                 Statement statement = connection.createStatement()) {
             // set JDBC fetchSize
             statement.setFetchSize(10000);

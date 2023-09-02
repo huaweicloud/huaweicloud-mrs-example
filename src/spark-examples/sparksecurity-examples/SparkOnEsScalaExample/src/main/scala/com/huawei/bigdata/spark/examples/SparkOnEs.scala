@@ -99,6 +99,7 @@ class SparkOnEs {
     isSecureMode = properties.getProperty("isSecureMode")
     sslEnabled = properties.getProperty("sslEnabled")
     principal = properties.getProperty("principal")
+    // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
     userPassword = properties.getProperty("userPassword")
 
     esFilterField = properties.getProperty("esFilterField")
@@ -425,6 +426,7 @@ object SparkOnEs {
         .set("es.internal.spark.sql.pushdown", "true")
         .set("es.net.ssl", sparkOnEs.sslEnabled)
         .set("es.net.http.auth.user", sparkOnEs.principal)
+        // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
         .set("es.net.http.auth.pass", sparkOnEs.userPassword)
         .set("es.read.source.filter", sparkOnEs.esFilterField)
         .set("es.scroll.size", sparkOnEs.esScrollSize)

@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.0-320.r89</version>
     <properties>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r33</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <phoenix-core.version>5.0.0-HBase-2.0-h0.cbu.mrs.320.r33</phoenix-core.version>
-        <dualclient.version>8.2.0-320.r33</dualclient.version>
+        <hbase.version>2.2.3-h0.cbu.mrs.320.r89</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.320.r89</hadoop.version>
+        <phoenix-core.version>5.0.0-HBase-2.0-h0.cbu.mrs.320.r89</phoenix-core.version>
+        <dualclient.version>8.2.0-320.r89</dualclient.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +25,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hbase</groupId>

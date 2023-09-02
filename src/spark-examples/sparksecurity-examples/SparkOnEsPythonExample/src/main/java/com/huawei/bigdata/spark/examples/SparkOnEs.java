@@ -441,6 +441,7 @@ public class SparkOnEs implements Serializable {
         isSecureMode = properties.getProperty("isSecureMode");
         sslEnabled = properties.getProperty("sslEnabled");
         principal = properties.getProperty("principal");
+        // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
         userPassword = properties.getProperty("userPassword");
 
         esFilterField = properties.getProperty("esFilterField");

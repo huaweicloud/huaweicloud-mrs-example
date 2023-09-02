@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 public class Producer extends Thread {
     private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
 
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
+    private static final String BOOTSTRAP_SERVER_URL = iotdbProps.getValues("bootstrap_server_url", "127.0.0.1:21007");
+
     private final KafkaProducer<String, String> producer;
 
     private final String topic;
@@ -48,7 +51,7 @@ public class Producer extends Thread {
         KafkaProperties kafkaProc = KafkaProperties.getInstance();
 
         // broker address
-        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, "127.0.0.1:21007"));
+        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, BOOTSTRAP_SERVER_URL));
         // client ID
         props.put(Constant.CLIENT_ID, kafkaProc.getValues(Constant.CLIENT_ID, "DemoProducer"));
         // key serializer

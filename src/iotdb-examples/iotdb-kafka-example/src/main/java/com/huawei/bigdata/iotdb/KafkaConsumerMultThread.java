@@ -30,6 +30,12 @@ public class KafkaConsumerMultThread extends Thread {
     private String topic;
 
     private IoTDBSessionPool sessionPool;
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
+    private static final String HOST = iotdbProps.getValues("local_host", "127.0.0.1");
+    private static final String PORT = iotdbProps.getValues("local_port", "22260");
+    private static final String USER = iotdbProps.getValues("username", "root");
+    private static final String PASSWORD = iotdbProps.getValues("password", "root");
+    private static final String BOOTSTRAP_SERVER_URL = iotdbProps.getValues("bootstrap_server_url", "127.0.0.1:21007");
 
     private int waitTime = 1000;
 
@@ -53,7 +59,7 @@ public class KafkaConsumerMultThread extends Thread {
         KafkaProperties kafkaProc = KafkaProperties.getInstance();
 
         // broker address
-        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, "127.0.0.1:21007"));
+        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, BOOTSTRAP_SERVER_URL));
         // group id
         props.put(Constant.GROUP_ID, kafkaProc.getValues(Constant.GROUP_ID, "DemoConsumer1"));
         // enable auto commit offset
@@ -97,7 +103,7 @@ public class KafkaConsumerMultThread extends Thread {
         }
 
         // create IoTDB seesion connection pool
-        IoTDBSessionPool sessionPool = new IoTDBSessionPool("127.0.0.1", 22260, "root", "root", 3);
+        IoTDBSessionPool sessionPool = new IoTDBSessionPool(HOST, Integer.parseInt(PORT), USER, PASSWORD, 3);
 
         // start consumer thread
         KafkaConsumerMultThread consumerThread = new KafkaConsumerMultThread(KafkaProperties.TOPIC, sessionPool);

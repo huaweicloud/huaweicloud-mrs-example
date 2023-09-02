@@ -141,6 +141,7 @@ public class SparkOnEs implements Serializable {
                             .set("es.internal.spark.sql.pushdown", "true")
                             .set("es.net.ssl", sslEnabled)
                             .set("es.net.http.auth.user", principal)
+                            // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
                             .set("es.net.http.auth.pass", userPassword)
                             .set("es.read.source.filter", esFilterField)
                             .set("es.scroll.size", esScrollSize)
@@ -461,6 +462,7 @@ public class SparkOnEs implements Serializable {
         isSecureMode = properties.getProperty("isSecureMode");
         sslEnabled = properties.getProperty("sslEnabled");
         principal = properties.getProperty("principal");
+        // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
         userPassword = properties.getProperty("userPassword");
 
         esFilterField = properties.getProperty("esFilterField");

@@ -23,12 +23,14 @@ import java.util.List;
 public class IoTDBSessionPool {
     private static final Logger LOG = LoggerFactory.getLogger(IoTDBSessionPool.class);
 
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
     /**
      * set truststore.jks path only when iotdb_ssl_enable is true.
      * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
      * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
      */
-    private static final String IOTDB_SSL_ENABLE = "true";
+    private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+    private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
 
     private static SessionPool pool;
 
@@ -37,7 +39,7 @@ public class IoTDBSessionPool {
         System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
         if ("true".equals(IOTDB_SSL_ENABLE)) {
             // set truststore.jks path
-            System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+            System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
         }
 
         pool = new SessionPool(host, port, username, password, size);

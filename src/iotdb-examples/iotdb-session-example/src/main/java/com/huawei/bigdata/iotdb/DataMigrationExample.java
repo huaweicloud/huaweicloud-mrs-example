@@ -44,12 +44,19 @@ public class DataMigrationExample {
 
   private static final String POINT = ".";
 
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
   /**
    * set truststore.jks path only when iotdb_ssl_enable is true.
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  private static final String IOTDB_SSL_ENABLE = "true";
+  private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+  private static final String HOST_1 = iotdbProps.getValues("local_host_1", "127.0.0.1");
+  private static final String HOST_2 = iotdbProps.getValues("local_host_2", "127.0.0.2");
+  private static final String PORT = iotdbProps.getValues("local_port", "22260");
+  private static final String USER = iotdbProps.getValues("username", "root");
+  private static final String PASSWORD = iotdbProps.getValues("password", "root");
+  private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
 
   public static void main(String[] args)
           throws IoTDBConnectionException, StatementExecutionException, ExecutionException,
@@ -58,7 +65,7 @@ public class DataMigrationExample {
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
     ExecutorService executorService = Executors.newFixedThreadPool(2 * concurrency + 1);
@@ -69,8 +76,8 @@ public class DataMigrationExample {
       path = args[0];
     }
 
-    readerPool = new SessionPool("127.0.0.1", 22260, "root", "root", concurrency);
-    writerPool = new SessionPool("127.0.0.2", 22260, "root", "root", concurrency);
+    readerPool = new SessionPool(HOST_1, Integer.parseInt(PORT), USER, PASSWORD, concurrency);
+    writerPool = new SessionPool(HOST_2, Integer.parseInt(PORT), USER, PASSWORD, concurrency);
 
     SessionDataSetWrapper schemaDataSet =
         readerPool.executeQueryStatement("count timeseries " + path);

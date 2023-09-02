@@ -182,6 +182,7 @@ public class LoginUtil {
     }
 
     public static void securityPrepare(String principal, String keyTabFile) throws IOException {
+        System.out.println("current dir: " + System.getProperty("user.dir"));
         String filePath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
                 + File.separator + "resources" + File.separator;
         String krbFile = filePath + "krb5.conf";

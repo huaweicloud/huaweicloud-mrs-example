@@ -1,6 +1,8 @@
 package basicAuth;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -14,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.MyHttpDelete;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +54,11 @@ public class HttpManager {
         HttpResponse httpResponse = null;
 
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
             return null;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "UserOperation";
         }
 
@@ -80,6 +85,52 @@ public class HttpManager {
     }
 
     /**
+     * sendDownloadRequest
+     * 用于下载类型的接口调用
+     *
+     * @param httpClient    HttpClient
+     * @param operationUrl  String
+     * @param operationName String
+     * @return 结果
+     */
+    public void sendDownloadRequest(HttpClient httpClient, String operationUrl, String operationName, String fileName) {
+        LOG.info("Enter sendDownloadRequest for userOperation {}.", operationName);
+        HttpResponse httpResponse = null;
+
+        if ((operationUrl == null) || (operationUrl.isEmpty())) {
+            LOG.error("The operationUrl is empty.");
+            return ;
+        }
+        if ((operationName == null) || (operationName.isEmpty())) {
+            LOG.error("The operationName is empty.");
+            operationName = "UserOperation";
+        }
+
+        if ((fileName == null) || (fileName.isEmpty())) {
+            LOG.error("The fileName is empty.");
+            return ;
+        }
+
+        LOG.info("The operationUrl is:{}", operationUrl);
+        try {
+            HttpGet httpGet = new HttpGet(operationUrl);
+            httpGet.addHeader("Content-Type", "application/json;charset=UTF-8");
+
+            httpResponse = httpClient.execute(httpGet);
+
+            // 处理下载接口响应
+            handleDownloadResponse(httpResponse, operationName, fileName);
+            LOG.info("SendDownloadRequest completely.");
+        } catch (HttpResponseException e) {
+            LOG.error("HttpResponseException." + e);
+        } catch (ClientProtocolException e) {
+            LOG.error("ClientProtocolException." + e);
+        } catch (IOException e) {
+            LOG.error("IOException." + e);
+        }
+    }
+
+    /**
      * sendHttpPostRequest
      *
      * @param httpClient    HttpClient
@@ -93,15 +144,15 @@ public class HttpManager {
         LOG.info("Enter sendHttpPostRequest for userOperation {}.", operationName);
 
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
             return;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "userOperation";
         }
         if ((jsonFilePath == null) || (jsonFilePath.isEmpty())) {
-            LOG.error("The jsonFilePath is emptey.");
+            LOG.error("The jsonFilePath is empty.");
             return;
         }
 
@@ -128,6 +179,7 @@ public class HttpManager {
                     LOG.info("sendHttpPostRequest completely.");
                     break;
                 }
+                // 日志不能打印敏感信息
                 if (json.length() != 0) {
                     String[] strs = tempString.split(",");
                     String jsonContent = "";
@@ -193,11 +245,11 @@ public class HttpManager {
         LOG.info("Enter sendHttpPostRequest for userOperation {}.", operationName);
 
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
             return null;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "userOperation";
         }
 
@@ -211,9 +263,9 @@ public class HttpManager {
             }
 
             httpResponse = httpClient.execute(httpPost);
-            // 处理httpGet响应
+            // 处理接口响应
             String responseLineContent = handleHttpResponse(httpResponse, operationName);
-            LOG.info("SendHttpPostRequest completely.");
+            LOG.info("Send HttpPostRequest completely.");
             return responseLineContent;
         } catch (UnsupportedEncodingException e1) {
             LOG.error("Unsupported Encoding Exception:{}.", e1.getMessage());
@@ -238,16 +290,16 @@ public class HttpManager {
             String operationName) {
         LOG.info("Enter sendHttpPutRequest for userOperation {}.", operationName);
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
 
             return;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "userOperation";
         }
         if ((jsonFilePath == null) || (jsonFilePath.isEmpty())) {
-            LOG.error("The jsonFilePath is emptey.");
+            LOG.error("The jsonFilePath is empty.");
         }
 
         String filePath = jsonFilePath;
@@ -273,6 +325,7 @@ public class HttpManager {
                     LOG.info("sendHttpPutRequest completely.");
                     break;
                 }
+                // 日志不能打印敏感信息
                 if (json.length() != 0) {
                     String[] strs = tempString.split(",");
                     String jsonContent = "";
@@ -335,12 +388,12 @@ public class HttpManager {
             String operationName) {
         LOG.info("Enter sendHttpPutRequest for userOperation {}.", operationName);
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
 
             return;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "userOperation";
         }
 
@@ -378,11 +431,11 @@ public class HttpManager {
     public void sendHttpDeleteRequest(HttpClient httpClient, String operationUrl, String jsonString,
             String operationName) {
         if ((operationUrl == null) || (operationUrl.isEmpty())) {
-            LOG.error("The operationUrl is emptey.");
+            LOG.error("The operationUrl is empty.");
             return;
         }
         if ((operationName == null) || (operationName.isEmpty())) {
-            LOG.error("The operationName is emptey.");
+            LOG.error("The operationName is empty.");
             operationName = "UserOperation";
         }
 
@@ -420,7 +473,6 @@ public class HttpManager {
         }
         BufferedReader bufferedReader = null;
         InputStream inputStream = null;
-        FileOutputStream fileOutputStream = null;
         try {
             LOG.info("The {} status is {}.", operationName, httpResponse.getStatusLine());
             if (httpResponse.getEntity() != null && httpResponse.getEntity().getContent() != null) {
@@ -446,14 +498,56 @@ public class HttpManager {
                     LOG.info("Close inputStream failed.");
                 }
             }
-            if (fileOutputStream != null) {
+        }
+        return lineContent;
+    }
+
+    private void handleDownloadResponse(HttpResponse httpResponse, String operationName, String fileName) {
+        if (httpResponse == null) {
+            LOG.error("The httpResponse is empty.");
+            return;
+        }
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            LOG.info("The {} status is {}.", operationName, httpResponse.getStatusLine());
+            if (httpResponse.getEntity() != null && httpResponse.getEntity().getContent() != null) {
+                inputStream = httpResponse.getEntity().getContent();
+                // 处理下载类接口
+                if (httpResponse.getEntity().getContentType() != null && httpResponse.getEntity()
+                        .getContentType()
+                        .toString()
+                        .contains("application/x-download")) {
+                    File file = new File(fileName);
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    outputStream = new FileOutputStream(file);
+                    int length;
+                    byte[] buffer = new byte[1024];
+                    while ((length = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, length);
+                    }
+                }
+                LOG.info("File {} download successful.", fileName);
+            }
+        } catch (IOException e) {
+            LOG.warn("ReadLine failed.");
+        } finally {
+            if (inputStream != null) {
                 try {
-                    fileOutputStream.close();
+                    inputStream.close();
                 } catch (IOException e) {
-                    LOG.info("Close fileOutputStream failed.");
+                    LOG.info("Close inputStream failed.");
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    LOG.info("Close outputStream failed.");
                 }
             }
         }
-        return lineContent;
     }
 }

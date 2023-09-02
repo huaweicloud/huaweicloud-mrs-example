@@ -1,0 +1,19 @@
+{
+  "namespace": "com.huawei.mrs.flink.pojo",
+  "type": "record",
+  "name": "AvroData",
+  "fields": [
+    {"name": "name","type": ["null","string"], "default": null, "doc": ""},
+    {"name": "age","type": ["null","int"], "default": null, "doc": ""},
+    {"name": "address", "type": ["null", {
+      "namespace": "com.huawei.mrs.flink.pojo",
+      "type": "record",
+      "name": "Address",
+      "fields": [
+        {"name": "city", "type": ["null","string"]},
+        {"name": "district", "type": ["null","string"]},
+        {"name": "houseNum", "type": ["null","int"]}
+      ]}
+    ]}
+  ]
+}

@@ -26,21 +26,32 @@ import java.util.List;
  * @since 2021-07-28
  */
 public class FlinkIoTDBSource {
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
   /**
    * set truststore.jks path only when iotdb_ssl_enable is true.
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  public static final String IOTDB_SSL_ENABLE = "true";
-  static final String LOCAL_HOST = "127.0.0.1";
-  static final int LOCAL_PORT = 22260;
-  static final String USER_NAME = "IoTDB登录用户名";
-  static final String USER_PW = "IoTDB登录密码";
+  public static String IOTDB_SSL_ENABLE = iotdbProps.getIotdb_ssl_enable();
+  public static String IOTDB_SSL_TRUSTSTORE = iotdbProps.getIotdb_ssl_truststore();
+  private static String LOCAL_HOST = iotdbProps.getLocal_host();
+  private static int LOCAL_PORT = Integer.parseInt(iotdbProps.getLocal_port());
+  private static String USER_NAME = iotdbProps.getUsername();
+  private static String USER_PW = iotdbProps.getPassword();
 
   static final String ROOT_SG1_D1_S1 = "root.sg1.d1.s1";
   static final String ROOT_SG1_D1 = "root.sg1.d1";
 
   public static void main(String[] args) throws Exception {
+    // print comment for command to use run flink
+    System.out.println("use command as: ");
+    System.out.println(
+        "./bin/flink run --class com.huawei.bigdata.iotdb.FlinkIoTDBSink"
+            + " -m yarn-cluster -yt ssl/ -yt /opt/client/Flink/flink/conf/iotdb-example.properties "
+            + "/opt/client/Flink/flink/conf/iotdb-flink-example.jar ");
+    System.out.println(
+        "******************************************************************************************");
+
     // use session api to create data in IoTDB
     prepareData();
 
@@ -69,7 +80,7 @@ public class FlinkIoTDBSource {
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path, this file need to copy to FlinkResource Node
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
     Session session = new Session(LOCAL_HOST, LOCAL_PORT, USER_NAME, USER_PW);
