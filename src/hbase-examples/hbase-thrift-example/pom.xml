@@ -10,9 +10,9 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-thrift-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.0-320.r48</version>
     <properties>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r33</hbase.version>
+        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

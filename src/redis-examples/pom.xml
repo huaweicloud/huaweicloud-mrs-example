@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>redis-demo</artifactId>
-	<version>8.2.0-320.r11</version>
+	<version>8.2.0-320.r48</version>
 
 	<properties>
 		<commons-pools2.version>2.11.1</commons-pools2.version>
 		<log4j.version>1.2.17-atlassian-13</log4j.version>
 		<wcc_krb5.version>8.1.1-311070</wcc_krb5.version>
-		<jedis.version>3.5.2-h0.cbu.mrs.320.r33</jedis.version>
+		<jedis.version>3.5.2-h0.cbu.mrs.320.r48</jedis.version>
 	</properties>
 	<dependencies>
 

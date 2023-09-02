@@ -6,10 +6,10 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>hive-jdbc-example</artifactId>
-  <version>8.2.0-320.r33</version>
+  <version>8.2.0-320.r48</version>
   <properties>
-      <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-      <hive.version>3.1.0-h0.cbu.mrs.320.r33</hive.version>
+      <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
+      <hive.version>3.1.0-h0.cbu.mrs.320.r48</hive.version>
   </properties>
 
   <dependencies>

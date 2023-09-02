@@ -23,13 +23,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-session-example</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.0-320.r48</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <iotdb.version>0.14.0-h0.cbu.mrs.320.r33</iotdb.version>
-        <om.common.version>8.2.0-320.r33</om.common.version>
+        <iotdb.version>0.14.0-h0.cbu.mrs.320.r48</iotdb.version>
+        <om.common.version>8.2.0-320.r48</om.common.version>
     </properties>
     <dependencies>
         <dependency>

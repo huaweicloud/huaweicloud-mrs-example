@@ -4,14 +4,14 @@
 
     <groupId>main.java.examples</groupId>
     <artifactId>HDFSTest</artifactId>
-    <version>8.2.0-320.r33</version>
+    <version>8.2.0-320.r48</version>
     <packaging>jar</packaging>
     <name>hdfs-test-security</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
-        <hadoop.ext.version>8.2.0-320.r33</hadoop.ext.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
+        <hadoop.ext.version>8.2.0-320.r48</hadoop.ext.version>
     </properties>
 
     <dependencies>
