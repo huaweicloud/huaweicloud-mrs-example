@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.intel.hibench</groupId>
+    <artifactId>hibench</artifactId>
+    <version>7.1</version>
+  </parent>
+
+  <groupId>com.intel.hibench</groupId>
+  <artifactId>flinkbench</artifactId>
+  <packaging>pom</packaging>
+  <version>7.1</version>
+  <name>flinkbench</name>
+
+  <properties>
+    <flinkVersion>1.0.3</flinkVersion>
+    <jackson.version>2.4.2</jackson.version>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>streaming</id>
+      <modules>
+        <module>streaming</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>allModules</id>
+      <modules>
+        <module>streaming</module>
+      </modules>
+      <activation>
+        <property>
+          <name>!modules</name>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>defaultScalaVersion</id>
+      <properties>
+        <scala.version>2.11.8</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+      </properties>
+      <activation>
+        <property>
+          <name>!scala</name>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>scala2.10</id>
+      <properties>
+        <scala.version>2.10.4</scala.version>
+        <scala.binary.version>2.10</scala.binary.version>
+      </properties>
+      <activation>
+        <property>
+          <name>scala</name>
+          <value>2.10</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>scala2.11</id>
+      <properties>
+        <scala.version>2.11.8</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+      </properties>
+      <activation>
+        <property>
+          <name>scala</name>
+          <value>2.11</value>
+        </property>
+      </activation>
+    </profile>
+  </profiles>
+</project>
