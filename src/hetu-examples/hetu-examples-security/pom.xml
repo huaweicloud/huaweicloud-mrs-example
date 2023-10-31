@@ -6,13 +6,13 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-security</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-h0.cbu.mrs.330.r9</version>
 
     <dependencies>
         <dependency>
-            <groupId>io.hetu.core</groupId>
+            <groupId>io.trino</groupId>
             <artifactId>hetu-jdbc</artifactId>
-            <version>1.2.0-h0.cbu.mrs.320.r48</version>
+            <version>399-h0.cbu.mrs.330.r9</version>
             <exclusions>
                 <exclusion>
                     <artifactId>zookeeper</artifactId>
@@ -36,19 +36,19 @@
                 </exclusion>
                 <exclusion>
                     <artifactId>hetu-high-availability</artifactId>
-                    <groupId>io.hetu.core</groupId>
+                    <groupId>io.trino</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>presto-hsbroker-client</artifactId>
-                    <groupId>io.hetu.core</groupId>
+                    <artifactId>hetu-hsbroker-client</artifactId>
+                    <groupId>io.trino</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>presto-client</artifactId>
-                    <groupId>io.hetu.core</groupId>
+                    <artifactId>trino-client</artifactId>
+                    <groupId>io.trino</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>hetu-common</artifactId>
-                    <groupId>io.hetu.core</groupId>
+                    <groupId>io.trino</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

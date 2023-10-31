@@ -1,6 +1,6 @@
 ## hbase-example
 
-1. 本样例项目操作逻辑包含 ***HBaseSample.java*** 和 ***PhoenixSample.java***
+1. 本样例项目操作逻辑包含 ***HBaseSample.java***、***PhoenixSample.java***、***HBaseDualReadSample.java***、***GlobalSecondaryIndexSample***
 
    其中登录逻辑包含单集群登录 ***TestMain.java*** ，多集群互信场景的多集群登录 ***TestMultiLogin.java***
 
@@ -16,33 +16,45 @@
 
     将互信场景下的同名用户其中一个集群的认证凭据及其配置文件放入 ***src/main/resources/hadoopDomain*** 目录下，将另一集群的配置文件放入 ***src/main/resources/hadoop1Domain*** 目录下
 
-4. 修改 ***login()*** 方法里面对应 ***userName*** 为用户名
+4. 修改 ***TestMain.java*** 文件 USER_NAME = "***hbaseuser***"为实际用户名
 
-5. __Linux环境下__ 运行时：
+5. 修改 ***TestMain.java*** 文件 ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/hadoop.***YourDomainName***"，其中 ***YourDomainName*** 的值可通过在manager界面单击“系统 > 权限 > 域和互信”，然后查看“本端域”参数获取。
 
-   修改 ***login ()*** 和 ***init ()*** 方法中获取路径的逻辑。使用注释中标识Linux环境下的读取方式。
+6. __Linux环境下__ 运行时：
 
-   > eg:修改TestMain.login()和TestMain.init()
+   修改 TestMain.java中***login ()*** 和Utils.java中 ***createClientConf ()*** 方法中获取路径的逻辑。使用注释中标识Linux环境下的读取方式。
+
+   > eg:修改TestMain.login()
    >
    > ```java
-   > String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+   > String userDir = System.getProperty("user.dir") + File.separator + Utils.CONF_DIRECTORY + File.separator;
    > ```
+   > 修改Utils.createClientConf()
+   >
+   > ```java
+   > String userDir = System.getProperty("user.dir") + File.separator + CONF_DIRECTORY + File.separator;
+   > ```
+   >
    > 修改TestMultiLogin.login()
+   >
    > ```java
    > String userdir = System.getProperty("user.dir") + File.separator + confDir + File.separator;
    > ```
-   > 修改TestMultiLogin.init()
+   >
+   > 修改HBaseDualReadSample.setHbaseDualReadParam()
    > ```java
-   > String userdir = System.getProperty("user.dir") + File.separator + confDirectoryName + File.separator;
+   > String userDir = System.getProperty("user.dir") + File.separator + Utils.CONF_DIRECTORY + File.separator;
    > ```
 
    若在 __安装客户端的Linux环境下运行__，需按照 __《HBase开发指南》1.4.2.1安装客户端时编译并运行程序__ 章节，将对应配置文件和认证文件放置到 ***“$BIGDATA_CLIENT_HOME/HBase/hbase/conf”*** 目录。
 
+   若在 __安装客户端的Linux环境下运行双读样例__，需按照 __《HBase开发指南》1.4.2.1安装客户端时编译并运行程序__ 章节，将hbase-dualclient Jar包放置到 ***“$BIGDATA_CLIENT_HOME/HBase/hbase/lib”*** 目录。
+
    若在 __未安装客户端Linux环境下运行__，需按照 __《HBase开发指南》1.4.2.2未安装客户端时编译并运行程序__ 章节，创建对应目录lib和conf，并分别上传对应依赖Jar包和配置文件及认证文件。
 
-6. 根据 ***pom.xml*** 使用maven构建导包
+7. 根据 ***pom.xml*** 使用maven构建导包
 
-7. 分别运行 ***TestMain.java*** 和 ***TestMultiLogin.java***
+8. 分别运行 ***TestMain.java*** 和 ***TestMultiLogin.java***
 
 
 

@@ -15,10 +15,23 @@ import java.util.Objects;
 public class Helper {
     /** get absolute path to file in resources folder */
     public static String getResourcesPath() {
-        return new Object() {
+        String path = new Object() {
             public String getPath() {
                 return Objects.requireNonNull(this.getClass().getClassLoader().getResource(".")).getPath();
             }
-        }.getPath().substring(1).replace("/", File.separator);
+        }.getPath().replace("/", File.separator);
+        if (isWindows()) {
+            return path.substring(1);
+        }
+        return path;
+    }
+
+    public static boolean isWindows() {
+        String osName = getOsName();
+        return osName != null && osName.startsWith("Windows");
+    }
+
+    private static String getOsName() {
+        return System.getProperty("os.name");
     }
 }

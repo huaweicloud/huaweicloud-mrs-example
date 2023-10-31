@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.2.0-320.r48</version>
+        <version>8.3.0-330.r9</version>
     </parent>
     <artifactId>FlinkPipelineJavaExample</artifactId>
 
@@ -77,16 +77,6 @@
                         </goals>
                         <configuration>
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.curator</groupId>
-                                    <artifactId>curator-client</artifactId>
-                                    <version>2.12.0</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.curator</groupId>
-                                    <artifactId>curator-framework</artifactId>
-                                    <version>2.12.0</version>
-                                </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-connector-netty_${scala.binary.version}</artifactId>

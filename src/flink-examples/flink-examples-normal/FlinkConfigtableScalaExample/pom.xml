@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.2.0-320.r48</version>
+        <version>8.3.0-330.r9</version>
     </parent>
     <artifactId>FlinkConfigtableScalaExample</artifactId>
 

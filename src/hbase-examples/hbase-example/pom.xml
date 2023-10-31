@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
+  ~ Copyright (c) Huawei Technologies Co., Ltd. 2019-2023. All rights reserved.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-330.r9</version>
     <properties>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
-        <phoenix-core.version>5.0.0-HBase-2.0-h0.cbu.mrs.320.r48</phoenix-core.version>
-        <dualclient.version>8.2.0-320.r48</dualclient.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
+        <phoenix-core.version>5.1.2-h0.cbu.mrs.330.r9</phoenix-core.version>
+        <dualclient.version>8.3.0-330.r9</dualclient.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,6 +25,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hbase</groupId>
@@ -41,9 +47,16 @@
             <artifactId>hbase-server</artifactId>
             <version>${hbase.version}</version>
         </dependency>
+        <!--Local Secondary Index-->
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-hindex</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <!--Global Secondary Index-->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-global-index-client</artifactId>
             <version>${hbase.version}</version>
         </dependency>
         <dependency>
@@ -54,6 +67,21 @@
         <dependency>
             <groupId>org.apache.phoenix</groupId>
             <artifactId>phoenix-core</artifactId>
+            <version>${phoenix-core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>zookeeper-jute</artifactId>
+                    <groupId>org.apache.zookeeper</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>zookeeper</artifactId>
+                    <groupId>org.apache.zookeeper</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-hbase-compat-2.4.1</artifactId>
             <version>${phoenix-core.version}</version>
         </dependency>
         <dependency>

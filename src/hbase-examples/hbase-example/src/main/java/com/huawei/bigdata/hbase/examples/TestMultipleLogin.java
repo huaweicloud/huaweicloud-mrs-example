@@ -6,9 +6,8 @@ package com.huawei.bigdata.hbase.examples;
 
 import com.huawei.hadoop.security.LoginUtil;
 
+import com.huawei.hadoop.security.Utils;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.security.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,7 @@ public class TestMultipleLogin {
             confDirectorys.add("hadoop1Domain");
 
             for (String confDir : confDirectorys) {
-                confs.add(init(confDir));
+                confs.add(Utils.createConfByUserDir(confDir));
             }
 
             // The conf directory which stored user.keytab and krb5conf
@@ -61,6 +60,7 @@ public class TestMultipleLogin {
             for (Configuration conf : confs) {
                 LOG.info("-----------Start HBase sample {} test-------------", i);
                 HBaseSample oneSample = new HBaseSample(conf);
+                oneSample.createConnection();
                 oneSample.test();
                 i++;
             }
@@ -107,20 +107,5 @@ public class TestMultipleLogin {
             LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, userName, userKeytabFile);
             LoginUtil.login(userName, userKeytabFile, krb5File, conf);
         }
-    }
-
-    private static Configuration init(String confDirectoryName) throws IOException {
-        // Default load from conf directory
-        Configuration conf = HBaseConfiguration.create();
-
-        //In Windows environment
-        String userdir = TestMain.class.getClassLoader().getResource(confDirectoryName).getPath() + File.separator;
-        //In Linux environment
-        //String userdir = System.getProperty("user.dir") + File.separator + confDirectoryName + File.separator;
-
-        conf.addResource(new Path(userdir + "core-site.xml"), false);
-        conf.addResource(new Path(userdir + "hdfs-site.xml"), false);
-        conf.addResource(new Path(userdir + "hbase-site.xml"), false);
-        return conf;
     }
 }

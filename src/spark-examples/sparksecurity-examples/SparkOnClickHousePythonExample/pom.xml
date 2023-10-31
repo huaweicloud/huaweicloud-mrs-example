@@ -16,9 +16,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
         <java.version>1.8</java.version>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <clickhouse.version>0.3.1-h0.cbu.mrs.320.r33</clickhouse.version>
+        <clickhouse.version>0.4.5-h0.cbu.mrs.330.r9</clickhouse.version>
     </properties>
 
     <dependencies>
@@ -33,7 +33,7 @@
             <version>${spark.version}</version>
         </dependency>
         <dependency>
-            <groupId>ru.yandex.clickhouse</groupId>
+            <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
             <version>${clickhouse.version}</version>
         </dependency>
@@ -108,4 +108,3 @@
         <testOutputDirectory>target/test-classes</testOutputDirectory>
     </build>
 </project>
-

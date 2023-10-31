@@ -5,23 +5,26 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>flink-examples-normal</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-330.r9</version>
     <packaging>pom</packaging>
     <properties>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.7</scala.version>
-        <flink.version>1.15.0-h0.cbu.mrs.320.r48</flink.version>
-        <jedisclient.version>8.2.0-320.r48</jedisclient.version>
-        <wcc_krb5.version>8.1.1-311070</wcc_krb5.version>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
+        <flink.version>1.15.0-h0.cbu.mrs.330.r9</flink.version>
+        <jedisclient.version>8.3.0-330.r9</jedisclient.version>
+        <wcc_krb5.version>8.1.2-312080</wcc_krb5.version>
+        <jedis.version>3.6.3-h0.cbu.mrs.330.r9</jedis.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <curator.version>4.0.0</curator.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
-        <flink.shaded.version>15.0-h0.cbu.mrs.320.r48</flink.shaded.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
+        <flink.shaded.version>15.0-h0.cbu.mrs.330.r9</flink.shaded.version>
         <guava.version>30.1.1-jre</guava.version>
-        <flink.connector.netty.version>1.15.0-h0.cbu.mrs.320.r48</flink.connector.netty.version>
+        <flink.connector.netty.version>1.15.0-h0.cbu.mrs.330.r9</flink.connector.netty.version>
+        <hudi.version>0.11.0-h0.cbu.mrs.330.r9</hudi.version>
+        <kafka.version>2.8.1-h0.cbu.mrs.330.r9</kafka.version>
     </properties>
     <modules>
         <module>FlinkCheckpointJavaExample</module>
@@ -38,7 +41,10 @@
         <module>FlinkStreamJavaExample</module>
         <module>FlinkStreamScalaExample</module>
         <module>FlinkStreamSqlJoinExample</module>
+        <module>FlinkStreamSqlJoinScalaExample</module>
+        <module>FlinkHudiJavaExample</module>
     </modules>
+
     <profiles>
         <profile>
             <id>scala-2.12</id>

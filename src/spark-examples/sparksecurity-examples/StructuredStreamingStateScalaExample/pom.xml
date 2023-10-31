@@ -10,9 +10,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <kafka.version>2.4.0-h0.cbu.mrs.320.r33</kafka.version>
+        <kafka.version>2.8.1-h0.cbu.mrs.330.r9</kafka.version>
     </properties>
 
     <dependencies>
@@ -50,7 +50,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka_2.11</artifactId>
+                    <artifactId>kafka_2.12</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -68,7 +68,7 @@
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <exclusions>
                 <exclusion>
@@ -129,4 +129,3 @@
         <testOutputDirectory>target/test-classes</testOutputDirectory>
     </build>
 </project>
-

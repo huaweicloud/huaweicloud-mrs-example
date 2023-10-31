@@ -10,9 +10,9 @@ import java.util.Properties;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
-import ru.yandex.clickhouse.ClickHouseConnection;
-import ru.yandex.clickhouse.ClickHouseDriver;
-import ru.yandex.clickhouse.ClickHouseStatement;
+import com.clickhouse.jdbc.ClickHouseConnection;
+import com.clickhouse.jdbc.ClickHouseDriver;
+import com.clickhouse.jdbc.ClickHouseStatement;
 
 /**
  * 功能描述 SparkOnClickHousePythonExample
@@ -21,7 +21,7 @@ import ru.yandex.clickhouse.ClickHouseStatement;
  */
 public class SparkOnClickHouseExample {
 
-    private static final String DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
+    private static final String DRIVER = "com.clickhouse.jdbc.ClickHouseDriver";
 
     public static void sparkOnClickHouse(JavaSparkContext jsc, ArrayList originArgs) throws SQLException {
         String[] args = (String[]) originArgs.subList(1, originArgs.size()).toArray(new String[originArgs.size()]);

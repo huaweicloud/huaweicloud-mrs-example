@@ -11,6 +11,7 @@ import com.huawei.fusioninsight.elasticsearch.example.lowlevel.delete.DeleteSome
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.exist.IndexIsExist;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.flush.Flush;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.index.CreateIndex;
+import com.huawei.fusioninsight.elasticsearch.example.lowlevel.index.IndexSorting;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.index.PutData;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.search.QueryData;
 import com.huawei.fusioninsight.elasticsearch.example.lowlevel.sql.SqlQuery;
@@ -78,12 +79,12 @@ public class LowLevelRestClientAllRequests {
                 request.setEntity(entity);
                 request.addParameter("pretty", "true");
                 response = restClientTest.performRequest(request);
-                if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()) {
-                    LOG.info("Already input documents : {}." , oneCommit * i);
+                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                    LOG.info("Already input documents {}.", oneCommit * i);
                 } else {
                     LOG.error("Bulk failed.");
                 }
-                LOG.info("Bulk response entity is : {}." , EntityUtils.toString(response.getEntity()));
+                LOG.info("Bulk response entity is {}.", EntityUtils.toString(response.getEntity()));
             } catch (IOException e) {
                 LOG.error("Bulk failed, exception occurred.", e);
             }
@@ -107,6 +108,7 @@ public class LowLevelRestClientAllRequests {
             bulk(restClient, indexName, "_doc");
             BulkRoutingSample.bulkWithRouting(restClient, indexName);
             QueryData.queryData(restClient, indexName, "_doc", "1");
+            IndexSorting.doIndexSorting(restClient);
             SqlQuery.doSqlQuery(restClient);
             DeleteSomeDocumentsInIndex.deleteSomeDocumentsInIndex(restClient, indexName, "pubinfo", "Beijing");
             Flush.flushOneIndex(restClient, indexName);

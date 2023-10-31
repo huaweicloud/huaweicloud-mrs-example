@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs.rtd</groupId>
         <artifactId>rtdexecutor-plugins</artifactId>
-        <version>8.2.0-320.r11</version>
+        <version>8.3.0-330.r9</version>
         <relativePath>../rtdexecutor-plugins-parent/pom.xml</relativePath>
     </parent>
 

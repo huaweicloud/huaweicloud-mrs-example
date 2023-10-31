@@ -9,9 +9,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
 
-import ru.yandex.clickhouse.ClickHouseConnection;
-import ru.yandex.clickhouse.ClickHouseDriver;
-import ru.yandex.clickhouse.ClickHouseStatement;
+import com.clickhouse.jdbc.ClickHouseConnection;
+import com.clickhouse.jdbc.ClickHouseDriver;
+import com.clickhouse.jdbc.ClickHouseStatement;
 
 /**
  * 功能描述 SparkOnClickHousePythonExample
@@ -20,7 +20,7 @@ import ru.yandex.clickhouse.ClickHouseStatement;
  */
 public class SparkOnClickHouseExample {
 
-    private static final String DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
+    private static final String DRIVER = "com.clickhouse.jdbc.ClickHouseDriver";
 
     public static void sparkOnClickHouse(JavaSparkContext jsc, ArrayList originArgs) throws SQLException {
         String[] args = (String[]) originArgs.subList(1, originArgs.size()).toArray(new String[originArgs.size()]);
@@ -38,9 +38,11 @@ public class SparkOnClickHouseExample {
         String jdbcUrl = args[0];
         String ckDBName = args[1];
         String ckTableName = args[2];
+        String user = args[3];
 
         Properties props = new Properties();
         props.put("driver", DRIVER);
+        props.put("user", user);
 
         ClickHouseDriver ckDriver = new ClickHouseDriver();
         ClickHouseConnection ckConnect = ckDriver.connect(jdbcUrl, props);
@@ -60,6 +62,7 @@ public class SparkOnClickHouseExample {
         Dataset ckData = spark.read()
                 .format("jdbc")
                 .option("url", jdbcUrl)
+                .option("user", user)
                 .option("driver", DRIVER)
                 .option("dbtable", ckDBName + "." + ckTableName)
                 .load();

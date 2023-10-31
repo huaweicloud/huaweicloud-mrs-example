@@ -5,7 +5,7 @@ import java.util.Properties
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
-import ru.yandex.clickhouse.{ClickHouseDriver, ClickHouseStatement}
+import com.clickhouse.jdbc.{ClickHouseDriver, ClickHouseStatement}
 
 /**
  * SparkOnClickHouseScalaExample
@@ -13,7 +13,7 @@ import ru.yandex.clickhouse.{ClickHouseDriver, ClickHouseStatement}
 
 object SparkOnClickHouseExample {
 
-  val DRIVER = "ru.yandex.clickhouse.ClickHouseDriver"
+  val DRIVER = "com.clickhouse.jdbc.ClickHouseDriver"
 
   def main(args: Array[String]): Unit = {
 
@@ -32,9 +32,11 @@ object SparkOnClickHouseExample {
     val clickHouseJdbcUrl = args(0)
     val clickHouseDB = args(1)
     val clickHouseTable = args(2)
+    val user = args(3)
 
     val props = new Properties()
     props.put("driver", DRIVER)
+    props.put("user", user);
     val ckDriver = new ClickHouseDriver
     val ckConnect = ckDriver.connect(clickHouseJdbcUrl, props)
     val ckStatement = ckConnect.createStatement()
@@ -53,6 +55,7 @@ object SparkOnClickHouseExample {
     val ckData = spark.read
       .format("jdbc")
       .option("url", clickHouseJdbcUrl)
+      .option("user", user)
       .option("driver", DRIVER)
       .option("dbtable", clickHouseDB + "." + clickHouseTable)
       .load()

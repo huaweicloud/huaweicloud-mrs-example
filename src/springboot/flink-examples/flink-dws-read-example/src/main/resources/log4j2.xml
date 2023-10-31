@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="5">
+	<Properties>
+		<property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+		<!-- LOG_LEVEL 配置你需要的日志输出级别       -->
+		<property name="LOG_LEVEL" value="DEBUG" />
+	</Properties>
+
+	<appenders>
+		<console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${LOG_PATTERN}"/>
+			<ThresholdFilter level="${LOG_LEVEL}" onMatch="ACCEPT" onMismatch="DENY"/>
+		</console>
+	</appenders>
+
+	<loggers>
+		<root level="${LOG_LEVEL}">
+			<appender-ref ref="Console"/>
+		</root>
+	</loggers>
+
+</configuration>

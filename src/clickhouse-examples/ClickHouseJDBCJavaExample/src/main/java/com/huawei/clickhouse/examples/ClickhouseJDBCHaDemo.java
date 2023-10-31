@@ -1,21 +1,22 @@
 package com.huawei.clickhouse.examples;
 
+import com.clickhouse.client.config.ClickHouseClientOption;
+import com.clickhouse.client.config.ClickHouseDefaults;
+import com.clickhouse.jdbc.ClickHouseConnection;
+import com.clickhouse.jdbc.ClickHouseDataSource;
+import com.clickhouse.jdbc.ClickHouseStatement;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import ru.yandex.clickhouse.BalancedClickhouseDataSource;
-import ru.yandex.clickhouse.ClickHouseConnection;
-import ru.yandex.clickhouse.ClickHouseStatement;
-import ru.yandex.clickhouse.except.ClickHouseErrorCode;
-import ru.yandex.clickhouse.settings.ClickHouseProperties;
 
 /**
  * 功能描述 Balance HA Demo
@@ -25,12 +26,12 @@ import ru.yandex.clickhouse.settings.ClickHouseProperties;
 public class ClickhouseJDBCHaDemo {
     private static final Logger LOG = LogManager.getLogger(ClickhouseJDBCHaDemo.class);
 
-    private static final String JDBC_PREFIX = "jdbc:clickhouse://";
+    private static final String JDBC_PREFIX = "jdbc:ch://";
 
-    private static BalancedClickhouseDataSource balancedClickhouseDataSource;
+    private static ClickHouseDataSource balancedClickhouseDataSource;
 
 
-    public void initConnection() throws IOException {
+    public void initConnection() throws Exception {
         Properties properties = new Properties();
         String proPath = System.getProperty("user.dir") + File.separator + "conf"
                 + File.separator + "clickhouse-example.properties";
@@ -40,7 +41,7 @@ public class ClickhouseJDBCHaDemo {
             LOG.error("Failed to load properties file.");
             throw e;
         }
-        ClickHouseProperties clickHouseProperties = new ClickHouseProperties();
+        Properties clickHouseProperties = new Properties();
         boolean isSec = Boolean.parseBoolean(properties.getProperty("CLICKHOUSE_SECURITY_ENABLED"));
         String UriList = properties.getProperty("clickhouse_dataSource_ip_list");
         String userName = properties.getProperty("user");
@@ -48,20 +49,25 @@ public class ClickhouseJDBCHaDemo {
 
         if (isSec) {
             if (isMachineUser) {
-                clickHouseProperties.setMachineUser(true);
-                clickHouseProperties.setMachineUserKeytabPath(System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
+                clickHouseProperties.setProperty("isMachineUser", "true");
+                clickHouseProperties.setProperty("keytabPath", System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
             }
             String userPass = properties.getProperty("password");
-            clickHouseProperties.setPassword(userPass);
-            clickHouseProperties.setSsl(true);
-            clickHouseProperties.setSslMode("none");
+            clickHouseProperties.setProperty(ClickHouseDefaults.PASSWORD.getKey(), userPass);
+            clickHouseProperties.setProperty(ClickHouseClientOption.SSL.getKey(), Boolean.toString(true));
+            clickHouseProperties.setProperty(ClickHouseClientOption.SSL_MODE.getKey(), "none");
         }
-        clickHouseProperties.setUser(userName);
-        //是否在初始化连接时检测连接可用
-        clickHouseProperties.setCheckConnection(true);
-        balancedClickhouseDataSource = new BalancedClickhouseDataSource(JDBC_PREFIX + UriList, clickHouseProperties)
-                //此方法在后台会定时检测连接是否可用，并维护一个可用连接的list，以下配置代表每30s进行一次检测
-                .scheduleActualization(30, TimeUnit.SECONDS);
+        clickHouseProperties.setProperty(ClickHouseDefaults.USER.getKey(), userName);
+
+        try {
+            clickHouseProperties.setProperty(ClickHouseClientOption.FAILOVER.getKey(), "21");
+            clickHouseProperties.setProperty(ClickHouseClientOption.LOAD_BALANCING_POLICY.getKey(), "roundRobin");
+            balancedClickhouseDataSource = new ClickHouseDataSource(JDBC_PREFIX + UriList, clickHouseProperties);
+
+        } catch (Exception e) {
+            LOG.error("Failed to create balancedClickHouseProperties.");
+            throw e;
+        }
     }
 
     public void queryData(String databaseName, String tableName) {
@@ -74,8 +80,7 @@ public class ClickhouseJDBCHaDemo {
              }
         } catch (SQLException e) {
             //如果返回码是210则可能为LB服务器Done掉，重新检测连接是否可用，并重试
-            if (e.getErrorCode() == ClickHouseErrorCode.NETWORK_ERROR.code) {
-                balancedClickhouseDataSource.actualize();
+            if (e.getErrorCode() == 210) {
                 try (ClickHouseConnection con = balancedClickhouseDataSource.getConnection();
                      ClickHouseStatement st = con.createStatement();
                      ResultSet rs = st.executeQuery(querySql1)) {

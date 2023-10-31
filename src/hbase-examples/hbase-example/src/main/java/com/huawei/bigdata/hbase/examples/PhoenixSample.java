@@ -1,14 +1,17 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2019-2023. All rights reserved.
  */
 
 package com.huawei.bigdata.hbase.examples;
+
+import com.huawei.hadoop.security.Utils;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.phoenix.jdbc.PhoenixDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,12 +22,11 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 /**
- * 功能描述
  * Phoenix development description sample code,
  * which describes how to use Phoenix APIs to
  * access HBase clusters and perform SQL operations.
  *
- * @since 2013
+ * @since 2020-09-21
  */
 
 public class PhoenixSample {
@@ -32,6 +34,21 @@ public class PhoenixSample {
     Configuration conf = null;
     java.util.Properties props = new java.util.Properties();
 
+    /**
+     * Constructor using default client configuration
+     *
+     * @throws IOException When the creation fails, an exception is thrown.
+     */
+    public PhoenixSample() throws SQLException {
+        this(Utils.createClientConf());
+    }
+
+    /**
+     * Constructor with a client configuration
+     *
+     * @param conf Client configuration
+     * @throws SQLException When the creation fails, an exception is thrown.
+     */
     public PhoenixSample(Configuration conf) throws SQLException {
         DriverManager.registerDriver(PhoenixDriver.INSTANCE);
         this.conf = conf;

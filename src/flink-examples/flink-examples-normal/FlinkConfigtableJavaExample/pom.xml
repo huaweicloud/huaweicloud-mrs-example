@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.2.0-320.r48</version>
+        <version>8.3.0-330.r9</version>
     </parent>
     <artifactId>FlinkConfigtableJavaExample</artifactId>
     <properties>
@@ -30,10 +30,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.huawei.mrs</groupId>
-            <artifactId>jredisclient</artifactId>
-            <version>${jedisclient.version}</version>
-            <type>jar</type>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -63,20 +62,10 @@
                                     <version>${flink.version}</version>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.huawei.mrs</groupId>
-                                    <artifactId>jredisclient</artifactId>
-                                    <version>${jedisclient.version}</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.huawei.mrs</groupId>
-                                    <artifactId>jredisclient</artifactId>
-                                    <version>${jedisclient.version}</version>
-                                    <destFileName>jredisclient-${jedisclient.version}.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.huawei.mrs</groupId>
-                                    <artifactId>wcc_krb5</artifactId>
-                                    <version>${wcc_krb5.version}</version>
+                                    <groupId>redis.clients</groupId>
+                                    <artifactId>jedis</artifactId>
+                                    <version>${jedis.version}</version>
+                                    <destFileName>jedis-${jedis.version}.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>net.sf.supercsv</groupId>

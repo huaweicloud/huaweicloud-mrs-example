@@ -10,8 +10,8 @@
 #   参数4：导出路径
 #   参数5：导出条件(可不指定，若指定需要给json格式)
 
-JAR_STR="${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/ctbase-core-0.95.0-h0.cbu.mrs.320.r33.jar,\
-${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/hbase-it-bulk-load-8.2.0-320.r33.jar,\
+JAR_STR="${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/ctbase-core-*.jar,\
+${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/hbase-it-bulk-load-*.jar,\
 ${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/commons-io-2.11.0.jar"
 
 CONF_STR="--conf \"spark.driver.extraJavaOptions=-Dlog4j.configuration=file:conf/log4j.properties\" \
@@ -26,7 +26,7 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info ClusterTableTest idx_p1 "/tmp/exportByPriIdx"
 
 #非独立索引表 主索引导出+主索引条件
@@ -36,7 +36,7 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info ClusterTableTest idx_p1 "/tmp/exportByPriIdxWithCond" "{'ID':'10002'}"
 
 #非独立索引表 二级索引导出
@@ -46,7 +46,7 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info ClusterTableTest idx_s1 "/tmp/exportBySecIdx"
 
 #非独立索引表 二级索引导出+二级索引条件
@@ -56,7 +56,7 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info ClusterTableTest idx_s1 "/tmp/exportBySecIdxWithCond" "{'NAME':'zhangsan2'}"
 
 #独立索引表 主索引导出
@@ -66,7 +66,7 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info_StandAlone ClusterTableTestStandAlone idx_p4 "/tmp/exportByPriIdxSA"
 
 #独立索引表 二级索引导出+二级索引条件
@@ -76,5 +76,5 @@ spark-submit \
 --deploy-mode client \
 --jars "${JAR_STR}" \
 ${CONF_STR} \
-ctbase-export-examples-8.2.0-320.r33.jar \
+ctbase-export-examples-*.jar \
 Consumer_info_StandAlone ClusterTableTestStandAlone idx_s4 "/tmp/exportBySecIdxWithCondSA" "{'ISCHINESE':'1'}"

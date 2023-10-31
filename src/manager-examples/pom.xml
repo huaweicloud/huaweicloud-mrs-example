@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>manager-examples</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-330.r9</version>
 
     <build>
         <plugins>
