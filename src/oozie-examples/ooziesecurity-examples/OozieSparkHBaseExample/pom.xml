@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.bigdata</groupId>
-    <artifactId>OoizeSparkHBase</artifactId>
-    <version>8.2.0-320.r48</version>
+    <artifactId>OozieSparkHBase</artifactId>
+    <version>8.3.0-330.r9</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r48</hadoop.version>
-        <oozie.version>5.1.0-h0.cbu.mrs.320.r48</oozie.version>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r48</spark.version>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
+        <oozie.version>5.1.0-h0.cbu.mrs.330.r9</oozie.version>
+        <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -25,6 +25,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-auth</artifactId>
             <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -52,6 +58,10 @@
                     <groupId>javax.jms</groupId>
                     <artifactId>jms</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -76,6 +86,14 @@
                     <groupId>org.apache.hive</groupId>
                     <artifactId>hive-llap-client</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -83,8 +101,19 @@
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-mapreduce</artifactId>
             <version>${hbase.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.17.2</version>
+        </dependency>
     </dependencies>
 
     <build>

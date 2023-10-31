@@ -6,18 +6,18 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>kafka-examples</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-330.r9</version>
 
     <properties>
-        <zookeeper.version>3.6.3-h0.cbu.mrs.320.r48</zookeeper.version>
-        <kafka.version>2.4.0-h0.cbu.mrs.320.r48</kafka.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.330.r9</zookeeper.version>
+        <kafka.version>2.8.1-h0.cbu.mrs.330.r9</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
+            <artifactId>kafka_2.12</artifactId>
             <version>${kafka.version}</version>
             <exclusions>
                 <exclusion>
@@ -109,13 +109,13 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>ch.qos.reload4j</groupId>
-            <artifactId>reload4j</artifactId>
-            <version>1.2.19</version>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17-atlassian-13</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-reload4j</artifactId>
+            <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.36</version>
         </dependency>
         <dependency>

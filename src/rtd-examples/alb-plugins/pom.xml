@@ -2,12 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.dap.alb</groupId>
     <artifactId>alb-plugins</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.3.0-330.r9</version>
     <packaging>war</packaging>
 
     <properties>
-        <tomcat.version>8.5.81</tomcat.version>
-        <farmer_version>8.2.0-320.r11</farmer_version>
+        <farmer_version>8.3.0-330.r9</farmer_version>
     </properties>
 
     <dependencies>
@@ -15,6 +14,12 @@
             <groupId>com.huawei.mrs</groupId>
             <artifactId>alb-common</artifactId>
             <version>${farmer_version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

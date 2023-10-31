@@ -44,7 +44,7 @@ public class JDBCExampleKeytabFabric {
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "kerberos");
         properties.setProperty("ZooKeeperSaslClientConfig", "Client");
-        Class.forName("io.prestosql.jdbc.PrestoDriver");
+        Class.forName("io.trino.jdbc.TrinoDriver");
     }
 
     /**
@@ -56,7 +56,7 @@ public class JDBCExampleKeytabFabric {
         Connection connection = null;
         ResultSet result = null;
         PreparedStatement statement = null;
-        String url = "jdbc:presto://192.168.1.130:29902,192.168.1.131:29902,192.168.1.132:29902/hive/default?serviceDiscoveryMode=hsfabric";
+        String url = "jdbc:trino://192.168.1.130:29902,192.168.1.131:29902,192.168.1.132:29902/hive/default?serviceDiscoveryMode=hsfabric";
 
         try {
             init();

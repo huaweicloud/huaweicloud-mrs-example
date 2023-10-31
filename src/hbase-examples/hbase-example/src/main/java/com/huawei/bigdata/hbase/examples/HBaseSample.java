@@ -1,9 +1,10 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2019-2023. All rights reserved.
  */
 
 package com.huawei.bigdata.hbase.examples;
 
+import com.huawei.hadoop.security.Utils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
@@ -36,8 +37,8 @@ import org.apache.hadoop.hbase.hindex.protobuf.generated.HIndexProtos.ColumnQual
 import org.apache.hadoop.hbase.io.compress.Compression;
 import org.apache.hadoop.hbase.io.encoding.DataBlockEncoding;
 import org.apache.hadoop.hbase.security.access.AccessControlClient;
-import org.apache.hadoop.hbase.security.access.AccessControlLists;
 import org.apache.hadoop.hbase.security.access.Permission;
+import org.apache.hadoop.hbase.security.access.PermissionStorage;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,28 +57,58 @@ import java.util.Set;
  * information as source data,it introduces how to implement businesss process
  * development using HBase API
  *
- * @since 2013
+ * @since 2020-09-21
  */
 public class HBaseSample {
     private static final Logger LOG = LoggerFactory.getLogger(HBaseSample.class.getName());
 
-    private TableName tableName = null;
-
-    private Connection conn = null;
+    /**
+     * Sample table name
+     */
+    protected static final String HBASE_SAMPLE_TABLE_NAME = "hbase_sample_table";
 
     /**
-     * Properties for enabling encrypted HBase ZooKeeper communication
+     * Connection between client and server
      */
-    private static final String ZK_CLIENT_CNXN_SOCKET = "zookeeper.clientCnxnSocket";
+    protected Connection conn;
 
-    private static final String ZK_CLIENT_SECURE = "zookeeper.client.secure";
+    /**
+     * Configuration of client
+     */
+    protected Configuration clientConf;
 
-    private static final String ZK_SSL_SOCKET_CLASS = "org.apache.zookeeper.ClientCnxnSocketNetty";
+    /**
+     * Sample table name
+     */
+    protected TableName tableName;
 
-    public HBaseSample(Configuration conf) throws IOException {
-        this.tableName = TableName.valueOf("hbase_sample_table");
-        handlZkSslEnabled(conf);
-        this.conn = ConnectionFactory.createConnection(conf);
+    /**
+     * Constructor using default client configuration
+     *
+     * @throws IOException When the creation fails, an exception is thrown.
+     */
+    public HBaseSample() throws IOException {
+        this(Utils.createClientConf());
+    }
+
+    /**
+     * Constructor with a client configuration
+     *
+     * @param clientConf Client configuration
+     */
+    public HBaseSample(Configuration clientConf) {
+        this.tableName = TableName.valueOf(HBASE_SAMPLE_TABLE_NAME);
+        this.clientConf = clientConf;
+        Utils.handleZkSslEnabled(clientConf);
+    }
+
+    /**
+     * Create connection between client and hbase server
+     *
+     * @throws IOException Exception thrown when the connection fails to be created
+     */
+    public void createConnection() throws IOException {
+        this.conn = ConnectionFactory.createConnection(clientConf);
     }
 
     /**
@@ -107,24 +138,6 @@ public class HBaseSample {
                 } catch (IOException e1) {
                     LOG.error("Failed to close the connection ", e1);
                 }
-            }
-        }
-    }
-
-    /*
-     * If SSL-encrypted communication is enabled for ZooKeeper in the cluster, HBase needs to perform adaptation.
-     */
-    private void handlZkSslEnabled(Configuration conf) {
-        boolean zkSslEnabled = conf.getBoolean("HBASE_ZK_SSL_ENABLED", false);
-        if (zkSslEnabled) {
-            System.setProperty(ZK_CLIENT_CNXN_SOCKET, ZK_SSL_SOCKET_CLASS);
-            System.setProperty(ZK_CLIENT_SECURE, "true");
-        } else {
-            if (System.getProperty(ZK_CLIENT_CNXN_SOCKET) != null) {
-                System.clearProperty(ZK_CLIENT_CNXN_SOCKET);
-            }
-            if (System.getProperty(ZK_CLIENT_SECURE) != null) {
-                System.clearProperty(ZK_CLIENT_SECURE);
             }
         }
     }
@@ -372,7 +385,7 @@ public class HBaseSample {
      * enableIndex
      */
     public void enableIndex() {
-        LOG.info("Entering createIndex.");
+        LOG.info("Entering enableIndex.");
 
         // Name of the index to be enabled
         String indexName = "index_name";
@@ -881,7 +894,7 @@ public class HBaseSample {
         Admin hAdmin = null;
         try {
             // Create ACL Instance
-            mt = conn.getTable(AccessControlLists.ACL_TABLE_NAME);
+            mt = conn.getTable(PermissionStorage.ACL_TABLE_NAME);
 
             Permission perm = new Permission(Bytes.toBytes(permissions));
 

@@ -9,10 +9,10 @@
     <version>1.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <es.version>7.10.2-h0.cbu.mrs.320.r33</es.version>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <es.version>7.10.2-h0.cbu.mrs.330.r9</es.version>
+        <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.320.r33</hadoop.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
     </properties>
 
     <dependencies>
@@ -116,7 +116,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.3.0</version>
+                <version>4.7.2</version>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>

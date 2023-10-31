@@ -39,10 +39,10 @@ public class Bulk {
      * Bulk request can be used to to execute multiple index,update or delete
      * operations using a single request.
      */
-    private static void bulk(RestHighLevelClient highLevelClient, String index) {
+    public static void bulk(RestHighLevelClient highLevelClient, String index) {
         try {
             Map<String, Object> jsonMap = new HashMap<>();
-            for (int i = 1; i <= 100; i++) {
+            for (int i = 1; i <= 10; i++) {
                 BulkRequest request = new BulkRequest();
                 for (int j = 1; j <= 1000; j++) {
                     jsonMap.clear();

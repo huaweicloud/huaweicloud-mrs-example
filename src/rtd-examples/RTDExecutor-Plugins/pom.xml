@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs.rtd</groupId>
     <artifactId>rtdexecutor-plugins-bundle</artifactId>
-    <version>8.2.0-320.r11</version>
+    <version>8.3.0-330.r9</version>
     <packaging>pom</packaging>
     <name>RTDExecutor Plugins Bundle</name>
 
@@ -19,12 +19,12 @@
     <dependencies>
         <dependency>
             <groupId>com.huawei.mrs.rtd</groupId>
-            <version>8.2.0-320.r11</version>
+            <version>8.3.0-330.r9</version>
             <artifactId>DecisionFlowPlugin</artifactId>
         </dependency>
         <dependency>
             <groupId>com.huawei.mrs.rtd</groupId>
-            <version>8.2.0-320.r11</version>
+            <version>8.3.0-330.r9</version>
             <artifactId>VarsExtensionPlugin</artifactId>
         </dependency>
     </dependencies>

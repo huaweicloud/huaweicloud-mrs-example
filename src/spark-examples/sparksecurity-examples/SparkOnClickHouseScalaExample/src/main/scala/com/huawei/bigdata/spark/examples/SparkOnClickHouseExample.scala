@@ -5,7 +5,7 @@ import java.util.Properties
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
-import ru.yandex.clickhouse.{ClickHouseDriver, ClickHouseStatement}
+import com.clickhouse.jdbc.{ClickHouseDriver, ClickHouseStatement}
 
 /**
  * SparkOnClickHouseScalaExample
@@ -13,7 +13,7 @@ import ru.yandex.clickhouse.{ClickHouseDriver, ClickHouseStatement}
 
 object SparkOnClickHouseExample {
 
-  val DRIVER = "ru.yandex.clickhouse.ClickHouseDriver"
+  val DRIVER = "com.clickhouse.jdbc.ClickHouseDriver"
 
   def main(args: Array[String]): Unit = {
     if (args.length < 5) {

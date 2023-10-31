@@ -94,6 +94,7 @@ object CTBaseExportExample {
 		} catch {
 			case ex: Exception => LOG.error("Failed to export table, because ", ex)
 		}
+		System.exit(0)
 	}
 
 	/**
@@ -272,6 +273,7 @@ object CTBaseExportExample {
 		}
 		sc.parallelize(ctValues.toSeq, PARTITION_NUM).saveAsTextFile(exportPath)
 		closeFs()
+		sc.stop()
 	}
 
 	/**

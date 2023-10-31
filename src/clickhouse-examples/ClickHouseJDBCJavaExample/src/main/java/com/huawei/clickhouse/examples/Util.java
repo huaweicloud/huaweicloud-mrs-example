@@ -6,22 +6,25 @@ package com.huawei.clickhouse.examples;
  * @since 2021-03-30
  */
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import com.clickhouse.client.config.ClickHouseClientOption;
+import com.clickhouse.client.config.ClickHouseDefaults;
+import com.clickhouse.jdbc.ClickHouseDataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ru.yandex.clickhouse.ClickHouseDataSource;
-import ru.yandex.clickhouse.settings.ClickHouseProperties;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 
 
 public class Util {
@@ -47,16 +50,18 @@ public class Util {
         String user = Demo.user;
         String password = Demo.password;
         try {
-            Class.forName("ru.yandex.clickhouse.ClickHouseDriver");
-            ClickHouseProperties clickHouseProperties = new ClickHouseProperties();
-            clickHouseProperties.setSocketTimeout(60000);
+            Class.forName("com.clickhouse.jdbc.ClickHouseDriver");
+            Properties clickHouseProperties = new Properties();
+            clickHouseProperties.setProperty(ClickHouseClientOption.CONNECTION_TIMEOUT.getKey(), Integer.toString(60000));
             if (Demo.isSec && Demo.isMachineUser) {
-                clickHouseProperties.setMachineUser(true);
-                clickHouseProperties.setMachineUserKeytabPath(System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
+                clickHouseProperties.setProperty("isMachineUser", "true");
+                clickHouseProperties.setProperty(ClickHouseDefaults.USER.getKey(), user);
+                clickHouseProperties.setProperty("keytabPath", System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
             }
+
             if (Demo.sslUsed) {
-                clickHouseProperties.setSsl(true);
-                clickHouseProperties.setSslMode("none");
+                clickHouseProperties.setProperty(ClickHouseClientOption.SSL.getKey(), Boolean.toString(true));
+                clickHouseProperties.setProperty(ClickHouseClientOption.SSL_MODE.getKey(), "none");
             }
             for (int tries = 1; tries <= serverList.size(); tries++) {
                 try {
@@ -121,16 +126,17 @@ public class Util {
         String user = Demo.user;
         String password = Demo.password;
         try {
-            Class.forName("ru.yandex.clickhouse.ClickHouseDriver");
-            ClickHouseProperties clickHouseProperties = new ClickHouseProperties();
-            clickHouseProperties.setSocketTimeout(60000);
+            Class.forName("com.clickhouse.jdbc.ClickHouseDriver");
+            Properties clickHouseProperties = new Properties();
+            clickHouseProperties.setProperty(ClickHouseClientOption.CONNECTION_TIMEOUT.getKey(), Integer.toString(60000));
             if (Demo.isSec && Demo.isMachineUser) {
-                clickHouseProperties.setMachineUser(true);
-                clickHouseProperties.setMachineUserKeytabPath(System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
+                clickHouseProperties.setProperty("isMachineUser", "true");
+                clickHouseProperties.setProperty("user", user);
+                clickHouseProperties.setProperty("keytabPath", System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
             }
             if (Demo.sslUsed) {
-                clickHouseProperties.setSsl(true);
-                clickHouseProperties.setSslMode("none");
+                clickHouseProperties.setProperty(ClickHouseClientOption.SSL.getKey(), Boolean.toString(true));
+                clickHouseProperties.setProperty(ClickHouseClientOption.SSL_MODE.getKey(), "none");
             }
             for (int tries = 1; tries <= serverList.size(); tries++) {
                 try {

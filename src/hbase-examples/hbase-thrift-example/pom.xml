@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) Huawei Technologies Co., Ltd. 2019-2020. All rights reserved.
+  ~ Copyright (c) Huawei Technologies Co., Ltd. 2019-2023. All rights reserved.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -10,9 +10,9 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-thrift-example</artifactId>
-    <version>8.2.0-320.r48</version>
+    <version>8.3.0-330.r9</version>
     <properties>
-        <hbase.version>2.2.3-h0.cbu.mrs.320.r48</hbase.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

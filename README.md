@@ -4,31 +4,33 @@ The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, H
 
 ### Version Mapping:
 
-MRS_3.2.0.2 Components mapping:
+MRS_3.3.0 Components mapping:
 
-| Component\MRS version | MRS 3.2.0.2 |
-| --------------------- | --------- |
-| Flink                 | 1.15.0    |
-| Hive                  | 3.1.0     |
-| Tez                   | 0.9.2     |
-| Spark                 | 3.1.1 |
-| CarbonData            | 2.2.0  |
-| Hudi                  | 0.11.0 |
-| Hadoop                | 3.3.1     |
-| HBase                 | 2.2.3     |
-| ZooKeeper             | 3.6.3  |
-| Hue                   | 4.7.0     |
-| Oozie                 | 5.1.0     |
-| Flume                 | 1.9.0     |
-| Kafka                 | 2.4.0     |
-| Ranger                | 2.0.0     |
-| Solr                  | 8.4.0     |
-| Phoenix               | 5.0.0     |
-| Elasticsearch         | 7.10.2    |
-| ClickHouse            | 22.3.2.2 |
-| IoTDB                 | 0.14.0    |
-| Redis                 | 6.0.12    |
-| HetuEngine            | 1.2.0 |
+| Component\MRS version | MRS 3.3.0     |
+|-----------------------|---------------|
+| Flink                 | 1.15.0        |
+| Hive                  | 3.1.0         |
+| Tez                   | 0.10.2        |
+| Spark                 | 3.3.1         |
+| CarbonData            | 2.2.0         |
+| Hudi                  | 0.11.0        |
+| Hadoop                | 3.3.1         |
+| HBase                 | 2.4.14        |
+| ZooKeeper             | 3.8.1         |
+| Hue                   | 4.7.0         |
+| Oozie                 | 5.1.0         |
+| Flume                 | 1.11.0        |
+| Kafka                 | 2.8.1         |
+| Ranger                | 2.3.0         |
+| Solr                  | 8.11.2        |
+| Phoenix               | 5.1.2         |
+| Elasticsearch         | 7.10.2        |
+| ClickHouse            | 23.3.2.37-lts |
+| IoTDB                 | 1.1.0         |
+| Redis                 | 6.2.7         |
+| HetuEngine            | 2.0.0         |
+| RTDService            | 3.2.0         |
+| Doris                 | 1.2.3         |
 
 ### Quick Links:
 

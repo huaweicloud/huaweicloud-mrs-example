@@ -1,4 +1,4 @@
-<workflow-app xmlns='uri:oozie:workflow:1.0' name='Spark2xHBase'>
+<workflow-app xmlns='uri:oozie:workflow:1.0' name='SparkHBase'>
 <start to='spark-node' />
 
 <action name='spark-node'>
@@ -12,18 +12,18 @@
             </property>
             <property>
                 <name>oozie.action.sharelib.for.spark</name>
-                <value>spark2x</value>
+                <value>spark</value>
             </property>
         </configuration>
         <master>${master}</master>
         <mode>${mode}</mode>
         <name>SparkHBase</name>
         <class>com.huawei.bigdata.spark.SparkHBase</class>
-        <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/lib/OoizeSparkHBase-1.0.jar</jar>
-        <spark-opts>--conf spark.yarn.archive=hdfs://hacluster/user/spark2x/jars/8.2.0.1/spark-archive-2x.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/spark2xJobHistory2x</spark-opts>
-        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/user.keytab</file>
-        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark2x/krb5.conf</file>
-        <file>hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark2x/hbase-site.xml</file>
+        <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/lib/OozieSparkHBase-1.0.jar</jar>
+        <spark-opts>--conf spark.yarn.archive=hdfs://hacluster/user/spark/jars/8.2.1/spark-archive.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/sparkJobHistory</spark-opts>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/user.keytab</file>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/krb5.conf</file>
+        <file>hdfs://hacluster/user/${userName}/${examplesRoot}/apps/spark/hbase-site.xml</file>
     </spark>
     <ok to="end" />
     <error to="fail" />

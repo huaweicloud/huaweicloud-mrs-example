@@ -38,7 +38,7 @@ public class Bulk {
     /**
      * Send a bulk request
      */
-    private static void bulk(RestClient restClientTest, String index) {
+    public static void bulk(RestClient restClientTest, String index) {
         // 需要写入的总文档数
         long totalRecordNum = 10000;
         // 一次bulk写入的文档数,推荐一次写入的大小为5M-15M

@@ -406,6 +406,7 @@ public class LoginUtil {
     public static void setZookeeperServerPrincipal(String zkServerPrincipalKey, String zkServerPrincipal)
         throws IOException {
         System.setProperty(zkServerPrincipalKey, zkServerPrincipal);
+        LOG.info("setZookeeperServerPrincipal zkServerPrincipalKey={} zkServerPrincipal={}", zkServerPrincipalKey, zkServerPrincipal);
         String ret = System.getProperty(zkServerPrincipalKey);
         if (ret == null) {
             LOG.error(zkServerPrincipalKey + " is null.");

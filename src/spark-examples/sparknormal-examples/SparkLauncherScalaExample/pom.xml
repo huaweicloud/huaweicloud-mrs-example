@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.1.1-h0.cbu.mrs.320.r33</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 
@@ -86,4 +86,3 @@
         <testOutputDirectory>target/test-classes</testOutputDirectory>
     </build>
 </project>
-
