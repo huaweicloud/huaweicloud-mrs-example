@@ -81,8 +81,8 @@ public class HiveDataSourceUtil {
             fileInputStream = new FileInputStream(propertiesFile);
             clientInfo.load(fileInputStream);
         } catch (IOException e) {
-            LOG.error("Failed to load hvie client configuration from {}", hiveclientProp);
-            throw new IOException("Failed to load hvie client configuration from " + hiveclientProp, e);
+            LOG.error("Failed to load hive client configuration from {}", hiveclientProp);
+            throw new IOException("Failed to load hive client configuration from " + hiveclientProp, e);
         } finally {
             if (fileInputStream != null) {
                 fileInputStream.close();
