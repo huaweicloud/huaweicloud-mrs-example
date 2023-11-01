@@ -12,11 +12,11 @@
 
     <groupId>org.example</groupId>
     <artifactId>hive-rest-client-example</artifactId>
-    <version>8.2.1-321.r7</version>
+    <version>8.3.0-330.r9</version>
 
     <properties>
-      <hadoop.version>3.3.1-h0.cbu.mrs.321.r7</hadoop.version>
-      <hive.version>3.1.0-h0.cbu.mrs.321.r7</hive.version>
+      <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
+      <hive.version>3.1.0-h0.cbu.mrs.330.r9</hive.version>
       <log4j2.version>2.17.1</log4j2.version>
       <commons-lang3.version>3.9</commons-lang3.version>
       <commons-lang.version>2.6</commons-lang.version>
