@@ -8,6 +8,7 @@ import com.huawei.bigdata.security.KerberosUtil;
 import com.huawei.bigdata.security.LoginUtil;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -216,10 +217,9 @@ public class JDBCExample {
     }
 
     private static void testConnectApacheZk() {
-        org.apache.zookeeper.ZooKeeper digestZk = null;
-        try {
-            // "xxx.xxx.xxx.xxx"为开源Zookeeper集群的业务IP，端口默认是2181
-            digestZk = new org.apache.zookeeper.ZooKeeper("172.22.201.4:2181", 600000, null);
+        // "xxx.xxx.xxx.xxx"为开源Zookeeper集群的业务IP，端口默认是2181，执行完后自动关闭ZooKeeper连接，防止连接泄露
+        try (org.apache.zookeeper.ZooKeeper digestZk =
+            new org.apache.zookeeper.ZooKeeper("172.22.201.4:2181", 600000, null)) {
             while (true) {
                 if (digestZk.getState().isConnected()) {
                     List<String> nodes = digestZk.getChildren("/", null);
@@ -236,12 +236,8 @@ public class JDBCExample {
                 }
                 Thread.sleep(1000);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (org.apache.zookeeper.KeeperException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | KeeperException | InterruptedException e) {
+            logger.error("failed to connect zookeeper", e);
         }
     }
 

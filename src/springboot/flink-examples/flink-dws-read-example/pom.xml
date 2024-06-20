@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <flink.version>1.15.0-h0.cbu.mrs.321.r7</flink.version>
+        <flink.version>1.17.1-h0.cbu.mrs.331.r10</flink.version>
         <log4j.version>2.17.1</log4j.version>
         <slf4j.version>1.7.32</slf4j.version>
         <postgres.version>42.2.10</postgres.version>
@@ -66,6 +66,10 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -81,6 +85,10 @@
                 <exclusion>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -102,6 +110,10 @@
                     <artifactId>jsp-api</artifactId>
                     <groupId>javax.servlet.jsp</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -109,12 +121,24 @@
             <artifactId>flink-sql-parser</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -126,6 +150,10 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -133,6 +161,12 @@
             <artifactId>flink-connector-jdbc</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -140,6 +174,12 @@
             <artifactId>flink-clients</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -148,6 +188,12 @@
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.calcite</groupId>

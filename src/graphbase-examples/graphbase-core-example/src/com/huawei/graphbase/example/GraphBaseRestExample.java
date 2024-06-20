@@ -75,6 +75,8 @@ public class GraphBaseRestExample {
             inputStream = new FileInputStream(System.getProperty("user.dir") + File.separator + DEFAULT_CONFIG_FILE);
             Properties p = new Properties();
             p.load(inputStream);
+            // Passwords stored in plaintext pose security risks. Store them in ciphertext in configuration files
+            // and decrypted during use to ensure security.
             HttpAuthInfo httpAuthInfo = HttpAuthInfo.newBuilder()
                 .setIp(p.getProperty("ip"))
                 .setPort(Integer.valueOf(p.getProperty("port")))

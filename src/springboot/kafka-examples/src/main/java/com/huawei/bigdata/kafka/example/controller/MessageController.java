@@ -43,17 +43,8 @@ public class MessageController {
         Consumer consumerThread = new Consumer();
         consumerThread.init(this.kafkaProperties);
         consumerThread.start();
-        LOG.info("Start to consume messages");
-
-        // 等到180s后将consumer关闭，实际执行过程中可修改
-        try {
-            Thread.sleep(consumerThread.getThreadAliveTime());
-        } catch (InterruptedException e) {
-            LOG.info("Occurred InterruptedException: ", e);
-        } finally {
-            consumerThread.close();
-        }
-
-        return "Finished consume messages";
+        String message = "Start to consume messages";
+        LOG.info(message);
+        return message;
     }
 }

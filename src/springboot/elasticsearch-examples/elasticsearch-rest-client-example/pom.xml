@@ -17,7 +17,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <elasticsearch.version>7.10.2-h0.cbu.mrs.330.r9</elasticsearch.version>
+        <elasticsearch.version>7.10.2-h0.cbu.mrs.331.r10</elasticsearch.version>
     </properties>
 
     <dependencies>

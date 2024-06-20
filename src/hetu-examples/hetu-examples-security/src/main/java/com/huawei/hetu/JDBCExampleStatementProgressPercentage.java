@@ -28,7 +28,10 @@ public class JDBCExampleStatementProgressPercentage
             throws ClassNotFoundException
     {
         properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
-        properties.setProperty("password", "YourPassword"); // need to change the value based on the cluster information
+        // Hard-coded password or plaintext password in code poses significant security risks. Encrypt and store them in configuration files or environment variables and decrypt them when needed.
+        // The password is stored in environment variables for identity authentication. Before running this example, set the environment variable HETUENGINE_PASSWORD.
+        String password = System.getenv("HETUENGINE_PASSWORD");
+        properties.setProperty("password", password);
         Class.forName("io.trino.jdbc.TrinoDriver");
     }
 
@@ -39,7 +42,7 @@ public class JDBCExampleStatementProgressPercentage
      */
     public static void main(String[] args)
     {
-        String url = "jdbc:trino://192.168.43.223:29860/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker， need to change the ip value based on the cluster information
+        String url = "jdbc:trino://192.168.43.223:29860/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker, need to change the ip value based on the cluster information
 
         try {
             init();

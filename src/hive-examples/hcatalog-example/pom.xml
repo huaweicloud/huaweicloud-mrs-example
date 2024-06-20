@@ -6,10 +6,10 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>hcatalog-example</artifactId>
-  <version>8.3.0-330.r9</version>
+  <version>8.3.1-331.r10</version>
 
   <properties>
-    <hive.version>3.1.0-h0.cbu.mrs.330.r9</hive.version>
+    <hive.version>3.1.0-h0.cbu.mrs.331.r10</hive.version>
   </properties>
 
   <dependencies>

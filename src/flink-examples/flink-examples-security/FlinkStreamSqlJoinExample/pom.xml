@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.3.0-330.r9</version>
+        <version>8.3.1-331.r10</version>
     </parent>
     <artifactId>FlinkStreamSqlJoinExample</artifactId>
 
@@ -27,6 +27,10 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -43,6 +47,10 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -58,12 +66,22 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java</artifactId>
             <version>${flink.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -73,6 +91,10 @@
                 <exclusion>
                     <artifactId>kafka-clients</artifactId>
                     <groupId>org.apache.kafka</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -89,6 +111,10 @@
                 <exclusion>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-zookeeper-3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
 

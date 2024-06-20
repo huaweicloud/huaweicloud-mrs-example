@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.3.0-330.r9</version>
+        <version>8.3.1-331.r10</version>
     </parent>
     <artifactId>FlinkRESTAPIJavaExample</artifactId>
 	<packaging>jar</packaging>
@@ -60,6 +60,12 @@
             <artifactId>flink-java</artifactId>
             <version>${flink.version}</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>

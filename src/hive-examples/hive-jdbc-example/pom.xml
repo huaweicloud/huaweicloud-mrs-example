@@ -6,10 +6,10 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>hive-jdbc-example</artifactId>
-  <version>8.3.0-330.r9</version>
+  <version>8.3.1-331.r10</version>
   <properties>
-    <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
-    <hive.version>3.1.0-h0.cbu.mrs.330.r9</hive.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
+    <hive.version>3.1.0-h0.cbu.mrs.331.r10</hive.version>
     <log4j2.version>2.17.1</log4j2.version>
     <commons-lang3.version>3.9</commons-lang3.version>
     <commons-lang.version>2.6</commons-lang.version>
@@ -18,7 +18,7 @@
     <hadoop-shaded-guava.version>1.1.1</hadoop-shaded-guava.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <libthrift.version>0.14.1</libthrift.version>
-    <commons-configuration2.version>2.1.1</commons-configuration2.version>
+    <commons-configuration2.version>2.8.0</commons-configuration2.version>
   </properties>
 
   <dependencies>

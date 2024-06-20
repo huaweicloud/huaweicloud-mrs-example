@@ -6,11 +6,11 @@
   <inceptionYear>2008</inceptionYear>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <scala.version>2.12.14</scala.version>
-    <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
+    <scala.version>2.12.15</scala.version>
+    <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
-    <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
+    <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
   </properties>
 
   <repositories>

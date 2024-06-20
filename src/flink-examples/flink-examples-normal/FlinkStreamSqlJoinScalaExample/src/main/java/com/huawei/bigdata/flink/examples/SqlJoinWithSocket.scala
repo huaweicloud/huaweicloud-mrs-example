@@ -18,7 +18,6 @@ object SqlJoinWithSocket {
     System.out.println("use command as: ")
     System.out.println("flink run --class com.huawei.bigdata.flink.examples.SqlJoinWithSocket /opt/test.jar --topic" + " topic-test -bootstrap.servers xxxx.xxx.xxx.xxx:21005 --hostname xxx.xxx.xxx.xxx --port xxx")
     System.out.println("flink run --class com.huawei.bigdata.flink.examples.SqlJoinWithSocket /opt/test.jar --topic" + " topic-test -bootstrap.servers xxxx.xxx.xxx.xxx:21007 --security.protocol SASL_PLAINTEXT" + " --sasl.kerberos.service.name kafka--hostname xxx.xxx.xxx.xxx --port xxx")
-    System.out.println("flink run --class com.huawei.bigdata.flink.examples.SqlJoinWithSocket /opt/test.jar --topic" + " topic-test -bootstrap.servers xxxx.xxx.xxx.xxx:21008 --security.protocol SSL" + " --ssl.truststore.location /home/truststore.jks --ssl.truststore.password huawei --hostname" + " xxx.xxx.xxx.xxx --port xxx")
     System.out.println("******************************************************************************************")
     System.out.println("<topic> is the kafka topic name")
     System.out.println("<bootstrap.servers> is the ip:port list of brokers")

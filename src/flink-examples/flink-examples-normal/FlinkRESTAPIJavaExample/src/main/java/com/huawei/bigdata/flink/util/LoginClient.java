@@ -99,4 +99,9 @@ public class LoginClient {
     public String getToken() {
         return token;
     }
+
+
+    public String getPrincipal() {
+        return principal;
+    }
 }

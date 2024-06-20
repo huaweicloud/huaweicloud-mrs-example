@@ -78,9 +78,10 @@ public class CommonX509TrustManager implements X509TrustManager {
         boolean trusted;
         int size = chain.length;
         try (FileInputStream stream = FileUtils.openInputStream(FileUtils.getFile(cacertsPath))) {
-            // 执行keytool命令，密码默认是 changeit
+            // 执行keytool命令，需要环境JDK密码,需要根据真实环境进行修改
             // keytool -import -alias openpayment -keystore ${java_home}/jre/lib/security/cacerts -file 证书路径/openpayment.cer
-            String decryptPwd = "changeit";
+            // ******为环境JDK密码,根据实际环境进行修改，密码明文存储存在安全风险，建议在配置文件或者环境变量中密文存放，使用时解密，确保安全
+            String decryptPwd = "******";
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
             trustStore.load(stream, decryptPwd.toCharArray());
             trusted = (trustStore.getCertificateAlias(chain[size - 1]) != null);

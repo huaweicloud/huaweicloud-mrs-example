@@ -8,6 +8,7 @@ import com.huawei.hadoop.security.LoginUtil
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import com.huawei.hadoop.security.KerberosUtil
+import org.apache.hive.jdbc.HiveDatabaseMetaData
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -82,6 +83,14 @@ object ThriftServerQueriesTest {
     var statement: PreparedStatement = null
     try {
       connection = DriverManager.getConnection(url)
+      val metaData: HiveDatabaseMetaData = connection.getMetaData.asInstanceOf[HiveDatabaseMetaData]
+      val productName: String = metaData.getDatabaseProductName
+      val databaseAppId = metaData.getDatabaseAppId
+      if (null != productName && "Spark SQL".equals(productName)) {
+        println("Connected to:" + productName)
+        println("Funning with YARN Application = " + databaseAppId)
+      }
+
       for (sql <- sqls) {
         println(s"---- Begin executing sql: $sql ----")
         statement = connection.prepareStatement(sql)

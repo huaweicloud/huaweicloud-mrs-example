@@ -12,10 +12,11 @@
 
     <groupId>org.example</groupId>
     <artifactId>doris-rest-client-example</artifactId>
-    <version>8.3.0-330.r9</version>
+    <version>8.3.1-331.r10</version>
 
     <properties>
         <mariadb.version>3.1.4</mariadb.version>
+        <mysql.version>8.1.0</mysql.version>
     </properties>
 
     <dependencies>
@@ -31,6 +32,11 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>${mariadb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql.version}</version>
         </dependency>
     </dependencies>
     <build>

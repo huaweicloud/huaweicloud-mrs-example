@@ -214,10 +214,18 @@ results <- collect(sql("FROM src SELECT key, value"))
 
 # $example on:jdbc_dataset$
 # Loading data from a JDBC source
-df <- read.jdbc("jdbc:postgresql:dbserver", "schema.tablename", user = "username", password = "password")
+# There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
+
+library(ini)
+
+config <- read.ini("config.ini")
+password <- config$database$password
+
+df <- read.jdbc("jdbc:postgresql:dbserver", "schema.tablename", user = "username", password)
 
 # Saving data to a JDBC source
-write.jdbc(df, "jdbc:postgresql:dbserver", "schema.tablename", user = "username", password = "password")
+# There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
+write.jdbc(df, "jdbc:postgresql:dbserver", "schema.tablename", user = "username", password)
 # $example off:jdbc_dataset$
 
 # Stop the SparkSession now

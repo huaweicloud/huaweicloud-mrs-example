@@ -12,14 +12,13 @@ import java.sql.Statement;
 
 public class JDBCExample {
 	private static final Logger logger = LogManager.getLogger(JDBCExample.class);
-	private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-	private static final String DB_URL_PATTERN = "jdbc:mariadb://%s:%d?rewriteBatchedStatements=true";
+	private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static final String DB_URL_PATTERN = "jdbc:mysql://%s:%d?rewriteBatchedStatements=true";
 	private static final String HOST = "192.168.67.78"; // Leader Node host
 	private static final int PORT = 29982;   // query_port of Leader Node
-	// doris用户
-	private static final String USER = "dorisuser";
-	// doris用户密码
-	private static final String PASSWD = "password";
+	// 运行本示例前请先在本地环境变量中设置环境变量DORIS_MY_USER和DORIS_MY_PASSWORD。建议密文存放，使用时解密，确保安全。
+	private static final String USER = System.getenv("DORIS_MY_USER");
+	private static final String PASSWD = System.getenv("DORIS_MY_PASSWORD");
 
 
 	public static void main(String[] args) {

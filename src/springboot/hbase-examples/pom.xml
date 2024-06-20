@@ -12,16 +12,16 @@
 
     <groupId>org.example</groupId>
     <artifactId>hbase-springboot</artifactId>
-    <version>8.3.0-330.r9</version>
+    <version>8.3.1-331.r10</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <fi.version>8.3.0-330.r9</fi.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
-        <phoenix-core.version>5.1.2-h0.cbu.mrs.330.r9</phoenix-core.version>
-        <phoenix-hbase-compat.version>5.1.2-h0.cbu.mrs.330.r9</phoenix-hbase-compat.version>
+        <fi.version>8.3.1-331.r10</fi.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
+        <phoenix-core.version>5.1.2-h0.cbu.mrs.331.r10</phoenix-core.version>
+        <phoenix-hbase-compat.version>5.1.2-h0.cbu.mrs.331.r10</phoenix-hbase-compat.version>
     </properties>
 
     <dependencies>
@@ -46,6 +46,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.huawei.mrs</groupId>

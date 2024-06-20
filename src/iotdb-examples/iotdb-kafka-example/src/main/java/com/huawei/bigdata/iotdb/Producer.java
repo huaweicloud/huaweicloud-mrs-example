@@ -4,17 +4,18 @@
 
 package com.huawei.bigdata.iotdb;
 
-import java.io.IOException;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-
 import com.huawei.bigdata.iotdb.security.LoginUtil;
+
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The class is a demo to show how to send iotdb data to kafka
@@ -23,6 +24,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Producer extends Thread {
     private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
+
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
+    private static final String BOOTSTRAP_SERVER_URL = iotdbProps.getValues("bootstrap_server_url", "127.0.0.1:21007");
 
     private final KafkaProducer<String, String> producer;
 
@@ -48,7 +52,7 @@ public class Producer extends Thread {
         KafkaProperties kafkaProc = KafkaProperties.getInstance();
 
         // broker address
-        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, "127.0.0.1:21007"));
+        props.put(Constant.BOOTSTRAP_SERVER, kafkaProc.getValues(Constant.BOOTSTRAP_SERVER, BOOTSTRAP_SERVER_URL));
         // client ID
         props.put(Constant.CLIENT_ID, kafkaProc.getValues(Constant.CLIENT_ID, "DemoProducer"));
         // key serializer

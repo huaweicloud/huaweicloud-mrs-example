@@ -2,16 +2,16 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.huawei.mrs.ctbase.examples</groupId>
   <artifactId>ctbase-export-examples</artifactId>
-  <version>8.3.0-330.r9</version>
+  <version>8.3.1-331.r10</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spark.version>3.3.1-h0.cbu.mrs.330.r9</spark.version>
+    <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.330.r9</hadoop.version>
-    <hbase.version>2.4.14-h0.cbu.mrs.330.r9</hbase.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
+    <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
     <log4j2.version>2.17.1</log4j2.version>
-    <ctbase.version>0.97.0-h0.cbu.mrs.330.r9</ctbase.version>
+    <ctbase.version>0.97.0-h0.cbu.mrs.331.r10</ctbase.version>
   </properties>
 
   <dependencies>
@@ -20,6 +20,12 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
       <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-io</artifactId>
+          <groupId>commons-io</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -32,6 +38,12 @@
       <groupId>org.apache.hadoop.hbase</groupId>
       <artifactId>ctbase-core</artifactId>
       <version>${ctbase.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>wushan-security</artifactId>
+          <groupId>com.huawei.clouds.wushan</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!--spark-->

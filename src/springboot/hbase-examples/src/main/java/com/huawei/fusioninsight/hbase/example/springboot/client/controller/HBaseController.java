@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -99,9 +100,9 @@ public class HBaseController {
     public static void init() throws IOException {
         // Default load from conf directory
         conf = HBaseConfiguration.create();
-        conf.addResource(new Path(confDir + "core-site.xml"), false);
-        conf.addResource(new Path(confDir + "hdfs-site.xml"), false);
-        conf.addResource(new Path(confDir + "hbase-site.xml"), false);
+        conf.addResource(new Path(confDir + File.separator + "core-site.xml"), false);
+        conf.addResource(new Path(confDir + File.separator + "hdfs-site.xml"), false);
+        conf.addResource(new Path(confDir + File.separator + "hbase-site.xml"), false);
         // 启用keytab renewal
         conf.set("hadoop.kerberos.keytab.login.autorenewal.enabled", "true");
     }

@@ -18,7 +18,6 @@
 package com.huawei.bigdata.kafka.example;
 
 import com.huawei.bigdata.kafka.example.security.LoginUtil;
-import kafka.utils.ShutdownableThread;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -98,7 +97,7 @@ public class ConsumerMultThread extends Thread {
     /**
      * 消费者线程类
      */
-    private class ConsumerThread extends ShutdownableThread {
+    private class ConsumerThread extends Thread {
         private int threadNum = 0;
         private String topic;
         private Properties props;
@@ -111,7 +110,7 @@ public class ConsumerMultThread extends Thread {
          * @param topic     topic
          */
         public ConsumerThread(int threadNum, String topic, Properties props) {
-            super("ConsumerThread" + threadNum, true);
+            super("ConsumerThread" + threadNum);
             this.threadNum = threadNum;
             this.topic = topic;
             this.props = props;
@@ -119,11 +118,13 @@ public class ConsumerMultThread extends Thread {
             consumer.subscribe(Collections.singleton(this.topic));
         }
 
-        public void doWork() {
-            ConsumerRecords<String, String> records = consumer.poll(waitTime);
-            for (ConsumerRecord<String, String> record : records) {
-                LOG.info("Consumer Thread-" + this.threadNum + " partitions:" + record.partition() + " record: "
-                    + record.value() + " offsets: " + record.offset());
+        public void run() {
+            while (true) {
+                ConsumerRecords<String, String> records = consumer.poll(waitTime);
+                for (ConsumerRecord<String, String> record : records) {
+                    LOG.info("Consumer Thread-" + this.threadNum + " partitions:" + record.partition() + " record: "
+                        + record.value() + " offsets: " + record.offset());
+                }
             }
         }
     }

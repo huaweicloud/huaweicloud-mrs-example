@@ -4,8 +4,6 @@
 
 package com.huawei.bigdata.iotdb;
 
-import static com.huawei.bigdata.iotdb.FlinkIoTDBSource.IOTDB_SSL_ENABLE;
-
 import com.google.common.collect.Lists;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -29,21 +27,43 @@ import java.util.Random;
  * @since 2021-07-28
  */
 public class FlinkIoTDBSink {
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
+  /**
+   * set truststore.jks path only when iotdb_ssl_enable is true.
+   * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
+   * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
+   */
+  public static String IOTDB_SSL_ENABLE = iotdbProps.getIotdb_ssl_enable();
+  public static String IOTDB_SSL_TRUSTSTORE = iotdbProps.getIotdb_ssl_truststore();
+  private static String HOST = iotdbProps.getLocal_host();
+  private static String PORT = iotdbProps.getLocal_port();
+  private static String USER = iotdbProps.getUsername();
+  private static String PASSWORD = iotdbProps.getPassword();
+
   public static void main(String[] args) throws Exception {
+    // print comment for command to use run flink
+    System.out.println("use command as: ");
+    System.out.println(
+        "./bin/flink run --class com.huawei.bigdata.iotdb.FlinkIoTDBSink"
+            + " -m yarn-cluster -yt ssl/ -yt /opt/client/Flink/flink/conf/iotdb-example.properties "
+            + "/opt/client/Flink/flink/conf/iotdb-flink-example.jar ");
+    System.out.println(
+        "******************************************************************************************");
+
     // run the flink job on local mini cluster
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     // set iotdb_ssl_enable
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
     IoTDBSinkOptions options = new IoTDBSinkOptions();
-    options.setHost("127.0.0.1");
-    options.setPort(22260);
-    options.setUser("IoTDB登录用户名");
-    options.setPassword("IoTDB登录密码");
+    options.setHost(HOST);
+    options.setPort(Integer.parseInt(PORT));
+    options.setUser(USER);
+    options.setPassword(PASSWORD);
 
     // If the server enables auto_create_schema, then we do not need to register all timeseries
     // here.
@@ -69,14 +89,17 @@ public class FlinkIoTDBSink {
     env.execute("iotdb-flink-example");
   }
 
+
   private static class SensorSource implements SourceFunction<Map<String, String>> {
     boolean running = true;
+    int count = 20;
     Random random = new SecureRandom();
 
     @Override
     public void run(SourceContext context) throws Exception {
-      while (running) {
-        Map<String, String> tuple = new HashMap();
+      while (count > 0) {
+        count--;
+        Map<String, String> tuple = new HashMap<>();
         tuple.put("device", "root.sg.d1");
         tuple.put("timestamp", String.valueOf(System.currentTimeMillis()));
         tuple.put("measurements", "s1");

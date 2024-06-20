@@ -45,6 +45,7 @@ public class SparkOnClickHouseExample {
         Properties props = new Properties();
         props.put("ssl", "true");
         props.put("user", userName);
+        // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
         props.put("password", password);
         props.put("driver", DRIVER);
         props.put("isCheckConnection", "true");
@@ -68,6 +69,7 @@ public class SparkOnClickHouseExample {
         Map map = new HashMap<String, String>();
         map.put("ssl", "true");
         map.put("user", userName);
+        // There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
         map.put("password", password);
         map.put("driver", DRIVER);
         map.put("isCheckConnection", "true");

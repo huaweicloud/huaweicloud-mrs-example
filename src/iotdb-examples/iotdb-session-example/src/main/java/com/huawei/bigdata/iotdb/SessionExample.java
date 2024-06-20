@@ -33,23 +33,27 @@ public class SessionExample {
 
   private static Session session;
   private static Session sessionEnableRedirect;
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
   /**
    * set truststore.jks path only when iotdb_ssl_enable is true.
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  private static final String IOTDB_SSL_ENABLE = "true";
+  private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+  private static final String HOST_1 = iotdbProps.getValues("local_host_1", "127.0.0.1");
+  private static final String HOST_2 = iotdbProps.getValues("local_host_2", "127.0.0.2");
+  private static final String HOST_3 = iotdbProps.getValues("local_host_3", "127.0.0.3");
+  private static final String PORT = iotdbProps.getValues("local_port", "22260");
+  private static final String USER = iotdbProps.getValues("username", "root");
+  private static final String PASSWORD = iotdbProps.getValues("password", "root");
+  private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
   private static final String ROOT_SG1_D1_S1 = "root.sg1.d1.s1";
   private static final String ROOT_SG1_D1_S2 = "root.sg1.d1.s2";
   private static final String ROOT_SG1_D1_S3 = "root.sg1.d1.s3";
   private static final String ROOT_SG1_D1_S4 = "root.sg1.d1.s4";
   private static final String ROOT_SG1_D1_S5 = "root.sg1.d1.s5";
   private static final String ROOT_SG1_D1 = "root.sg1.d1";
-  private static final String HOST_1 = "127.0.0.1";
-  private static final String HOST_2 = "127.0.0.2";
-  private static final String HOST_3 = "127.0.0.3";
   private static final List<String> nodeUrls = new ArrayList<>();
-  private static final String PORT = "22260";
   static {
     nodeUrls.add(String.format("%s:%s", HOST_1, PORT));
     nodeUrls.add(String.format("%s:%s", HOST_2, PORT));
@@ -62,10 +66,10 @@ public class SessionExample {
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
-    session = new Session(nodeUrls, "root", "root");
+    session = new Session(nodeUrls, USER, PASSWORD);
     session.open(false);
 
     // set session fetchSize
@@ -94,7 +98,7 @@ public class SessionExample {
     //deleteTimeseries();
     setTimeout();
 
-    sessionEnableRedirect = new Session(nodeUrls, "root", "root");
+    sessionEnableRedirect = new Session(nodeUrls, USER, PASSWORD);
     sessionEnableRedirect.setEnableQueryRedirection(true);
     sessionEnableRedirect.open(false);
 

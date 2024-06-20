@@ -92,7 +92,7 @@ public class HttpAuthInfo {
 
     @Override
     public String toString() {
-        return "BASE URL:" + baseUrl + "\n" + "LOGIN IN:[" + username + "," + password + "]";
+        return "BASE URL:" + baseUrl + "\n" + "LOGIN IN:[" + username + "]";
     }
 
     public static class Builder {

@@ -2,6 +2,7 @@ package com.huawei.bigdata.spark.examples;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hive.jdbc.HiveDatabaseMetaData;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,6 +73,14 @@ public class ThriftServerQueriesTest {
 
         try {
             connection = DriverManager.getConnection(url);
+            HiveDatabaseMetaData metaData = (HiveDatabaseMetaData) connection.getMetaData();
+            String productName = metaData.getDatabaseProductName();
+            String appId = metaData.getDatabaseAppId();
+            if (null != productName && "Spark SQL".equals(productName)) {
+                System.out.println("Connected to:" + productName);
+                System.out.println("Funning with YARN Application = " + appId);
+            }
+
             for (int i = 0; i < sqls.size(); i++) {
                 String sql = sqls.get(i);
                 System.out.println("---- Begin executing sql: " + sql + " ----");

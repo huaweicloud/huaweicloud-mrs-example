@@ -19,12 +19,17 @@ import java.sql.Statement;
  * @since 2021-06-15
  */
 public class JDBCExample {
+  private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
   /**
    * set truststore.jks path only when iotdb_ssl_enable is true.
    * if modify iotdb_ssl_enable to false, modify IoTDB client's iotdb_ssl_enable="false" in iotdb-client.env,
    * iotdb-client.env file path: /opt/client/IoTDB/iotdb/conf
    */
-  private static final String IOTDB_SSL_ENABLE = "true";
+  private static final String IOTDB_SSL_ENABLE = iotdbProps.getValues("iotdb_ssl_enable", "true");
+  private static final String JDBC_URL = iotdbProps.getValues("jdbc_url", "jdbc:iotdb://127.0.0.1:22260/");
+  private static final String USER = iotdbProps.getValues("username", "root");
+  private static final String PASSWORD = iotdbProps.getValues("password", "root");
+  private static final String IOTDB_SSL_TRUSTSTORE = iotdbProps.getValues("iotdb_ssl_truststore", "truststore文件路径");
 
   public static void main(String[] args) throws ClassNotFoundException, SQLException {
     Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
@@ -32,11 +37,11 @@ public class JDBCExample {
     System.setProperty("iotdb_ssl_enable", IOTDB_SSL_ENABLE);
     if ("true".equals(IOTDB_SSL_ENABLE)) {
       // set truststore.jks path
-      System.setProperty("iotdb_ssl_truststore", "truststore文件路径");
+      System.setProperty("iotdb_ssl_truststore", IOTDB_SSL_TRUSTSTORE);
     }
 
     try (Connection connection =
-            DriverManager.getConnection("jdbc:iotdb://127.0.0.1:22260/", "root", "root");
+            DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
         Statement statement = connection.createStatement()) {
 
       // set JDBC fetchSize

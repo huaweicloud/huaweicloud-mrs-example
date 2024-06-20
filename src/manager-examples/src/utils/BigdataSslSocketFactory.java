@@ -17,7 +17,7 @@ import java.net.Socket;
  * @since [OM 1.0]
  */
 public class BigdataSslSocketFactory extends SSLSocketFactory {
-    private static String[] enabelPro = {"TLSv1.1"};
+    private static String[] enabelPro = {"TLSv1.2"};
 
     public BigdataSslSocketFactory(SSLContext sslContext, X509HostnameVerifier hostnameVerifier,
             String userTLSVersion) {

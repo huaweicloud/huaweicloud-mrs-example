@@ -10,15 +10,16 @@ package com.huawei.bigdata.iotdb;
  * @since 2022-01-14
  */
 public class Constant {
+    private static IoTDBProperties iotdbProps = IoTDBProperties.getInstance();
     /**
      * 用户自己申请的机机账号keytab文件名称
      */
-    public static final String USER_KEYTAB_FILE = "用户自己申请的机机账号keytab文件名称";
+    public static final String USER_KEYTAB_FILE = iotdbProps.getValues("user_keytab_file", "用户自己申请的机机账号keytab文件名称");
 
     /**
      * 用户自己申请的机机账号名称
      */
-    public static final String USER_PRINCIPAL = "用户自己申请的机机账号名称";
+    public static final String USER_PRINCIPAL = iotdbProps.getValues("user_principal", "用户自己申请的机机账号名称");
 
     /**
      * IoTDB 数据模板：<传感器名称，时间戳，值>
@@ -26,9 +27,9 @@ public class Constant {
     public static final String IOTDB_DATA_SAMPLE_TEMPLATE = "sensor_%d,%d,%f";
 
     /**
-     * IoTDB 元数据
+     * IoTDB 元数据 root.vehicle.deviceid
      */
-    public static final String ROOT_VEHICLE_DEVICEID = "root.vehicle.deviceid";
+    public static final String ROOT_VEHICLE_DEVICEID = "root.sg1.d1";
 
     public final static String BOOTSTRAP_SERVER = "bootstrap.servers";
 

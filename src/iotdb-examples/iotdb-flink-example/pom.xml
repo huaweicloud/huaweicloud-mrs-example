@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-flink-example</artifactId>
-    <version>8.3.0-330.r9</version>
+    <version>8.3.1-331.r10</version>
     <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <iotdb.version>1.1.0-h0.cbu.mrs.330.r9</iotdb.version>
-    <flink.version>1.15.0-h0.cbu.mrs.330.r9</flink.version>
+    <iotdb.version>1.1.0-h0.cbu.mrs.331.r10</iotdb.version>
+    <flink.version>1.17.1-h0.cbu.mrs.331.r10</flink.version>
     </properties>
     <dependencies>
         <dependency>
@@ -25,7 +25,11 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-streaming-java_2.11</artifactId>
+                    <artifactId>flink-streaming-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -45,7 +49,11 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-streaming-java_2.11</artifactId>
+                    <artifactId>flink-streaming-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -107,6 +115,10 @@
                 <exclusion>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-shaded-guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

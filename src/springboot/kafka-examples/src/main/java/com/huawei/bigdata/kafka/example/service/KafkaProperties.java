@@ -11,7 +11,6 @@
 
 package com.huawei.bigdata.kafka.example.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +56,7 @@ public class KafkaProperties {
 
     public void initialClientProperties(Properties properties) {
         // Broker连接地址
-        if (StringUtils.isEmpty(this.bootstrapServers)) {
+        if (isEmpty(this.bootstrapServers)) {
             throw new IllegalArgumentException("The bootstrap.servers is null or empty.");
         }
         properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
@@ -69,7 +68,7 @@ public class KafkaProperties {
 
         // 动态jaas config
         if (this.isSecurityMode) {
-            if (StringUtils.isEmpty(this.username)|| StringUtils.isEmpty(this.password)) {
+            if (isEmpty(this.username)|| isEmpty(this.password)) {
                 throw new IllegalArgumentException("The properties manager_username or manager_password is null or empty.");
             }
 
@@ -80,5 +79,9 @@ public class KafkaProperties {
         properties.setProperty("topic", this.topic);
         properties.setProperty("isAsync", this.isAsync);
         properties.setProperty("consumer.alive.time", this.consumerAliveTime);
+    }
+
+    public static boolean isEmpty(final CharSequence cs) {
+        return cs == null || cs.length() == 0;
     }
 }

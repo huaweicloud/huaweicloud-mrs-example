@@ -44,6 +44,8 @@ public class HttpClientUtil {
             // 关键步骤，在Cookie中加入token
             if (isSecurity) {
                 httpPost.addHeader("Cookie", LoginClient.getInstance().getToken());
+            } else {
+                httpPost.addHeader("NormalModleUser", LoginClient.getInstance().getPrincipal());
             }
             StringEntity se = new StringEntity(jsonstr);
             se.setContentType("application/json");

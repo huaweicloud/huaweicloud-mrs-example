@@ -4,6 +4,8 @@
 
 package com.huawei.bigdata.hive.example;
 
+import static com.huawei.bigdata.hive.example.JDBCExample.getUserRealm;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class JDBCExamplePreLogin {
 
     private static final String ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME = "Client";
     private static final String ZOOKEEPER_SERVER_PRINCIPAL_KEY = "zookeeper.server.principal";
-    private static final String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/hadoop";
+    private static String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = null;
 
     private static Configuration CONF = null;
     private static String KRB5_FILE = null;
@@ -49,6 +51,7 @@ public class JDBCExamplePreLogin {
     private static String zooKeeperNamespace = null;
     private static String serviceDiscoveryMode = null;
     private static String principal = null;
+    private static String auditAddition = null;
 
     private static void init() throws IOException {
         CONF = new Configuration();
@@ -85,6 +88,7 @@ public class JDBCExamplePreLogin {
         zooKeeperNamespace = clientInfo.getProperty("zooKeeperNamespace");
         serviceDiscoveryMode = clientInfo.getProperty("serviceDiscoveryMode");
         principal = clientInfo.getProperty("principal");
+        auditAddition = clientInfo.getProperty("auditAddition");
         KRB5_FILE = userdir + "krb5.conf";
         System.setProperty("java.security.krb5.conf", KRB5_FILE);
         // 设置新建用户的USER_NAME，其中"xxx"指代之前创建的用户名，例如创建的用户为user，则USER_NAME为user
@@ -93,6 +97,7 @@ public class JDBCExamplePreLogin {
         if ("KERBEROS".equalsIgnoreCase(auth)) {
             // 设置客户端的keytab和zookeeper认证配置
             USER_KEYTAB_FILE = userdir + "user.keytab";
+            ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/" + getUserRealm();
             LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, USER_NAME, USER_KEYTAB_FILE);
             LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL);
 
@@ -138,8 +143,7 @@ public class JDBCExamplePreLogin {
                     .append(";auth=")
                     .append(auth)
                     .append(";principal=")
-                    .append(principal)
-                    .append(";");
+                    .append(principal);
         } else {
             // 普通模式
             strBuilder.append(";serviceDiscoveryMode=")
@@ -147,6 +151,9 @@ public class JDBCExamplePreLogin {
                     .append(";zooKeeperNamespace=")
                     .append(zooKeeperNamespace)
                     .append(";auth=none");
+        }
+        if (auditAddition != null && !auditAddition.isEmpty()) {
+            strBuilder.append(";auditAddition=").append(auditAddition);
         }
         String url = strBuilder.toString();
 

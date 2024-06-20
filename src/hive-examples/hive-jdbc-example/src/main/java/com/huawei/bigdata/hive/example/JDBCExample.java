@@ -49,6 +49,7 @@ public class JDBCExample {
     private static String zooKeeperNamespace = null;
     private static String serviceDiscoveryMode = null;
     private static String principal = null;
+    private static String auditAddition = null;
     private static String AUTH_HOST_NAME = null;
 
     /**
@@ -110,6 +111,7 @@ public class JDBCExample {
         zooKeeperNamespace = clientInfo.getProperty("zooKeeperNamespace");
         serviceDiscoveryMode = clientInfo.getProperty("serviceDiscoveryMode");
         principal = clientInfo.getProperty("principal");
+        auditAddition = clientInfo.getProperty("auditAddition");
         KRB5_FILE = userdir + "krb5.conf";
         System.setProperty("java.security.krb5.conf", KRB5_FILE);
         // 设置新建用户的USER_NAME，其中"xxx"指代之前创建的用户名，例如创建的用户为user，则USER_NAME为user
@@ -163,8 +165,7 @@ public class JDBCExample {
                     .append(";user.principal=")
                     .append(USER_NAME)
                     .append(";user.keytab=")
-                    .append(USER_KEYTAB_FILE)
-                    .append(";");
+                    .append(USER_KEYTAB_FILE);
         } else {
             /* 普通模式 */
             strBuilder
@@ -173,6 +174,9 @@ public class JDBCExample {
                     .append(";zooKeeperNamespace=")
                     .append(zooKeeperNamespace)
                     .append(";auth=none");
+        }
+        if (auditAddition != null && !auditAddition.isEmpty()) {
+            strBuilder.append(";auditAddition=").append(auditAddition);
         }
         String url = strBuilder.toString();
 

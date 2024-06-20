@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.4.5-h0.cbu.mrs.330.r9</version>
+            <version>0.4.5-h0.cbu.mrs.331.r10</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>

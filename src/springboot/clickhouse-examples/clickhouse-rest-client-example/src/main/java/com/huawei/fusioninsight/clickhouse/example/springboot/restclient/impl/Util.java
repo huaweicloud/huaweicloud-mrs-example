@@ -49,7 +49,7 @@ public class Util {
 
     private static void initProperties(Properties clickHouseProperties) {
         String user = ClickHouseFunc.user;
-        String password = ClickHouseFunc.password;
+        String password = ClickHouseFunc.password == null ? "" : ClickHouseFunc.password;
         try {
             Class.forName("com.clickhouse.jdbc.ClickHouseDriver");
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class Util {
         if (ClickHouseFunc.isSec && ClickHouseFunc.isMachineUser) {
             clickHouseProperties.setProperty("isMachineUser", "true");
             clickHouseProperties.setProperty("user", user);
-            clickHouseProperties.setProperty("keytabPath", System.getProperty("user.dir") + "clickhouse-rest-client-example" + File.separator + File.separator + "conf" + File.separator + "user.keytab");
+            clickHouseProperties.setProperty("keytabPath", System.getProperty("user.dir") + File.separator + "conf" + File.separator + "user.keytab");
         }
         if (ClickHouseFunc.sslUsed) {
             clickHouseProperties.setProperty(ClickHouseClientOption.SSL.getKey(), Boolean.toString(true));

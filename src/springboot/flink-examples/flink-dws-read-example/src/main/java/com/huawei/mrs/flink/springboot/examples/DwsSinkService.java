@@ -32,8 +32,8 @@ public class DwsSinkService {
     @Value("${spring.datasource.dws.username}")
     private String username;
 
-    @Value("${spring.datasource.dws.sink.buffer-flush.max-rows}")
-    private String sinkBufferFlushMaxRows;
+    @Value("${spring.datasource.dws.autoFlushBatchSize}")
+    private String sinkAutoFlushBatchSize;
 
     /**
      * 执行方法
@@ -55,7 +55,7 @@ public class DwsSinkService {
                 "create table dataGenSource(\n" +
                         "  id int\n" +
                         ") with (\n" +
-                        "   'connector' = 'gaussdb',\n" +
+                        "   'connector' = 'dws',\n" +
                         "   'url' = '" + dataSourceUrl + "',\n" +
                         "   'table-name' = '" + tablenameSource + "',\n" +
                         "   'username' = '" + username + "',\n" +
@@ -69,12 +69,12 @@ public class DwsSinkService {
                         "  id int\n" +
                         ")\n" +
                         "WITH (\n" +
-                        "   'connector' = 'gaussdb',\n" +
+                        "   'connector' = 'dws',\n" +
                         "   'url' = '" + dataSourceUrl + "',\n" +
                         "   'table-name' = '" + tablenameSink +"',\n" +
                         "   'username' = '" + username + "',\n" +
                         "   'password' = '" + password + "',\n" +
-                        "   'sink.buffer-flush.max-rows' = '" + sinkBufferFlushMaxRows + "'\n" +
+                        "   'autoFlushBatchSize' = '" + sinkAutoFlushBatchSize + "'\n" +
                         ")";
         tEnv.executeSql(sinkDws);
 

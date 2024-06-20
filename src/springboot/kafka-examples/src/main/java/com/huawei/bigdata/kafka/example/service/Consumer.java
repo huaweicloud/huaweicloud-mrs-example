@@ -11,35 +11,47 @@
 
 package com.huawei.bigdata.kafka.example.service;
 
-import kafka.utils.ShutdownableThread;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.NoOffsetForPartitionException;
+import org.apache.kafka.clients.consumer.OffsetOutOfRangeException;
+import org.apache.kafka.common.KafkaException;
+import org.apache.kafka.common.errors.AuthorizationException;
+import org.apache.kafka.common.errors.RecordDeserializationException;
+import org.apache.kafka.common.errors.UnsupportedVersionException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
 
 @Service
-public class Consumer extends ShutdownableThread {
+public class Consumer extends Thread {
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     private KafkaConsumer<String, String> consumer;
 
-    // 一次请求的最大等待时间(Ms)
-    private static final int WAIT_TIME = 1000;
+    // 一次请求的最大等待时间(S)
+    private static final int WAIT_TIME = 1;
 
     private int threadAliveTime = 180000;
+
+    private volatile boolean closed;
+
+    private final CountDownLatch latch;
 
     /**
      * Consumer constructor
      */
     public Consumer() {
-        super("KafkaConsumerExample", false);
+        super("KafkaConsumerExample");
+        this.latch = new CountDownLatch(1);
     }
 
     public void init(KafkaProperties kafkaProperties) {
@@ -72,16 +84,42 @@ public class Consumer extends ShutdownableThread {
     /**
      * 订阅Topic的消息处理函数
      */
-    public void doWork() {
-        // 消息消费请求
-        ConsumerRecords<String, String> records = this.consumer.poll(WAIT_TIME);
-        // 消息处理
-        for (ConsumerRecord<String, String> record : records) {
-            LOG.info(String.format("[ConsumerExample], Received message: (%s, %s) at offset %s",
-                    record.key(), record.value(), record.offset()));
+    public void run() {
+        long recordsCount = 0;
+        long startTime = System.currentTimeMillis();
+        while (!isTimeout(startTime)) {
+            try {
+                // 消息消费请求
+                ConsumerRecords<String, String> records = this.consumer.poll(Duration.ofSeconds(WAIT_TIME));
+                // 消息处理
+                for (ConsumerRecord<String, String> record : records) {
+                    LOG.info(String.format("[ConsumerExample], Received message: (%s, %s) at offset %s",
+                        record.key(), record.value(), record.offset()));
+                }
+                recordsCount += records.count();
+            } catch (AuthorizationException | UnsupportedVersionException
+                     | RecordDeserializationException e) {
+                LOG.error(e.getMessage());
+                // 无法从异常中恢复
+                closeThread();
+                latchShutDown();
+            } catch (OffsetOutOfRangeException | NoOffsetForPartitionException e) {
+                LOG.error("Invalid or no offset found, using latest");
+                consumer.seekToEnd(e.partitions());
+                consumer.commitSync();
+            } catch (KafkaException e) {
+                LOG.error(e.getMessage());
+            }
         }
 
-        LOG.info("Finished consume messages {}", records.count());
+        LOG.info("Finished consume messages {}", recordsCount);
+    }
+
+    public boolean isTimeout(long startTime) {
+        long curTime = System.currentTimeMillis();
+        if ((curTime - startTime) >= getThreadAliveTime())
+            return true;
+        return false;
     }
 
     public int getThreadAliveTime() {
@@ -89,7 +127,22 @@ public class Consumer extends ShutdownableThread {
     }
 
     public void close() {
-        this.shutdown();
+        closeThread();
+        try {
+            this.latch.await();
+        } catch (InterruptedException e) {
+            LOG.error("consumerThread.latch.await() is error", e);
+        }
         this.consumer.close();
+    }
+
+    public void closeThread() {
+        if (!closed) {
+            closed = true;
+        }
+    }
+
+    public void latchShutDown() {
+        latch.countDown();
     }
 }

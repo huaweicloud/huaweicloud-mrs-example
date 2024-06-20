@@ -11,6 +11,7 @@ connectionName=config['connection']['connectionName']
 connectionString=config['connection']['connectionString']
 jdbcDriver=config['connection']['jdbcDriver']
 username=config['connection']['username']
+# There are security risks when storing passwords in plain text. It is recommended to store the password in cipher text in the configuration file or environment variable and decrypt it when used to ensure security.
 password=config['connection']['password']
 
 jobName=config['job']['jobName']

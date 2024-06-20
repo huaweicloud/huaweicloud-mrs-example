@@ -22,8 +22,14 @@ public class ProducerDemo {
     public static void main(String[] args) throws IOException, InterruptedException {
         String kafkaURL = args[0];
         String topicName = args[1];
+        String kerberosDomainName = args[2];
+        String securityProtocol = args[3];
+        String kerberosServiceName = args[4];
         Properties kafkaProps = new Properties();
         kafkaProps.put("bootstrap.servers", kafkaURL);
+        kafkaProps.put("kerberos.domain.name", kerberosDomainName);
+        kafkaProps.put("security.protocol", securityProtocol);
+        kafkaProps.put("sasl.kerberos.service.name", kerberosServiceName);
         kafkaProps.put("acks", "1");
         kafkaProps.put("retries", 0);
         kafkaProps.put("compression.type", "snappy");

@@ -7,9 +7,9 @@ package com.huawei.bigdata.flink.examples;
 import com.huawei.bigdata.security.LoginUtil;
 import com.huawei.jredis.client.SslSocketFactoryUtil;
 
-import org.apache.flink.shaded.guava30.com.google.common.cache.CacheBuilder;
-import org.apache.flink.shaded.guava30.com.google.common.cache.CacheLoader;
-import org.apache.flink.shaded.guava30.com.google.common.cache.LoadingCache;
+import org.apache.flink.shaded.guava31.com.google.common.cache.CacheBuilder;
+import org.apache.flink.shaded.guava31.com.google.common.cache.CacheLoader;
+import org.apache.flink.shaded.guava31.com.google.common.cache.LoadingCache;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;

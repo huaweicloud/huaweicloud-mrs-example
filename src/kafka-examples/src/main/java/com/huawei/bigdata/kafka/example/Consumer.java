@@ -1,26 +1,37 @@
 package com.huawei.bigdata.kafka.example;
 
 import com.huawei.bigdata.kafka.example.security.LoginUtil;
-import kafka.utils.ShutdownableThread;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.NoOffsetForPartitionException;
+import org.apache.kafka.clients.consumer.OffsetOutOfRangeException;
+import org.apache.kafka.common.KafkaException;
+import org.apache.kafka.common.errors.AuthorizationException;
+import org.apache.kafka.common.errors.RecordDeserializationException;
+import org.apache.kafka.common.errors.UnsupportedVersionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
 
-public class Consumer extends ShutdownableThread {
+public class Consumer extends Thread {
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     private final KafkaConsumer<String, String> consumer;
 
     private final String topic;
 
-    // 一次请求的最大等待时间(Ms)
-    private final int waitTime = 1000;
+    private volatile boolean closed;
+
+    private final CountDownLatch latch;
+
+    // 一次请求的最大等待时间(S)
+    private final int waitTime = 1;
 
     // Broker连接地址
     private final static String BOOTSTRAP_SERVER = "bootstrap.servers";
@@ -67,11 +78,12 @@ public class Consumer extends ShutdownableThread {
      *
      * @param topic 订阅的Topic名称
      */
-    public Consumer(String topic) {
-        super("KafkaConsumerExample", false);
+    public Consumer(String topic, CountDownLatch latch) {
+        super("KafkaConsumerExample");
         Properties props = initProperties();
         consumer = new KafkaConsumer<String, String>(props);
         this.topic = topic;
+        this.latch = latch;
         // 订阅
         consumer.subscribe(Collections.singletonList(this.topic));
     }
@@ -109,14 +121,41 @@ public class Consumer extends ShutdownableThread {
     /**
      * 订阅Topic的消息处理函数
      */
-    public void doWork() {
-        // 消息消费请求
-        ConsumerRecords<String, String> records = consumer.poll(waitTime);
-        // 消息处理
-        for (ConsumerRecord<String, String> record : records) {
-            LOG.info("[ConsumerExample], Received message: (" + record.key() + ", " + record.value()
-                    + ") at offset " + record.offset());
+    public void run() {
+        while (!closed) {
+            try {
+                // 消息消费请求
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(waitTime));
+                // 消息处理
+                for (ConsumerRecord<String, String> record : records) {
+                    LOG.info("[ConsumerExample], Received message: (" + record.key() + ", " + record.value()
+                        + ") at offset " + record.offset());
+                }
+            } catch (AuthorizationException | UnsupportedVersionException
+                     | RecordDeserializationException e) {
+                LOG.error(e.getMessage());
+                // 无法从异常中恢复
+                closeThread();
+                latchShutDown();
+            } catch (OffsetOutOfRangeException | NoOffsetForPartitionException e) {
+                LOG.error("Invalid or no offset found, using latest");
+                consumer.seekToEnd(e.partitions());
+                consumer.commitSync();
+            } catch (KafkaException e) {
+                LOG.error(e.getMessage());
+            }
         }
+        latchShutDown();
+    }
+
+    public void closeThread() {
+        if (!closed) {
+            closed = true;
+        }
+    }
+
+    public void latchShutDown() {
+        latch.countDown();
     }
 
     public static void main(String[] args) {
@@ -134,7 +173,7 @@ public class Consumer extends ShutdownableThread {
             LOG.info("Security prepare success.");
         }
 
-        Consumer consumerThread = new Consumer(KafkaProperties.TOPIC);
+        Consumer consumerThread = new Consumer(KafkaProperties.TOPIC, new CountDownLatch(1));
         consumerThread.start();
 
         // 等到60s后将consumer关闭，实际执行过程中可修改
@@ -143,7 +182,12 @@ public class Consumer extends ShutdownableThread {
         } catch (InterruptedException e) {
             LOG.info("The InterruptedException occured : {}.", e);
         } finally {
-            consumerThread.shutdown();
+            consumerThread.closeThread();
+            try {
+                consumerThread.latch.await();
+            } catch (InterruptedException e) {
+                LOG.error("consumerThread.latch.await() is error", e);
+            }
             consumerThread.consumer.close();
         }
     }

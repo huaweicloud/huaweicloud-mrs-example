@@ -7,6 +7,7 @@ import java.util.Properties
 import scala.collection.mutable.ArrayBuffer
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
+import org.apache.hive.jdbc.HiveDatabaseMetaData
 
 object ThriftServerQueriesTest {
   def main(args: Array[String]): Unit = {
@@ -59,6 +60,14 @@ object ThriftServerQueriesTest {
     var statement: PreparedStatement = null
     try {
       connection = DriverManager.getConnection(url)
+      val metaData: HiveDatabaseMetaData = connection.getMetaData.asInstanceOf[HiveDatabaseMetaData]
+      val productName: String = metaData.getDatabaseProductName
+      val databaseAppId = metaData.getDatabaseAppId
+      if (null != productName && "Spark SQL".equals(productName)) {
+        println("Connected to:" + productName)
+        println("Funning with YARN Application = " + databaseAppId)
+      }
+
       for (sql <- sqls) {
         println(s"---- Begin executing sql: $sql ----")
         statement = connection.prepareStatement(sql)

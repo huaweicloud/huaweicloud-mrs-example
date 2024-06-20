@@ -6,6 +6,8 @@ package com.huawei.bigdata.hive.example;
 
 import com.huawei.bigdata.security.LoginUtil;
 
+import static com.huawei.bigdata.hive.example.JDBCExample.getUserRealm;
+
 import org.apache.hadoop.conf.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,7 @@ public class JDBCExamplePreLogin {
 
     private static final String ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME = "Client";
     private static final String ZOOKEEPER_SERVER_PRINCIPAL_KEY = "zookeeper.server.principal";
-    private static final String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/hadoop";
+    private static String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = null;
 
     private static Configuration CONF = null;
     private static String KRB5_FILE = null;
@@ -98,6 +100,7 @@ public class JDBCExamplePreLogin {
         if ("KERBEROS".equalsIgnoreCase(auth)) {
             // 设置客户端的keytab和zookeeper认证配置
             USER_KEYTAB_FILE = userdir + "user.keytab";
+            ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/" + getUserRealm();
             LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, USER_NAME, USER_KEYTAB_FILE);
             LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL);
 

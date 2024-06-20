@@ -39,7 +39,7 @@ public class JDBCExampleStatementProgressPercentage
      */
     public static void main(String[] args)
     {
-        String url = "jdbc:trino://192.168.1.130:29861/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker， need to change the ip value based on the cluster information
+        String url = "jdbc:trino://192.168.1.130:29861/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker, need to change the ip value based on the cluster information
         try {
             init();
             String sql = "show tables";

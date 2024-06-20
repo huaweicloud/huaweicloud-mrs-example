@@ -48,6 +48,7 @@ public class TestMain {
         }
         LOG.info("-----------begin Test -------------------");
         testHBaseSample();
+        testMultiThreadSample();
         // By default, dual read test is skip, you can test it when needed
         // testHBaseDualReadSample();
         // Test Global Secondary Index, if no need, you can skip it.
@@ -63,7 +64,17 @@ public class TestMain {
         } catch (IOException e) {
             LOG.error("Failed to test HBase because ", e);
         }
-        LOG.info("-----------finish HBase -------------------");
+        LOG.info("-----------finish HBase Sample-------------------");
+    }
+
+    private static void testMultiThreadSample() {
+        try {
+            MultiThreadSample multiThreadSample = new MultiThreadSample();
+            multiThreadSample.test();
+        } catch (IOException e) {
+            LOG.error("Failed to test HBase because ", e);
+        }
+        LOG.info("-----------finish MultiThread Sample -------------------");
     }
 
     private static void testHBaseDualReadSample() {
