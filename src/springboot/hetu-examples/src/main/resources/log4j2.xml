@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" name="hetu-example">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} | %-5p | %t | %m | %l%n"/>
+        </Console>
+        <RollingFile name="log" fileName="logs/hetu-springboot-example.log" filePattern="logs/hetu-springboot-example_$${date:yyyy-MM-dd_HH-mm-ss}.log.gz" append="true">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} | %-5p | %t | %m | %l%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="30 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <root level="info">
+            <appender-ref ref="log"/>
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</Configuration>
