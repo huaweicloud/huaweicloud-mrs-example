@@ -4,11 +4,11 @@ The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, H
 
 ### Version Mapping:
 
-MRS_3.3.0 Components mapping:
+MRS_3.3.1 Components mapping:
 
-| Component\MRS version | MRS 3.3.0     |
+| Component\MRS version | MRS 3.3.1     |
 |-----------------------|---------------|
-| Flink                 | 1.15.0        |
+| Flink                 | 1.17.1        |
 | Hive                  | 3.1.0         |
 | Tez                   | 0.10.2        |
 | Spark                 | 3.3.1         |
@@ -30,7 +30,7 @@ MRS_3.3.0 Components mapping:
 | Redis                 | 6.2.7         |
 | HetuEngine            | 2.0.0         |
 | RTDService            | 3.2.0         |
-| Doris                 | 1.2.3         |
+| Doris                 | 2.0.5         |
 
 ### Quick Links:
 
