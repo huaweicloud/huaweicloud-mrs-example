@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<fields>
-    <field name="name" max="30" prefixNoMaskLen ="1" mask="#"/>
-    <field name="idNo" max="18" prefixNoMaskLen ="1"/>
-    <field name="bankCardNo" max="20" suffixNoMaskLen ="4"/>
-    <field name="mobile" max="18" prefixNoMaskLen="3" suffixNoMaskLen="4"/>
-</fields>

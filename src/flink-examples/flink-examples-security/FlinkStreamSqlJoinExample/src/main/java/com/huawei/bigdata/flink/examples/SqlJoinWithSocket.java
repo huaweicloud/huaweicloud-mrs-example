@@ -81,7 +81,7 @@ public class SqlJoinWithSocket {
                                     }
                                 });
 
-        tableEnv.createTemporaryView("Table1", kafkaStream, $("name"), $("age"), $("sexy"), $("proctime").proctime());
+        tableEnv.createTemporaryView("Table1", kafkaStream, $("name"), $("age"), $("gender"), $("proctime").proctime());
 
         DataStream<Tuple2<String, String>> socketStream =
                 env.socketTextStream(hostname, port, "\n")
@@ -102,7 +102,7 @@ public class SqlJoinWithSocket {
 
         Table result =
                 tableEnv.sqlQuery(
-                        "SELECT t1.name, t1.age, t1.sexy, t2.job, t2.proctime as shiptime\n"
+                        "SELECT t1.name, t1.age, t1.gender, t2.job, t2.proctime as shiptime\n"
                             + "FROM Table1 AS t1\n"
                             + "JOIN Table2 AS t2\n"
                             + "ON t1.name = t2.name\n"

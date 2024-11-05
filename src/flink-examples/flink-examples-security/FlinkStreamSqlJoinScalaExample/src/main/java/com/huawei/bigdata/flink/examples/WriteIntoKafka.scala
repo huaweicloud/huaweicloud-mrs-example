@@ -35,7 +35,7 @@ object WriteIntoKafka {
 
   object SimpleStringGenerator {
     private[examples] val NAME = Array("Carry", "Alen", "Mike", "Ian", "John", "Kobe", "James")
-    private[examples] val SEX = Array("MALE", "FEMALE")
+    private[examples] val GENDER = Array("MALE", "FEMALE")
     private[examples] val COUNT = NAME.length
   }
 
@@ -48,8 +48,8 @@ object WriteIntoKafka {
       while (running) {
         val i = rand.nextInt(SimpleStringGenerator.COUNT)
         val age = rand.nextInt(70)
-        val sexy = SimpleStringGenerator.SEX(rand.nextInt(2))
-        ctx.collect(SimpleStringGenerator.NAME(i) + "," + age + "," + sexy)
+        val gender = SimpleStringGenerator.GENDER(rand.nextInt(2))
+        ctx.collect(SimpleStringGenerator.NAME(i) + "," + age + "," + gender)
         Thread.sleep(1000)
       }
     }

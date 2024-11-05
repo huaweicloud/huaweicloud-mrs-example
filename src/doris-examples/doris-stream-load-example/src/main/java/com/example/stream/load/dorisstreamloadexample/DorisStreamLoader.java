@@ -3,11 +3,13 @@ package com.example.stream.load.dorisstreamloadexample;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Properties;
 
 
 /**
@@ -18,25 +20,20 @@ import java.sql.PreparedStatement;
 public class DorisStreamLoader {
 
     // FE IP Address
-    private final static String HOST = "192.168.13.178";
+    private static String HOST = "";
     // FE port 安全场景使用https_port,普通模式使用 http_port
-    private final static int PORT = 29991;
+    private static long PORT = 29991;
 
-    private final static int JDBC_PORT = 29982;
+    private static long QUERY_PORT = 29982;
     // db name
     private final static String DATABASE = "test_2";
     // table name
     private final static String TABLE = "doris_test_sink";
 
-    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL_PATTERN = "jdbc:mysql://%s:%d?rewriteBatchedStatements=true";
 
-    private static final String USER = System.getenv("DORIS_MY_USER");
-    private static final String PASSWD = System.getenv("DORIS_MY_PASSWORD");
-
-    // 安全场景使用https开头， 普通模式使用http开头
-    private final static String loadUrl = String.format("https://%s:%s/api/%s/%s/_stream_load",
-            HOST, PORT, DATABASE, TABLE);
+    private static String USER = "";
+    private static String PASSWD = "";
 
     //java 调用 Curl的方法
     public static String execCurl(String[] cmds) {
@@ -60,10 +57,10 @@ public class DorisStreamLoader {
         return null;
     }
 
-    public static void initTable(){
-        String createDatabaseSql = "create database if not exists "+DATABASE;
+    public static void initTable() {
+        String createDatabaseSql = "create database if not exists " + DATABASE;
 
-        String createTableSql = "create table if not exists " + DATABASE + "." + TABLE +  " (\n" +
+        String createTableSql = "create table if not exists " + DATABASE + "." + TABLE + " (\n" +
                 "   `id` int NULL COMMENT \"\",\n" +
                 "   `number` int NULL COMMENT \"\",\n" +
                 "   `price` DECIMAL(12,2) NULL COMMENT \"\",\n" +
@@ -95,9 +92,19 @@ public class DorisStreamLoader {
     private static Connection createConnection() throws Exception {
         Connection connection = null;
         try {
-            Class.forName(JDBC_DRIVER);
-            String dbUrl = String.format(DB_URL_PATTERN, HOST, JDBC_PORT);
-            connection = DriverManager.getConnection(dbUrl, USER, PASSWD);
+            Properties properties = new Properties();
+            // 使用ClassLoader加载properties配置文件生成对应的输入流
+            InputStream in = DorisStreamLoader.class.getClassLoader().getResourceAsStream("conf.properties");
+            // 使用properties对象加载输入流
+            properties.load(in);
+            //获取key对应的value值
+            USER = properties.getProperty("USER");
+            PASSWD = properties.getProperty("PASSWD");
+            HOST = properties.getProperty("HOST");
+            QUERY_PORT = Long.parseLong(properties.getProperty("QUERY_PORT"));
+            Class.forName(properties.getProperty("JDBC_DRIVER"));
+            String dbUrl = String.format(DB_URL_PATTERN, HOST, QUERY_PORT);
+            connection = DriverManager.getConnection(dbUrl, USER, PASSWD == null || PASSWD.equals("") ? "" : PASSWD);
         } catch (Exception e) {
             System.out.println("Init doris connection failed.");
             throw new Exception(e);
@@ -115,8 +122,17 @@ public class DorisStreamLoader {
     }
 
     //接口调用
-    public static String getHttpPost(String csvPath) {
-
+    public static String getHttpPost(String csvPath) throws IOException {
+        // 安全场景使用https开头， 普通模式使用http开头
+        Properties properties = new Properties();
+        // 使用ClassLoader加载properties配置文件生成对应的输入流
+        InputStream in = DorisStreamLoader.class.getClassLoader().getResourceAsStream("conf.properties");
+        // 使用properties对象加载输入流
+        properties.load(in);
+        HOST = properties.getProperty("HOST");
+        PORT = Long.parseLong(properties.getProperty("PORT"));
+        String loadUrl = String.format("https://%s:%s/api/%s/%s/_stream_load",
+                HOST, PORT, DATABASE, TABLE);
         String[] cmdList = {"curl", "-k", "--location-trusted", "-u" + USER + ":" + PASSWD, "-H", "expect:100-continue", "-H", "column_separator:,", "-T",
                 csvPath,
                 loadUrl};

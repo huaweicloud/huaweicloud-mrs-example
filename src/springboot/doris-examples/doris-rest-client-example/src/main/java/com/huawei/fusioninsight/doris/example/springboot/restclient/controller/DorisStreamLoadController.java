@@ -6,7 +6,7 @@ package com.huawei.fusioninsight.doris.example.springboot.restclient.controller;
 
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.net.URLDecoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class DorisStreamLoadController {
      * 执行doris sql
      */
     @GetMapping("/executesql")
-    public String executeSql() throws UnsupportedEncodingException {
+    public String executeSql() throws IOException {
         dorisExampleService.initTable();
         String path = DorisStreamLoadController.class.getClassLoader().getResource("test.csv").getPath();
         path = URLDecoder.decode(path, "UTF-8");

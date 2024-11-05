@@ -56,7 +56,7 @@ public class WriteIntoKafka {
      */
     public static class SimpleStringGenerator implements SourceFunction<String> {
         static final String[] NAME = {"Carry", "Alen", "Mike", "Ian", "John", "Kobe", "James"};
-        static final String[] SEX = {"MALE", "FEMALE"};
+        static final String[] GENDER = {"MALE", "FEMALE"};
         static final int COUNT = NAME.length;
 
         boolean running = true;
@@ -67,8 +67,8 @@ public class WriteIntoKafka {
             while (running) {
                 int i = rand.nextInt(COUNT);
                 int age = rand.nextInt(70);
-                String sexy = SEX[rand.nextInt(2)];
-                ctx.collect(NAME[i] + "," + age + "," + sexy);
+                String gender = GENDER[rand.nextInt(2)];
+                ctx.collect(NAME[i] + "," + age + "," + gender);
                 Thread.sleep(1000);
             }
         }

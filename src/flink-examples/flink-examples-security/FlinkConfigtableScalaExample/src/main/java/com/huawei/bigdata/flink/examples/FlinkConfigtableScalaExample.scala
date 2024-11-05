@@ -109,7 +109,7 @@ object FlinkConfigtableScalaExample {
               "null",
               "null",
               "null",
-              input.sexy,
+              input.gender,
               input.shoppingTime)))
           } else {
             val values = client.hmget(key, fields.split(","):_*)
@@ -124,7 +124,7 @@ object FlinkConfigtableScalaExample {
               values.get(6),
               values.get(7),
               values.get(8),
-              input.sexy,
+              input.gender,
               input.shoppingTime)))
           }
           client.close()
@@ -132,11 +132,11 @@ object FlinkConfigtableScalaExample {
     }
 
     // data transform
-     resultStream.filter(_.sexy == "female")
+     resultStream.filter(_.gender == "female")
       .keyBy("name")
       .window(TumblingEventTimeWindows.of(Time.seconds(30)))
       .reduce((e1, e2) => UserRecord(e1.name, e2.age, e2.company, e2.workLocation, e2.educational, e2.workYear,
-        e2.phone, e2.nativeLocation, e2.school, e2.sexy, e1.shoppingTime + e2.shoppingTime))
+        e2.phone, e2.nativeLocation, e2.school, e2.gender, e1.shoppingTime + e2.shoppingTime))
       .filter(_.shoppingTime > 120).print()
 
     // execute program
@@ -156,16 +156,16 @@ object FlinkConfigtableScalaExample {
     val elems = line.split(",")
     assert(elems.length == 3)
     val name = elems(0)
-    val sexy = elems(1)
+    val gender = elems(1)
     val time = elems(2).toInt
-    OriginalRecord(name, sexy, time)
+    OriginalRecord(name, gender, time)
   }
 
   // the scheme of record read from txt
-  case class OriginalRecord(name: String, sexy: String, shoppingTime: Int)
+  case class OriginalRecord(name: String, gender: String, shoppingTime: Int)
 
   case class UserRecord(name: String, age: Int, company: String, workLocation: String, educational: String, workYear: Int,
-                        phone: String, nativeLocation: String, school: String, sexy: String, shoppingTime: Int)
+                        phone: String, nativeLocation: String, school: String, gender: String, shoppingTime: Int)
 
 
   // class to set watermark and timestamp

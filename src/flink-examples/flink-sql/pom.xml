@@ -6,16 +6,16 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>flink-sql</artifactId>
-    <version>8.3.1-331.r10</version>
+    <version>8.5.0-350.r11</version>
 
     <name>flink-sql</name>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <flink.version>1.17.1-h0.cbu.mrs.331.r10</flink.version>
+        <flink.version>1.17.1-h0.cbu.mrs.350.r11</flink.version>
         <scala.version>2.12</scala.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.331.r10</kafka.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.350.r11</kafka.version>
         <lib_path>lib</lib_path>
     </properties>
 

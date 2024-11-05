@@ -1,13 +1,13 @@
 package com.huawei.fusioninsight.doris.example.springboot.restclient.service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Properties;
 
 import org.springframework.stereotype.Service;
 
@@ -19,23 +19,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DorisStreamLoaderService {
-
-    // FE IP Address
-    private final static String HOST = "127.0.0.1";
-    // FE port 安全场景使用https_port,普通模式使用 http_port
-    private final static int PORT = 29991;
-
-    private final static int JDBC_PORT = 29982;
     // db name
     private final static String DATABASE = "test_2";
     // table name
     private final static String TABLE = "doris_test_sink";
 
-    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL_PATTERN = "jdbc:mysql://%s:%d?rewriteBatchedStatements=true";
 
-    private static final String USER = System.getenv("DORIS_MY_USER");
-    private static final String PASSWD = System.getenv("DORIS_MY_PASSWORD");
+    // FE IP Address
+    private static String HOST = "";
+    // FE port 安全场景使用https_port,普通模式使用 http_port
+    private static long PORT = 29991;
+
+    private static long QUERY_PORT = 29982;
+    // db name
+
+    private static String USER = "";
+    private static String PASSWD = "";
 
     // 安全场景使用https开头， 普通模式使用http开头
     private final static String loadUrl = String.format("https://%s:%s/api/%s/%s/_stream_load",
@@ -98,9 +98,19 @@ public class DorisStreamLoaderService {
     private static Connection createConnection() throws Exception {
         Connection connection = null;
         try {
-            Class.forName(JDBC_DRIVER);
-            String dbUrl = String.format(DB_URL_PATTERN, HOST, JDBC_PORT);
-            connection = DriverManager.getConnection(dbUrl, USER, PASSWD);
+            Properties properties = new Properties();
+            // 使用ClassLoader加载properties配置文件生成对应的输入流
+            InputStream in = DorisStreamLoaderService.class.getClassLoader().getResourceAsStream("conf.properties");
+            // 使用properties对象加载输入流
+            properties.load(in);
+            //获取key对应的value值
+            USER = properties.getProperty("USER");
+            PASSWD = properties.getProperty("PASSWD");
+            HOST = properties.getProperty("HOST");
+            QUERY_PORT = Long.parseLong(properties.getProperty("QUERY_PORT"));
+            Class.forName(properties.getProperty("JDBC_DRIVER"));
+            String dbUrl = String.format(DB_URL_PATTERN, HOST, QUERY_PORT);
+            connection = DriverManager.getConnection(dbUrl, USER, PASSWD == null || PASSWD.equals("") ? "" : PASSWD);
         } catch (Exception e) {
             System.out.println("Init doris connection failed.");
             throw new Exception(e);
@@ -118,8 +128,19 @@ public class DorisStreamLoaderService {
     }
 
     //接口调用
-    public  String getHttpPost(String csvPath) {
-
+    public  String getHttpPost(String csvPath) throws IOException {
+        // 安全场景使用https开头， 普通模式使用http开头
+        Properties properties = new Properties();
+        // 使用ClassLoader加载properties配置文件生成对应的输入流
+        InputStream in = DorisStreamLoaderService.class.getClassLoader().getResourceAsStream("conf.properties");
+        // 使用properties对象加载输入流
+        properties.load(in);
+        HOST = properties.getProperty("HOST");
+        PORT = Long.parseLong(properties.getProperty("PORT"));
+        USER = properties.getProperty("USER");
+        PASSWD = properties.getProperty("PASSWD");
+        String loadUrl = String.format("https://%s:%s/api/%s/%s/_stream_load",
+                HOST, PORT, DATABASE, TABLE);
         String[] cmdList = {"curl", "-k", "--location-trusted", "-u" + USER + ":" + PASSWD, "-H", "expect:100-continue", "-H", "column_separator:,", "-T",
                 csvPath,
                 loadUrl};

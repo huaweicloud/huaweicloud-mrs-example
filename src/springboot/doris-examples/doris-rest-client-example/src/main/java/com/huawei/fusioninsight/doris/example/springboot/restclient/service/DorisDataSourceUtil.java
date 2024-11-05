@@ -7,22 +7,23 @@ package com.huawei.fusioninsight.doris.example.springboot.restclient.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DorisDataSourceUtil {
     private static final Logger logger = LogManager.getLogger(DorisDataSourceUtil.class);
-    private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
     private static final String DB_URL_PATTERN = "jdbc:mariadb://%s:%d?rewriteBatchedStatements=true";
-    private static final String HOST = "192.168.67.78"; // Leader Node host
-    private static final int PORT = 29982;   // query_port of Leader Node
+    private static String HOST = ""; // Leader Node host
+    private static long PORT;   // query_port of Leader Node
     // 运行本示例前请先在本地环境变量中设置环境变量DORIS_MY_USER和DORIS_MY_PASSWORD。建议密文存放，使用时解密，确保安全。
-    private static final String USER = System.getenv("DORIS_MY_USER");
-    private static final String PASSWD = System.getenv("DORIS_MY_PASSWORD");
+    private static String USER = "";
+    private static String PASSWD = "";
 
     private static String FOUR_EMPTY = "    ";
 
@@ -34,9 +35,19 @@ public class DorisDataSourceUtil {
     public static Connection createConnection() throws Exception {
         Connection connection = null;
         try {
-            Class.forName(JDBC_DRIVER);
+            Properties properties = new Properties();
+            // 使用ClassLoader加载properties配置文件生成对应的输入流
+            InputStream in = DorisDataSourceUtil.class.getClassLoader().getResourceAsStream("conf.properties");
+            // 使用properties对象加载输入流
+            properties.load(in);
+            //获取key对应的value值
+            USER = properties.getProperty("USER");
+            PASSWD = properties.getProperty("PASSWD");
+            HOST = properties.getProperty("HOST");
+            PORT = Long.parseLong(properties.getProperty("QUERY_PORT"));
+            Class.forName(properties.getProperty("JDBC_DRIVER"));
             String dbUrl = String.format(DB_URL_PATTERN, HOST, PORT);
-            connection = DriverManager.getConnection(dbUrl, USER, PASSWD);
+            connection = DriverManager.getConnection(dbUrl, USER, PASSWD == null || PASSWD.equals("") ? "" : PASSWD);
         } catch (Exception e) {
             logger.error("Init doris connection failed.", e);
             throw new Exception(e);

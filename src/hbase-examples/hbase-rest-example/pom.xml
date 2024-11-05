@@ -10,7 +10,7 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-rest-example</artifactId>
-    <version>8.3.1-331.r10</version>
+    <version>8.5.0-350.r11</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

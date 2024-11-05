@@ -7,23 +7,24 @@ package com.huawei.bigdata.doris.example;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DBalancerJDBCExample {
 	private static final Logger logger = LogManager.getLogger(DBalancerJDBCExample.class);
-	private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String DB_URL_PATTERN = "jdbc:mysql://%s:%d?rewriteBatchedStatements=true";
-	private static final String HOST = "192.168.20.37"; // DBalancer Node Host
-	private static final int PORT = 29992;   // balancer_tcp_port of DBalancer Node
+	private static long DB_BALANCER_PORT;   // balancer_tcp_port of DBalancer Node
 	// Before running this example, set the environment variables DORIS_MY_USER and DORIS_MY_PASSWORD in the local environment variables.
 	// It is recommended that ciphertext be stored and decrypted during use to ensure security.
-	private static final String USER = System.getenv("DORIS_MY_USER");
-	private static final String PASSWD = System.getenv("DORIS_MY_PASSWORD");
+	private static String HOST = ""; // Leader Node host
+	private static String USER = "";
+	private static String PASSWD = "";
 
 
 	public static void main(String[] args) {
@@ -84,9 +85,19 @@ public class DBalancerJDBCExample {
 	private static Connection createConnection() throws Exception {
 		Connection connection = null;
 		try {
-			Class.forName(JDBC_DRIVER);
-			String dbUrl = String.format(DB_URL_PATTERN, HOST, PORT);
-			connection = DriverManager.getConnection(dbUrl, USER, PASSWD);
+			Properties properties = new Properties();
+			// 使用ClassLoader加载properties配置文件生成对应的输入流
+			InputStream in = JDBCExample.class.getClassLoader().getResourceAsStream("conf.properties");
+			// 使用properties对象加载输入流
+			properties.load(in);
+			//获取key对应的value值
+			USER = properties.getProperty("USER");
+			PASSWD = properties.getProperty("PASSWD");
+			HOST = properties.getProperty("HOST");
+			DB_BALANCER_PORT = Long.parseLong(properties.getProperty("DB_BALANCER_PORT"));
+			Class.forName(properties.getProperty("JDBC_DRIVER"));
+			String dbUrl = String.format(DB_URL_PATTERN, HOST, DB_BALANCER_PORT);
+			connection = DriverManager.getConnection(dbUrl, USER, PASSWD == null || PASSWD.equals("") ? "" : PASSWD);
 		} catch (Exception e) {
 			logger.error("Init doris connection failed.", e);
 			throw new Exception(e);

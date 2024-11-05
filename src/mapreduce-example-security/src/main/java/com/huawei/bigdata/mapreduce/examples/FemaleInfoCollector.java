@@ -3,6 +3,7 @@ package com.huawei.bigdata.mapreduce.examples;
 import java.io.IOException;
 
 import com.huawei.bigdata.mapreduce.tools.LoginUtil;
+import com.huawei.bigdata.mapreduce.tools.Utils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;

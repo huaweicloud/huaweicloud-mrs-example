@@ -50,7 +50,7 @@ object SqlJoinWithSocket {
       }
     })
 
-    tableEnv.createTemporaryView("Table1", kafkaStream, $("name"), $("age"), $("sexy"), $("proctime").proctime)
+    tableEnv.createTemporaryView("Table1", kafkaStream, $("name"), $("age"), $("gender"), $("proctime").proctime)
 
     val socketStream = env.socketTextStream(hostname, port, "\n").map(new MapFunction[String, Tuple2[String, String]]() {
       @throws[Exception]
@@ -63,7 +63,7 @@ object SqlJoinWithSocket {
 
     tableEnv.createTemporaryView("Table2", socketStream, $("name"), $("job"), $("proctime").proctime)
 
-    val result = tableEnv.sqlQuery("SELECT t1.name, t1.age, t1.sexy, t2.job, t2.proctime as shiptime\n" + "FROM Table1 AS t1\n" + "JOIN Table2 AS t2\n" + "ON t1.name = t2.name\n" + "AND t1.proctime BETWEEN t2.proctime - INTERVAL '1' SECOND AND t2.proctime + INTERVAL" + " '1' SECOND")
+    val result = tableEnv.sqlQuery("SELECT t1.name, t1.age, t1.gender, t2.job, t2.proctime as shiptime\n" + "FROM Table1 AS t1\n" + "JOIN Table2 AS t2\n" + "ON t1.name = t2.name\n" + "AND t1.proctime BETWEEN t2.proctime - INTERVAL '1' SECOND AND t2.proctime + INTERVAL" + " '1' SECOND")
 
     tableEnv.toAppendStream(result, classOf[Row]).print
     env.execute

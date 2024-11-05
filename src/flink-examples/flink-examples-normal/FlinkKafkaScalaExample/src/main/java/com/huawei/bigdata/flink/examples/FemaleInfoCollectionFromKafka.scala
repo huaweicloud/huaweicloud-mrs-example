@@ -35,10 +35,10 @@ object FemaleInfoCollectionFromKafka {
     // get input data
     messageStream.map(getRecord(_))
       .assignTimestampsAndWatermarks(new Record2TimestampExtractor)
-      .filter(_.sexy == "female")
-      .keyBy("name", "sexy")
+      .filter(_.gender == "female")
+      .keyBy("name", "gender")
       .window(TumblingEventTimeWindows.of(Time.minutes(windowTime)))
-      .reduce((e1, e2) => UserRecord(e1.name, e1.sexy, e1.shoppingTime + e2.shoppingTime))
+      .reduce((e1, e2) => UserRecord(e1.name, e1.gender, e1.shoppingTime + e2.shoppingTime))
       .filter(_.shoppingTime > 120).print()
 
     // go to execute
@@ -50,13 +50,13 @@ object FemaleInfoCollectionFromKafka {
     val elems = line.split(",")
     assert(elems.length == 3)
     val name = elems(0)
-    val sexy = elems(1)
+    val gender = elems(1)
     val time = elems(2).toInt
-    UserRecord(name, sexy, time)
+    UserRecord(name, gender, time)
   }
 
   // the scheme of record read from txt
-  case class UserRecord(name: String, sexy: String, shoppingTime: Int)
+  case class UserRecord(name: String, gender: String, shoppingTime: Int)
 
   // class to set watermark and timestamp
   private class Record2TimestampExtractor extends AssignerWithPunctuatedWatermarks[UserRecord] {

@@ -6,12 +6,12 @@
 
     <groupId>com.huawei.bigdata</groupId>
     <artifactId>OozieSparkHive</artifactId>
-    <version>8.3.1-331.r10</version>
+    <version>8.5.0-350.r11</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <oozie.version>5.1.0-h0.cbu.mrs.331.r10</oozie.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <oozie.version>5.1.0-h0.cbu.mrs.350.r11</oozie.version>
+        <spark.version>3.3.1-h0.cbu.mrs.350.r11</spark.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>

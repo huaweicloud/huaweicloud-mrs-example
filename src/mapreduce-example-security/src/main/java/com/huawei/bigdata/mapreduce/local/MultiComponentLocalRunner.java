@@ -7,6 +7,7 @@ import com.huawei.bigdata.mapreduce.examples.MultiComponentExample.MultiComponen
 import com.huawei.bigdata.mapreduce.examples.MultiComponentExample.MultiComponentReducer;
 import com.huawei.bigdata.mapreduce.tools.LoginUtil;
 import com.huawei.bigdata.mapreduce.tools.TarManager;
+import com.huawei.bigdata.mapreduce.tools.Utils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -110,6 +111,7 @@ public class MultiComponentLocalRunner {
         config.addResource(MultiComponentExample.class.getClassLoader().getResourceAsStream("hive-site.xml"));
         // add hbase config file
         Configuration conf = HBaseConfiguration.create(config);
+        Utils.handleZkSslEnabled(conf);
 
         // Initialize the job object.
         Job job = Job.getInstance(conf);

@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<jedis.version>3.6.3-h0.cbu.mrs.331.r10</jedis.version>
+		<jedis.version>3.6.3-h0.cbu.mrs.350.r11</jedis.version>
 		<commons-pools2.version>2.11.1</commons-pools2.version>
 	</properties>
 

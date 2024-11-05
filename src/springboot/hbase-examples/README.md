@@ -12,7 +12,7 @@
 1. 样例代码需要使用用户认证凭据，请在manager界面新建用户，为其配置所需权限。（人机用户在第一次登录修改初始密码后才会生效）。并在客户端目录下进行 source bigdata_env 操作后，执行kinit username 进行认证。认证后在manager界面下载该用户的认证凭证。
 2. 登录FusionInsight Manager页面，选择“集群 > 概览 > 更多 > 下载客户端”，“选择客户端类型”设置为“仅配置文件”，根据待运行客户端程序节点的节点类型选择正确的平台类型后（x86选择x86_64，ARM选择aarch64）单击“确定”，等待客户端文件包生成后根据浏览器提示下载客户端到本地并解压。
    例如，客户端配置文件压缩包为“FusionInsight_Cluster_1_Services_Client.tar”，解压后得到“FusionInsight_Cluster_1_Services_ClientConfig_ConfigFiles.tar”，继续解压该文件。解压到本地PC的“D:\FusionInsight_Cluster_1_Services_ClientConfig_ConfigFiles”目录下。
-3. 进入客户端配置文件解压路径“FusionInsight_Cluster_1_Services_ClientConfig_ConfigFiles\HBase\config”，获取HBase相关配置文件，并放置在同一个目录中；
+3. 进入客户端配置文件解压路径“FusionInsight_Cluster_1_Services_ClientConfig_ConfigFiles\HBase\config”，获取HBase相关配置文件，并放置在同一个目录中，如果集群为IPv6环境，需要将hbase-site.xml中hbase.zookeeper.quorum配置项对应值的IP修改为集群中ZooKeeper quorumpeer实例所在节点的主机名。
 
 ## 配置springclient.properties
 * principal为所使用用户的用户名

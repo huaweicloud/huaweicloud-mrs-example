@@ -23,7 +23,7 @@ public class WriteIntoKafka {
         System.out.println(
                 "./bin/flink run --class com.huawei.bigdata.flink.examples.WriteIntoKafka /opt/test.jar --topic"
                     + " topic-test -bootstrap.servers xxx.xxx.xxx.xxx:21007 --security.protocol SASL_PLAINTEXT"
-                    + " --sasl.kerberos.service.name kafka");
+                    + " --sasl.kerberos.service.name kafka --kerberos.domain.name hadoop.xxx.com");
         System.out.println(
                 "******************************************************************************************");
         System.out.println("<topic> is the kafka topic name");

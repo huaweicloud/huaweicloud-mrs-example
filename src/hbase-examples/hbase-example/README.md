@@ -16,6 +16,8 @@
 
     将互信场景下的同名用户其中一个集群的认证凭据及其配置文件放入 ***src/main/resources/hadoopDomain*** 目录下，将另一集群的配置文件放入 ***src/main/resources/hadoop1Domain*** 目录下
 
+  - 注意：如果集群为IPv6环境，需要将hbase-site.xml中hbase.zookeeper.quorum配置项对应值的IP修改为集群中ZooKeeper quorumpeer实例所在节点的主机名。
+
 4. 修改 ***TestMain.java*** 文件 USER_NAME = "***hbaseuser***"为实际用户名
 
 5. 修改 ***TestMain.java*** 文件 ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/hadoop.***YourDomainName***"，其中 ***YourDomainName*** 的值可通过在manager界面单击“系统 > 权限 > 域和互信”，然后查看“本端域”参数获取。

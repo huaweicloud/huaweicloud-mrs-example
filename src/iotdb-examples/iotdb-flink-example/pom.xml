@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-flink-example</artifactId>
-    <version>8.3.1-331.r10</version>
+    <version>8.5.0-350.r11</version>
     <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <iotdb.version>1.1.0-h0.cbu.mrs.331.r10</iotdb.version>
-    <flink.version>1.17.1-h0.cbu.mrs.331.r10</flink.version>
+    <iotdb.version>1.1.0-h0.cbu.mrs.350.r11</iotdb.version>
+    <flink.version>1.17.1-h0.cbu.mrs.350.r11</flink.version>
     </properties>
     <dependencies>
         <dependency>

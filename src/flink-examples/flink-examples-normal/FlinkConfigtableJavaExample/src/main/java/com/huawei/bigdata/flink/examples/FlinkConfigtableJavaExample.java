@@ -92,7 +92,7 @@ public class FlinkConfigtableJavaExample {
                         new FilterFunction<UserRecord>() {
                             @Override
                             public boolean filter(UserRecord value) throws Exception {
-                                return value.sexy.equals("female");
+                                return value.gender.equals("female");
                             }
                         })
                 .keyBy(new UserRecordSelector())
@@ -154,12 +154,12 @@ public class FlinkConfigtableJavaExample {
      */
     public static class OriginalRecord {
         private String name;
-        private String sexy;
+        private String gender;
         private int shoppingTime;
 
-        public OriginalRecord(String name, String sexy, int shoppingTime) {
+        public OriginalRecord(String name, String gender, int shoppingTime) {
             this.name = name;
-            this.sexy = sexy;
+            this.gender = gender;
             this.shoppingTime = shoppingTime;
         }
     }
@@ -179,7 +179,7 @@ public class FlinkConfigtableJavaExample {
         private String phone;
         private String nativeLocation;
         private String school;
-        private String sexy;
+        private String gender;
         private int shoppingTime;
 
         public UserRecord(
@@ -192,7 +192,7 @@ public class FlinkConfigtableJavaExample {
                 String phone,
                 String nativeLocation,
                 String school,
-                String sexy,
+                String gender,
                 int shoppingTime) {
             this.name = name;
             this.age = age;
@@ -203,7 +203,7 @@ public class FlinkConfigtableJavaExample {
             this.phone = phone;
             this.nativeLocation = nativeLocation;
             this.school = school;
-            this.sexy = sexy;
+            this.gender = gender;
             this.shoppingTime = shoppingTime;
         }
 
@@ -216,7 +216,7 @@ public class FlinkConfigtableJavaExample {
          */
         public void setInput(String input_nm, String input_sx, int input_st) {
             name = input_nm;
-            sexy = input_sx;
+            gender = input_sx;
             shoppingTime = input_st;
         }
 
@@ -240,8 +240,8 @@ public class FlinkConfigtableJavaExample {
                     + nativeLocation
                     + "  school: "
                     + school
-                    + "  sexy: "
-                    + sexy
+                    + "  gender: "
+                    + gender
                     + "  shoppingTime: "
                     + shoppingTime;
         }
@@ -359,7 +359,7 @@ public class FlinkConfigtableJavaExample {
             // set key string, if you key is more than one column, build your key string with columns
             String key = input.name;
             UserRecord info = cacheRecords.get(key);
-            info.setInput(input.name, input.sexy, input.shoppingTime);
+            info.setInput(input.name, input.gender, input.shoppingTime);
             resultFuture.complete(Collections.singletonList(info));
         }
     }

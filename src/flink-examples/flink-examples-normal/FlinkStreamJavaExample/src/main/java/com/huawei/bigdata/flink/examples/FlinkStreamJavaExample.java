@@ -72,7 +72,7 @@ public class FlinkStreamJavaExample {
                         new FilterFunction<UserRecord>() {
                             @Override
                             public boolean filter(UserRecord value) throws Exception {
-                                return value.sexy.equals("female");
+                                return value.gender.equals("female");
                             }
                         })
                 .keyBy(new UserRecordSelector())
@@ -101,7 +101,7 @@ public class FlinkStreamJavaExample {
     private static class UserRecordSelector implements KeySelector<UserRecord, Tuple2<String, String>> {
         @Override
         public Tuple2<String, String> getKey(UserRecord value) throws Exception {
-            return Tuple2.of(value.name, value.sexy);
+            return Tuple2.of(value.name, value.gender);
         }
     }
 
@@ -118,18 +118,18 @@ public class FlinkStreamJavaExample {
      */
     public static class UserRecord {
         private String name;
-        private String sexy;
+        private String gender;
         private int shoppingTime;
 
-        public UserRecord(String name, String sexy, int shoppingTime) {
+        public UserRecord(String name, String gender, int shoppingTime) {
             this.name = name;
-            this.sexy = sexy;
+            this.gender = gender;
             this.shoppingTime = shoppingTime;
         }
 
         @Override
         public String toString() {
-            return "name: " + name + "  sexy: " + sexy + "  shoppingTime: " + shoppingTime;
+            return "name: " + name + "  gender: " + gender + "  shoppingTime: " + shoppingTime;
         }
     }
 

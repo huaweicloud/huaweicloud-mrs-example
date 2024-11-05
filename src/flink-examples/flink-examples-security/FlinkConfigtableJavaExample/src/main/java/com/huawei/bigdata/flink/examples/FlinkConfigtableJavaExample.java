@@ -95,7 +95,7 @@ public class FlinkConfigtableJavaExample {
         result.filter(new FilterFunction<UserRecord>() {
             @Override
             public boolean filter(UserRecord value) throws Exception {
-                return value.sexy.equals("female");
+                return value.gender.equals("female");
             }
         }).keyBy(
                 new UserRecordSelector()
@@ -153,12 +153,12 @@ public class FlinkConfigtableJavaExample {
      */
     public static class OriginalRecord {
         private String name;
-        private String sexy;
+        private String gender;
         private int shoppingTime;
 
         public OriginalRecord(String nm, String sx, int st) {
             name = nm;
-            sexy = sx;
+            gender = sx;
             shoppingTime = st;
         }
     }
@@ -176,7 +176,7 @@ public class FlinkConfigtableJavaExample {
         private String phone;
         private String nativeLocation;
         private String school;
-        private String sexy;
+        private String gender;
         private int shoppingTime;
 
         public UserRecord(String nm, int ag, String com, String wl, String ed,
@@ -190,7 +190,7 @@ public class FlinkConfigtableJavaExample {
             phone = ph;
             nativeLocation = nl;
             school = sc;
-            sexy = sx;
+            gender = sx;
             shoppingTime = st;
         }
 
@@ -201,7 +201,7 @@ public class FlinkConfigtableJavaExample {
          */
         public void setInput(String input_nm, String input_sx, int input_st) {
             name = input_nm;
-            sexy = input_sx;
+            gender = input_sx;
             shoppingTime = input_st;
         }
 
@@ -213,7 +213,7 @@ public class FlinkConfigtableJavaExample {
                     + "  workLocation: " + workLocation + "  educational: " + educational
                     + "  workYear: " + workYear + "  phone: " + phone + "  nativeLocation: "
                     + nativeLocation + "  school: " + school
-                    + "  sexy: " + sexy + "  shoppingTime: " + shoppingTime;
+                    + "  gender: " + gender + "  shoppingTime: " + shoppingTime;
         }
     }
 
@@ -354,7 +354,7 @@ public class FlinkConfigtableJavaExample {
             // set key string, if you key is more than one column, build your key string with columns
             String key = input.name;
             UserRecord info = cacheRecords.get(key);
-            info.setInput(input.name, input.sexy, input.shoppingTime);
+            info.setInput(input.name, input.gender, input.shoppingTime);
             resultFuture.complete(Collections.singletonList(info));
         }
     }

@@ -3,6 +3,7 @@ package com.huawei.bigdata.mapreduce.examples;
 import com.huawei.bigdata.examples.util.JarFinderUtil;
 import com.huawei.bigdata.examples.util.KerberosUtil;
 import com.huawei.bigdata.mapreduce.tools.LoginUtil;
+import com.huawei.bigdata.mapreduce.tools.Utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -399,6 +400,7 @@ public class MultiComponentExample {
         config.addResource("hive-site.xml");
         // add hbase config file
         Configuration conf = HBaseConfiguration.create(config);
+        Utils.handleZkSslEnabled(conf);
 
         // Initialize the job object.
         Job job = Job.getInstance(conf);

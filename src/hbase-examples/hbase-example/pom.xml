@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.3.1-331.r10</version>
+    <version>8.5.0-350.r11</version>
     <properties>
-        <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
-        <phoenix-core.version>5.1.2-h0.cbu.mrs.331.r10</phoenix-core.version>
-        <dualclient.version>8.3.1-331.r10</dualclient.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.350.r11</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
+        <phoenix-core.version>5.1.2-h0.cbu.mrs.350.r11</phoenix-core.version>
+        <dualclient.version>8.5.0-350.r11</dualclient.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

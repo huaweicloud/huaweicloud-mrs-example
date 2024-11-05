@@ -1,5 +1,0 @@
-#healthcheck:
-#    scope: http,zookeeper,service
-#containergroups:
-#    - name: demo
-#      minnum: 1

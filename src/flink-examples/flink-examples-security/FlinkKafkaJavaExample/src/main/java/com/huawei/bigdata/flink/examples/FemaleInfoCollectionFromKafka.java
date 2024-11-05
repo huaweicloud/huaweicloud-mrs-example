@@ -53,7 +53,7 @@ public class FemaleInfoCollectionFromKafka {
     ).filter(new FilterFunction<UserRecord>() {
       @Override
       public boolean filter(UserRecord value) throws Exception {
-        return value.sexy.equals("female");
+        return value.gender.equals("female");
       }
     }).keyBy(
         new UserRecordSelector()
@@ -78,7 +78,7 @@ public class FemaleInfoCollectionFromKafka {
     private static class UserRecordSelector implements KeySelector<UserRecord, Tuple2<String, String>> {
         @Override
         public Tuple2<String, String> getKey(UserRecord value) throws Exception {
-            return Tuple2.of(value.name, value.sexy);
+            return Tuple2.of(value.name, value.gender);
         }
     }
 
@@ -93,12 +93,12 @@ public class FemaleInfoCollectionFromKafka {
      */
     public static class UserRecord {
         private String name;
-        private String sexy;
+        private String gender;
         private Integer shoppingTime;
 
         public UserRecord(String nm, String sx, Integer st) {
             name = nm;
-            sexy = sx;
+            gender = sx;
             shoppingTime = st;
         }
 
@@ -106,7 +106,7 @@ public class FemaleInfoCollectionFromKafka {
          * @return string
          */
         public String toString() {
-            return "name: " + name + "  sexy: " + sexy + "  shoppingTime: " + shoppingTime.toString();
+            return "name: " + name + "  gender: " + gender + "  shoppingTime: " + shoppingTime.toString();
         }
     }
 
