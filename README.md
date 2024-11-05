@@ -13,7 +13,7 @@ MRS_3.5.0 Components mapping:
 | Tez                   | 0.10.2        |
 | Spark                 | 3.3.1         |
 | CarbonData            | 2.2.0         |
-| Hudi                  | 0.11.0        |
+| Hudi                  | 0.15.0        |
 | Hadoop                | 3.3.1         |
 | HBase                 | 2.4.14        |
 | ZooKeeper             | 3.8.1         |
