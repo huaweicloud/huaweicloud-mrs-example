@@ -42,7 +42,7 @@ public class OozieRestApiMain {
             String path = Helper.getResourcesPath();
 
             String krb5FilePath = path + "krb5.conf";
-            String keytabFilePath = path + "user.keytab";
+            String keytabFilePath = path + "developuser.keytab";
             String user = PropertiesCache.getInstance().getProperty("submit_user");
 
             System.setProperty("java.security.krb5.conf", krb5FilePath);

@@ -10,14 +10,16 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
     <properties>
-        <hbase.version>2.4.14-h0.cbu.mrs.350.r11</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
-        <phoenix-core.version>5.1.2-h0.cbu.mrs.350.r11</phoenix-core.version>
-        <dualclient.version>8.5.0-350.r11</dualclient.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <phoenix-core.version>5.2.1-h0.cbu.mrs.351.r22</phoenix-core.version>
+        <dualclient.version>8.5.1-351.r22</dualclient.version>
+        <log4j2.version>2.24.1</log4j2.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <source>1.8</source>
+        <target>1.8</target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -29,6 +31,22 @@
                 <exclusion>
                     <groupId>commons-io</groupId>
                     <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.reload4j</groupId>
+                    <artifactId>reload4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-reload4j</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -46,27 +64,63 @@
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-server</artifactId>
             <version>${hbase.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.reload4j</groupId>
+                    <artifactId>reload4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-reload4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <!--Local Secondary Index-->
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-hindex</artifactId>
             <version>${hbase.version}</version>
         </dependency>
+
         <!--Global Secondary Index-->
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-global-index-client</artifactId>
             <version>${hbase.version}</version>
         </dependency>
+
+        <!--log4j-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+
+        <!--phoenix-->
+        <dependency>
             <groupId>org.apache.phoenix</groupId>
-            <artifactId>phoenix-core</artifactId>
+            <artifactId>phoenix-core-client</artifactId>
             <version>${phoenix-core.version}</version>
             <exclusions>
                 <exclusion>
@@ -77,13 +131,23 @@
                     <artifactId>zookeeper</artifactId>
                     <groupId>org.apache.zookeeper</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.phoenix</groupId>
-            <artifactId>phoenix-hbase-compat-2.4.1</artifactId>
+            <artifactId>phoenix-hbase-compat-2.6.0</artifactId>
             <version>${phoenix-core.version}</version>
         </dependency>
+
+        <!--dualclient-->
         <dependency>
             <groupId>com.huawei.mrs</groupId>
             <artifactId>hbase-dualclient</artifactId>
@@ -97,4 +161,50 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>build-with-jdk8</id>
+            <activation>
+                <jdk>[1.8,17)</jdk>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <source>1.8</source>
+                <target>1.8</target>
+            </properties>
+        </profile>
+        <profile>
+            <id>build-with-jdk17</id>
+            <activation>
+                <jdk>[17,21)</jdk>
+            </activation>
+            <properties>
+                <source>17</source>
+                <target>17</target>
+            </properties>
+        </profile>
+        <profile>
+            <id>build-with-jdk21</id>
+            <activation>
+                <jdk>[21,)</jdk>
+            </activation>
+            <properties>
+                <source>21</source>
+                <target>21</target>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${source}</source>
+                    <target>${target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

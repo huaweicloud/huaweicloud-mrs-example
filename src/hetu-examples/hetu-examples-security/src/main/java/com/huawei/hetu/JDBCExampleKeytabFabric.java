@@ -35,7 +35,8 @@ public class JDBCExampleKeytabFabric {
         System.setProperty("java.security.auth.login.config", PATH_TO_JAAS_ZK_CONF);
         System.setProperty("java.security.krb5.conf", PATH_TO_KRB5_CONF);
         properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
-        properties.setProperty("SSL", "true"); 
+        properties.setProperty("SSL", "true");
+        properties.setProperty("tenant", "YourTenant");
         properties.setProperty("KerberosConfigPath", PATH_TO_KRB5_CONF);
         properties.setProperty("KerberosPrincipal", "YourUserName"); // need to change the value based on the cluster information
         properties.setProperty("KerberosKeytabPath", PATH_TO_USER_KEYTAB);

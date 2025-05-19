@@ -21,4 +21,8 @@ public interface Const {
 
     int PORT_1 = 22400;
     int PORT_2 = 22401;
+
+    String userName = "";
+
+    String password = "";
 }

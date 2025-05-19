@@ -10,10 +10,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
     </properties>
 
     <dependencies>
@@ -21,11 +21,31 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.mrs</groupId>
+                    <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.lakeformation</groupId>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.mrs</groupId>
+                    <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.lakeformation</groupId>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>

@@ -32,6 +32,7 @@ public class JDBCExampleStatementProgressPercentage
         // The password is stored in environment variables for identity authentication. Before running this example, set the environment variable HETUENGINE_PASSWORD.
         String password = System.getenv("HETUENGINE_PASSWORD");
         properties.setProperty("password", password);
+        properties.setProperty("tenant", "YourTenant");
         Class.forName("io.trino.jdbc.TrinoDriver");
     }
 
@@ -42,7 +43,7 @@ public class JDBCExampleStatementProgressPercentage
      */
     public static void main(String[] args)
     {
-        String url = "jdbc:trino://192.168.43.223:29860/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker, need to change the ip value based on the cluster information
+        String url = "jdbc:trino://192.168.1.130:29860/hive/default?serviceDiscoveryMode=hsbroker"; // the ip address is the ip address of hsbroker, need to change the ip value based on the cluster information
 
         try {
             init();

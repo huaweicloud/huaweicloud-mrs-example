@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-rest-normal</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
 
     <dependencies>
         <dependency>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>2.16.0</version>
         </dependency>
 
     </dependencies>

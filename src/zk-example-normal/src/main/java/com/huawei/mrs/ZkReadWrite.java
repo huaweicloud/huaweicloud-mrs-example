@@ -19,7 +19,7 @@ import java.io.IOException;
 public class ZkReadWrite {
 
     // zk的连接地址
-    private static final String zkQurom = "192.168.6.122:24002,192.168.6.227:24002,192.168.6.29:24002";
+    private static final String zkQurom = "";
 
 
     private static void processSync(WatchedEvent watchedEvent, String name) {

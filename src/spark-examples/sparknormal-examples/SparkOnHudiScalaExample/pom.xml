@@ -11,11 +11,11 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
   <packaging>jar</packaging>
 
   <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
     <checkstyle.skip>true</checkstyle.skip>
-    <hudi.version>0.15.0-h0.cbu.mrs.350.r11</hudi.version>
-    <spark.version>3.3.1-h0.cbu.mrs.350.r11</spark.version>
+    <hudi.version>0.15.0-h0.cbu.mrs.351.r22</hudi.version>
+    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
   </properties>
 
@@ -86,6 +86,16 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_${scala.binary.version}</artifactId>
       <version>${spark.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.huawei.mrs</groupId>
+          <artifactId>SMS4JA</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.huawei.lakeformation</groupId>
+          <artifactId>lakeformation-lakecat-client-base</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hudi</groupId>

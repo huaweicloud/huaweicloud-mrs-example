@@ -15,8 +15,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <iceberg.version>1.4.1-h0.cbu.mrs.331.r10</iceberg.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <iceberg.version>1.7.0-h0.cbu.mrs.351.r22</iceberg.version>
+        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 
@@ -37,6 +37,16 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>com.huawei.mrs</groupId>
+                <artifactId>SMS4JA</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.huawei.lakeformation</groupId>
+                <artifactId>lakeformation-lakecat-client-base</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

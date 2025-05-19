@@ -4,7 +4,7 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>zk-example-security</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>8.5.1-351.r22</version>
     <packaging>jar</packaging>
 
     <name>zk-example-security</name>
@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r11</zookeeper.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.351.r22</zookeeper.version>
     </properties>
 
     <dependencies>

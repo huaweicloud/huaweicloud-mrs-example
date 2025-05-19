@@ -1,0 +1,4 @@
+{"cmd":"ADD","id":"100001","content":"content for the first data"}
+{"cmd":"ADD","id":"100002","title":"title for the second data","content":"content for the second data","url":"","docTime":"2015/01/01 12:10:30","category":"category1","tags":["tag1","tag2","tag3"]}
+{"cmd":"UPDATE","id":"100002","content":"The content for the second data is updated","category":"newCategory"}
+{"cmd":"DELETE","id":"100002"}

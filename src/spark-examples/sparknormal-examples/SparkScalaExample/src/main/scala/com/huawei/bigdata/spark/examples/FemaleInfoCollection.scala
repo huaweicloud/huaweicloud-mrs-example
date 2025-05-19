@@ -1,11 +1,10 @@
 package com.huawei.bigdata.spark.examples
 
-import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
 object FemaleInfoCollection {
-  def main (args: Array[String]) {
+  def main (args: Array[String]): Unit = {
     if (args.length < 1) {
       System.err.println("Usage: CollectFemaleInfo <file>")
       System.exit(1)

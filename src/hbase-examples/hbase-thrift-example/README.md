@@ -30,13 +30,13 @@
       </property>
       ```
 
-5. 修改 ***TestMain.java login()***  方法里面的 ***username*** 为用户名
+4. 修改 ***TestMain.java login()***  方法里面的 ***username*** 为用户名
    
    修改 ***test.test()*** 传入参数为欲访问的 ***ThriftServer*** 实例所在节点IP地址，并将访问节点IP配置到运行样例代码的本机 ***hosts*** 文件中。
 
    修改 ***THRIFT_PORT*** 为Manager页面中查询得到的配置 ***"hbase.regionserver.thrift.port"*** 参数对应的 ***value***
 
-6. __Linux环境下__ 运行时：
+5. __Linux环境下__ 运行时：
 
    修改 ***login ()*** 和 ***init ()*** 方法中获取路径的逻辑。使用注释中标识Linux环境下的读取方式。
    
@@ -49,10 +49,18 @@
    若在 __安装客户端的Linux环境下运行__，需按照 __《HBase开发指南》1.4.2.1安装客户端时编译并运行程序__ 章节，将对应配置文件和认证文件放置到 ***“$BIGDATA_CLIENT_HOME/HBase/hbase/conf”*** 目录。
    
    若在 __未安装客户端Linux环境下运行__，需按照 __《HBase开发指南》1.4.2.2未安装客户端时编译并运行程序__ 章节，创建对应目录lib和conf，并分别上传对应依赖Jar包和配置文件及认证文件。
-   
+
+
+6. 选择需要编译的目标JDK版本，若不指定，默认编译JDK 8版本的jar包；编译时使用-P参数可以指定目标jar包版本，目前支持的有：
+   - -P build-with-jdk8
+   - -P build-with-jdk17
+   - -P build-with-jdk21
+
+   注意：请不要使用低版本JDK编译高版本JDK的jar包
 7. 根据pom.xml 使用maven构建导包
 
-8. 运行 ***TestMain.java*** 
-
+8. 运行 ***TestMain.java***
+   注意：使用JDK8以上的版本运行前，需要在启动命令或配置中添加以下启动参数：
+   --add-modules jdk.unsupported --add-opens java.base/java.nio=ALL-UNNAMED
 
 

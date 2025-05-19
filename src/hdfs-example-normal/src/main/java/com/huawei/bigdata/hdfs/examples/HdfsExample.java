@@ -21,6 +21,8 @@ public class HdfsExample {
 
     private static final String STORAGE_POLICY_HOT = "HOT";
 
+    static final String HDFS_EXAMPLES = "/user/hdfs-examples/";
+
     private static final String PATH_TO_HDFS_SITE_XML = System.getProperty("user.dir") + File.separator + "conf"
             + File.separator + "hdfs-site.xml";
 
@@ -58,7 +60,12 @@ public class HdfsExample {
         for (int threadNum = 0; threadNum < threadCount; threadNum++) {
             HdfsExampleThread exampleThread = new HdfsExampleThread("hdfs_example_" + threadNum);
             exampleThread.start();
+            exampleThread.join();
         }
+
+        // 清理创建的目录
+        HdfsExample example = new HdfsExample(HDFS_EXAMPLES, "test.txt");
+        example.rmdir();
 
         // 业务示例3： 设置存储策略
         // System.out.println("begin to set Storage Policy");
@@ -337,7 +344,7 @@ class HdfsExampleThread extends Thread {
     public void run() {
         HdfsExample example;
         try {
-            example = new HdfsExample("/user/hdfs-examples/" + getName(), "test.txt");
+            example = new HdfsExample(HdfsExample.HDFS_EXAMPLES + getName(), "test.txt");
             example.test();
         } catch (IOException e) {
             LOG.error(e);

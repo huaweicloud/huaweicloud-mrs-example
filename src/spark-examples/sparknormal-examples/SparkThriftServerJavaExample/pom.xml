@@ -11,10 +11,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hive.group>org.apache.hive</hive.group>
-        <hive.version>3.1.0-h0.cbu.mrs.331.r10</hive.version>
+        <hive.version>3.1.0-h0.cbu.mrs.351.r22</hive.version>
         <hive.deps.scope>compile</hive.deps.scope>
-        <scala.version>2.12.15</scala.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <scala.version>2.12.19</scala.version>
+        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 
@@ -24,6 +24,16 @@
             <artifactId>hive-jdbc</artifactId>
             <version>${hive.version}</version>
             <scope>${hive.deps.scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.mrs</groupId>
+                    <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.lakeformation</groupId>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
@@ -34,6 +44,16 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.mrs</groupId>
+                    <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.lakeformation</groupId>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
@@ -45,15 +65,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <configuration>
-                    <recompileMode>modified-only</recompileMode>
-                </configuration>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.4.0</version>
                 <executions>
                     <execution>
-                        <id>main-scalac</id>
+                        <id>scala-compile-first</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -64,6 +81,7 @@
                         <id>scala-test-compile</id>
                         <phase>process-test-resources</phase>
                         <goals>
+                            <goal>add-source</goal>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
@@ -82,8 +100,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>

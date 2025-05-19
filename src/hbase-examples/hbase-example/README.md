@@ -53,10 +53,14 @@
    若在 __安装客户端的Linux环境下运行双读样例__，需按照 __《HBase开发指南》1.4.2.1安装客户端时编译并运行程序__ 章节，将hbase-dualclient Jar包放置到 ***“$BIGDATA_CLIENT_HOME/HBase/hbase/lib”*** 目录。
 
    若在 __未安装客户端Linux环境下运行__，需按照 __《HBase开发指南》1.4.2.2未安装客户端时编译并运行程序__ 章节，创建对应目录lib和conf，并分别上传对应依赖Jar包和配置文件及认证文件。
+7. 选择需要编译的目标JDK版本，若不指定，默认编译JDK 8版本的jar包；编译时使用-P参数可以指定目标jar包版本，目前支持的有：
+   - -P build-with-jdk8
+   - -P build-with-jdk17
+   - -P build-with-jdk21
 
-7. 根据 ***pom.xml*** 使用maven构建导包
+   注意：请不要使用低版本JDK编译高版本JDK的jar包
 
-8. 分别运行 ***TestMain.java*** 和 ***TestMultiLogin.java***
-
-
-
+8. 根据 ***pom.xml*** 使用maven构建导包
+9. 分别运行 ***TestMain.java*** 和 ***TestMultiLogin.java***
+   注意：使用JDK8以上的版本运行前，需要在启动命令或配置中添加以下启动参数：
+   --add-modules jdk.unsupported --add-opens java.base/java.nio=ALL-UNNAMED

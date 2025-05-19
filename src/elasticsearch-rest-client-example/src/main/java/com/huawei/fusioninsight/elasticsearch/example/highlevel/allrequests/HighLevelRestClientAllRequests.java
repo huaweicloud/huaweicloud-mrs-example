@@ -10,7 +10,7 @@ import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByJso
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByMap;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByXContentBuilder;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.Search;
-import com.huawei.fusioninsight.elasticsearch.example.highlevel.searchscroll.SearchScroll;
+import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.SearchScroll;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.update.Update;
 import com.huawei.fusioninsight.elasticsearch.example.util.HwRestClientUtils;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexSorting;

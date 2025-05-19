@@ -30,6 +30,12 @@
 * 方法二：
   在IDEA的下方Terminal窗口进入“pom.xml”所在目录，手动输入mvn clean package。 
 
+编译时需要选择目标JDK版本，若不指定，默认编译JDK 8版本的jar包；编译时使用-P参数可以指定目标jar包版本，目前支持的有：
+- -P build-with-jdk8
+- -P build-with-jdk17
+
+注意：请不要使用低版本JDK编译高版本JDK的jar包
+
 ## 运行程序
 ### WINDOWS下
 1. 将集群节点配置到运行样例代码的本机 hosts 文件中。

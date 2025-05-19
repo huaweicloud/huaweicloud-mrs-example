@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.5.0-350.r11</version>
+        <version>8.5.1-351.r22</version>
     </parent>
     <artifactId>FlinkConfigtableJavaExample</artifactId>
     <properties>
@@ -18,20 +18,6 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-hadoop-2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>

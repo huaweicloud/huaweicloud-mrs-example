@@ -6,7 +6,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
 object FemaleInfoCollection {
-  def main (args: Array[String]) {
+  def main (args: Array[String]): Unit = {
 
     if (args.length < 1) {
 

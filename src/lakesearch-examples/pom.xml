@@ -4,16 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>lakesearch-examples</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <slf4j.version>1.7.36</slf4j.version>
         <http.version>4.5.13</http.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
     </properties>
     <dependencies>
         <dependency>

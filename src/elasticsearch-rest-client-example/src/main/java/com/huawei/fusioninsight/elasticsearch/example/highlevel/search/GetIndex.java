@@ -8,13 +8,13 @@ import com.huawei.fusioninsight.elasticsearch.example.util.HwRestClientUtils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.Strings;
 import org.elasticsearch.hwclient.HwRestClient;
-import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
 
@@ -29,19 +29,17 @@ public class GetIndex {
     /**
      * Get index information
      */
-    private static void getIndex(RestHighLevelClient highLevelClient, String index, String id) {
-        try {
-            GetRequest getRequest = new GetRequest(index).id(id);
-            String[] includes = new String[] {"message", "test*"};
-            String[] excludes = Strings.EMPTY_ARRAY;
-            FetchSourceContext fetchSourceContext = new FetchSourceContext(true, includes, excludes);
-            getRequest.fetchSourceContext(fetchSourceContext);
-            getRequest.storedFields("message");
-            GetResponse getResponse = highLevelClient.get(getRequest, RequestOptions.DEFAULT);
+    public static void getIndex(RestHighLevelClient highLevelClient, String index) {
+        SearchRequest searchRequest = new SearchRequest(index);
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(sourceBuilder);
 
-            LOG.info("GetIndex response is {}.", getResponse.toString());
+        try {
+            SearchResponse response = highLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            LOG.info("Get index response is {}.", response.toString());
         } catch (IOException e) {
-            LOG.error("GetIndex is failed, exception occurred.", e);
+            LOG.error("Get index is failed, exception occurred.", e);
         }
     }
 
@@ -51,7 +49,7 @@ public class GetIndex {
         HwRestClient hwRestClient = HwRestClientUtils.getHwRestClient(args);
         try {
             highLevelClient = new RestHighLevelClient(hwRestClient.getRestClientBuilder());
-            getIndex(highLevelClient, "example-huawei", "1");
+            getIndex(highLevelClient, "example-huawei");
         } finally {
             try {
                 if (highLevelClient != null) {

@@ -4,6 +4,7 @@
 
 package com.huawei.bigdata;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -16,6 +17,7 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.hive.hcatalog.data.DefaultHCatRecord;
@@ -80,6 +82,25 @@ public class HCatalogExample extends Configured implements Tool {
         }
     }
 
+    private void login(Configuration conf) throws IOException {
+        String userdir = System.getProperty("user.dir") + File.separator
+            + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+
+        String krb5Conf = userdir + "krb5.conf";
+        String keytab = userdir + "user.keytab";
+        if (!new File(krb5Conf).isFile() || !new File(keytab).isFile()) {
+            return;
+        }
+        // 设置新建用户的USER_NAME，其中"xxx"指代之前创建的用户名，例如创建的用户为user，则USER_NAME为user
+        String username = "xxx";
+        String auth = conf.get("hadoop.security.authentication");
+        if ("KERBEROS".equalsIgnoreCase(auth)) {
+            System.setProperty("java.security.krb5.conf", krb5Conf);
+            UserGroupInformation.setConfiguration(conf);
+            UserGroupInformation.loginUserFromKeytab(username, keytab);
+        }
+    }
+
     /**
      * Run method
      */
@@ -89,6 +110,8 @@ public class HCatalogExample extends Configured implements Tool {
         String[] otherArgs = args;
         String dbName = "default";
         String inputTableName = otherArgs[0];
+
+        login(conf);
 
         @SuppressWarnings("deprecation")
         Job job = new Job(conf, "GroupByDemo");

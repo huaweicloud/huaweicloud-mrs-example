@@ -21,8 +21,8 @@
         <name>Hive2Hive</name>
         <class>com.huawei.bigdata.spark.Hive2Hive</class>
         <jar>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/lib/OozieSparkHive-1.0.jar</jar>
-        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark/jars/8.2.1/spark-archive.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/sparkJobHistory</spark-opts>
-        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/user.keytab</file>
+        <spark-opts>--conf spark.yarn.security.tokens.hadoopfs.enabled=false --conf spark.yarn.security.credentials.hadoopfs.enabled=false --conf spark.yarn.security.tokens.hive.enabled=false --conf spark.yarn.archive=hdfs://hacluster/user/spark/jars/8.5.1/spark-archive.zip --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hacluster/sparkJobHistory</spark-opts>
+        <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/developuser.keytab</file>
         <file>${nameNode}/user/${userName}/${examplesRoot}/apps/spark/krb5.conf</file>
     </spark>
     <ok to="end" />

@@ -4,16 +4,16 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>MRTest</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
     <packaging>jar</packaging>
-    <name>mapreduce-test</name>
+    <name>mapreduce-example-security</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
-        <hadoop.ext.version>8.5.0-350.r11</hadoop.ext.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.350.r11</hbase.version>
-        <hive.version>3.1.0-h0.cbu.mrs.350.r11</hive.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <hadoop.ext.version>8.5.1-351.r22</hadoop.ext.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
+        <hive.version>3.1.0-h0.cbu.mrs.351.r22</hive.version>
     </properties>
 
     <dependencies>
@@ -71,11 +71,27 @@
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-jdbc</artifactId>
             <version>${hive.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>SMS4JA</artifactId>
+                    <groupId>com.huawei.mrs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                    <groupId>com.huawei.lakeformation</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-service</artifactId>
             <version>${hive.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                    <groupId>com.huawei.lakeformation</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

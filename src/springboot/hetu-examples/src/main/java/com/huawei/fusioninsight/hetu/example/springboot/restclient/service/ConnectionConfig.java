@@ -28,6 +28,9 @@ public class ConnectionConfig
     @Value("${hetu.ssl}")
     private String ssl;
 
+    @Value("${hetu.tenant}")
+    private String tenant;
+
     public String getHost()
     {
         return host;
@@ -56,5 +59,10 @@ public class ConnectionConfig
     public String getSsl()
     {
         return ssl;
+    }
+
+    public String getTenant()
+    {
+        return tenant;
     }
 }

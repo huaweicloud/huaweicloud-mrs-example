@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>graphbase-examples</artifactId>
-        <version>8.5.0-350.r11</version>
+        <version>8.5.1-351.r22</version>
     </parent>
     <artifactId>gremlin-demo4j</artifactId>
     <packaging>jar</packaging>
     <properties>
-        <janusgraph.version>0.2.0-h0.cbu.mrs.350.r11</janusgraph.version>
-        <hadoop-auth.version>3.3.1-h0.cbu.mrs.350.r11</hadoop-auth.version>
+        <janusgraph.version>0.2.0-h0.cbu.mrs.351.r22</janusgraph.version>
+        <hadoop-auth.version>3.3.1-h0.cbu.mrs.351.r22</hadoop-auth.version>
     </properties>
     <dependencies>
         <dependency>

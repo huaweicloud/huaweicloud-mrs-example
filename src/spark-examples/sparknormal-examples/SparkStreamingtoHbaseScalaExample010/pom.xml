@@ -10,12 +10,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <java.version>17</java.version>
+        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.331.r10</kafka.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
     </properties>
 
     <dependencies>
@@ -23,6 +23,16 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.mrs</groupId>
+                    <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.lakeformation</groupId>
+                    <artifactId>lakeformation-lakecat-client-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -112,17 +122,13 @@
 
     <build>
         <plugins>
-
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version>
-                <configuration>
-                    <recompileMode>modified-only</recompileMode>
-                </configuration>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.4.0</version>
                 <executions>
                     <execution>
-                        <id>main-scalac</id>
+                        <id>scala-compile-first</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -133,6 +139,7 @@
                         <id>scala-test-compile</id>
                         <phase>process-test-resources</phase>
                         <goals>
+                            <goal>add-source</goal>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>

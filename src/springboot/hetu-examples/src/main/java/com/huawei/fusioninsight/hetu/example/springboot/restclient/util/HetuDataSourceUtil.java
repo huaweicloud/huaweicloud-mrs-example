@@ -29,6 +29,7 @@ public class HetuDataSourceUtil
             Properties info = new Properties();
             info.put("user", connectionConfig.getUser());
             info.put("SSL", connectionConfig.getSsl());
+            info.put("tenant", connectionConfig.getTenant());
             if ("true".equalsIgnoreCase(connectionConfig.getSsl())) {
                 info.put("password", connectionConfig.getPassword());
             }

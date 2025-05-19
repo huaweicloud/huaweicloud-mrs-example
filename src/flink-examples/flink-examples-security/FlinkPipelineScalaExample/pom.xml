@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.5.0-350.r11</version>
+        <version>8.5.1-351.r22</version>
     </parent>
     <artifactId>FlinkPipelineScalaExample</artifactId>
 
@@ -19,50 +19,16 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-core</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-hadoop-2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-netty_${scala.binary.version}</artifactId>
             <version>${flink.connector.netty.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-hadoop-2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
     <build>
@@ -72,8 +38,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <target>1.8</target>
-                    <source>1.8</source>
+                    <target>17</target>
+                    <source>17</source>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

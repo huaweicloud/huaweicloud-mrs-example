@@ -6,50 +6,15 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>kafka-examples</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
 
     <properties>
-        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r11</zookeeper.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.350.r11</kafka.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.351.r22</zookeeper.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
-            <version>${kafka.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.zookeeper</groupId>
-                    <artifactId>zookeeper</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.sf.jopt-simple</groupId>
-                    <artifactId>jopt-simple</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.huawei.mrs</groupId>
-                    <artifactId>manager-wc2frm</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka-clients</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.xerial.snappy</groupId>
-                    <artifactId>snappy-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.huawei.mrs</groupId>
-                    <artifactId>om-controller-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.101tec</groupId>
-                    <artifactId>zkclient</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>

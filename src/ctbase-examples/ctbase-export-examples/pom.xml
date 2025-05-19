@@ -2,16 +2,19 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.huawei.mrs.ctbase.examples</groupId>
   <artifactId>ctbase-export-examples</artifactId>
-  <version>8.5.0-350.r11</version>
+  <version>8.5.1-351.r22</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spark.version>3.3.1-h0.cbu.mrs.350.r11</spark.version>
+    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
-    <hbase.version>2.4.14-h0.cbu.mrs.350.r11</hbase.version>
-    <log4j2.version>2.17.1</log4j2.version>
-    <ctbase.version>0.98.0-h0.cbu.mrs.350.r11</ctbase.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+    <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
+    <ctbase.version>0.99.0-h0.cbu.mrs.351.r22</ctbase.version>
+    <log4j2.version>2.24.1</log4j2.version>
+    <slf4j.version>2.0.16</slf4j.version>
+    <source>1.8</source>
+    <target>1.8</target>
   </properties>
 
   <dependencies>
@@ -25,12 +28,38 @@
           <artifactId>commons-io</artifactId>
           <groupId>commons-io</groupId>
         </exclusion>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ch.qos.reload4j</groupId>
+          <artifactId>reload4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-reload4j</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-core</artifactId>
       <version>${hadoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-reload4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ch.qos.reload4j</groupId>
+          <artifactId>reload4j</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!--ctbase-->
@@ -43,6 +72,10 @@
           <artifactId>wushan-security</artifactId>
           <groupId>com.huawei.clouds.wushan</groupId>
         </exclusion>
+        <exclusion>
+          <groupId>ch.qos.reload4j</groupId>
+          <artifactId>reload4j</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -51,6 +84,24 @@
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_${scala.binary.version}</artifactId>
       <version>${spark.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-web</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.huawei.lakeformation</groupId>
+          <artifactId>lakeformation-lakecat-client-base</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.huawei.mrs</groupId>
+          <artifactId>SMS4JA</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
@@ -70,9 +121,9 @@
 
     <!--log4j-->
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>${log4j2.version}</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -81,10 +132,44 @@
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-1.2-api</artifactId>
+      <version>${log4j2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j2-impl</artifactId>
       <version>${log4j2.version}</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>build-with-jdk8</id>
+      <activation>
+        <jdk>[1.8,17)</jdk>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <source>1.8</source>
+        <target>1.8</target>
+      </properties>
+    </profile>
+    <profile>
+      <id>build-with-jdk17</id>
+      <activation>
+        <jdk>[17,)</jdk>
+      </activation>
+      <properties>
+        <source>17</source>
+        <target>17</target>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
@@ -93,9 +178,9 @@
     <testOutputDirectory>target/test-classes</testOutputDirectory>
     <plugins>
       <plugin>
-        <groupId>org.scala-tools</groupId>
-        <artifactId>maven-scala-plugin</artifactId>
-        <version>2.15.2</version>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>4.9.5</version>
         <executions>
           <execution>
             <id>main-scalac</id>
@@ -113,6 +198,23 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <scalaVersion>2.12.19</scalaVersion>
+          <javacArgs>
+            <javacArg>-source</javacArg>
+            <javacArg>${source}</javacArg>
+            <javacArg>-target</javacArg>
+            <javacArg>${target}</javacArg>
+          </javacArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${source}</source>
+          <target>${target}</target>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

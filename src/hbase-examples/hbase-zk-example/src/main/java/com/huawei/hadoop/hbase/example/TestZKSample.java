@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Locale;
 
 /**
  * Function description:
@@ -73,11 +74,21 @@ public class TestZKSample {
 
     private static void login(String keytabFile, String principal) throws IOException {
         conf = HBaseConfiguration.create();
-        //In Windows environment
-        String confDirPath = TestZKSample.class.getClassLoader().getResource("").getPath() + File.separator;
-        //In Linux environment
-        //String confDirPath = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
         // Set zoo.cfg for hbase to connect to fi zookeeper.
+        String confDirPath;
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        if (osName.contains("windows")) {
+            // In Windows environment
+            confDirPath = TestZKSample.class.getClassLoader().getResource("").getPath() + File.separator;
+            // For JDK 9+, not support the path starts with /, need remove it.
+            if (confDirPath.startsWith("/")) {
+                int length = confDirPath.length();
+                confDirPath = confDirPath.substring(1, length);
+            }
+        } else {
+            // In Linux environment
+            confDirPath = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+        }
         conf.set("hbase.client.zookeeper.config.path", confDirPath + "zoo.cfg");
         if (User.isHBaseSecurityEnabled(conf)) {
             // jaas.conf file, it is included in the client pakcage file

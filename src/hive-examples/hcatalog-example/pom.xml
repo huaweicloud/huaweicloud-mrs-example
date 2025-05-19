@@ -6,10 +6,11 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>hcatalog-example</artifactId>
-  <version>8.5.0-350.r11</version>
+  <version>8.5.1-351.r22</version>
 
   <properties>
-    <hive.version>3.1.0-h0.cbu.mrs.350.r11</hive.version>
+    <hive.version>3.1.0-h0.cbu.mrs.351.r22</hive.version>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -17,6 +18,16 @@
       <groupId>org.apache.hive.hcatalog</groupId>
       <artifactId>hive-hcatalog-core</artifactId>
       <version>${hive.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.huawei.lakeformation</groupId>
+          <artifactId>lakeformation-lakecat-client-base</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.huawei.mrs</groupId>
+          <artifactId>SMS4JA</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

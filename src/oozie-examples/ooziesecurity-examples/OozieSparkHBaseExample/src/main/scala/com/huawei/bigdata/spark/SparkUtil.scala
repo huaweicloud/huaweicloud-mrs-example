@@ -28,7 +28,7 @@ object SparkUtil {
 
   def login():Unit = {
     val path = System.getProperty("user.dir")
-    val userKeytabFile = path + "/user.keytab"
+    val userKeytabFile = path + "/developuser.keytab"
     val krb5File = path+ "/krb5.conf"
 
     val user = PropertiesCache.getInstance().getProperty("submit_user")

@@ -93,7 +93,6 @@ public class TestExample {
         bulkImportFaq(client);
         uploadStructuredData(client);
         queryFilesStatus(client);
-        chat(client);
         searchText(client);
     }
 
@@ -162,7 +161,7 @@ public class TestExample {
     private static void uploadStructuredData(LakeSearchClient client) {
         String endpoint = "/v1/" + projectId + "/applications/" + applicationId + "/uni-search/" + createRepoId + "/structured-data";
         Optional<ResultModel> result = client.sendAction(subject, protocol, ipPort, endpoint, MethodType.POST,
-            null, OperateType.UPLOAD_STRUCTURED_DATA, "template_structuredData_file.json");
+            null, OperateType.UPLOAD_STRUCTURED_DATA, "template_structuredData_file.jsonl");
     }
 
     private static void searchText(LakeSearchClient client) {
@@ -207,18 +206,6 @@ public class TestExample {
             }
         }
     }
-
-    private static void chat(LakeSearchClient client) {
-        String endpoint = "/v1/" + projectId + "/applications/" + applicationId + "/uni-search/experience/chat";
-
-        String requestBody = "{\"repo_id\":\"" + createRepoId + "\",\"chat_id\":\"\",\"messages\":[{\"role\":\"system\"," +
-            "\"content\":\"" + "What is Java?" + "\"}],\"chat_create_flag\":1,\"refresh_flag\":0,\"stream\":\"false\"}";
-        JsonElement requestBodyJson = JsonParser.parseString(requestBody);
-
-        Optional<ResultModel> result = client.sendAction(subject, protocol, ipPort, endpoint, MethodType.POST,
-            requestBodyJson, OperateType.CHAT, null);
-    }
-
 
     private static void login(String principal, String userKeytabFile, String krb5File) throws LoginException {
         Map<String, String> options = new HashMap<>();

@@ -5,26 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>flink-examples-normal</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
     <packaging>pom</packaging>
     <properties>
         <scala.binary.version>2.12</scala.binary.version>
-        <scala.version>2.12.7</scala.version>
-        <flink.version>1.17.1-h0.cbu.mrs.350.r11</flink.version>
-        <jedisclient.version>8.5.0-350.r11</jedisclient.version>
+        <scala.version>2.12.15</scala.version>
+        <flink.version>1.20.0-h0.cbu.mrs.351.r22</flink.version>
+        <jedisclient.version>8.5.1-351.r22</jedisclient.version>
         <wcc_krb5.version>8.1.2-312080</wcc_krb5.version>
-        <jedis.version>3.6.3-h0.cbu.mrs.350.r11</jedis.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.350.r11</hbase.version>
+        <jedis.version>3.6.3-h0.cbu.mrs.351.r22</jedis.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <curator.version>4.0.0</curator.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.350.r11</hadoop.version>
-        <flink.shaded.version>17.0-h0.cbu.mrs.350.r11</flink.shaded.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <flink.shaded.version>17.0-h0.cbu.mrs.351.r22</flink.shaded.version>
         <guava.version>32.1.2-jre</guava.version>
-        <flink.connector.netty.version>1.17.1-h0.cbu.mrs.350.r11</flink.connector.netty.version>
-        <hudi.version>0.15.0-h0.cbu.mrs.350.r11</hudi.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.350.r11</kafka.version>
+        <flink.connector.netty.version>1.20.0-h0.cbu.mrs.351.r22</flink.connector.netty.version>
+        <hudi.version>0.15.0-h0.cbu.mrs.351.r22</hudi.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
+        <flink.connector.jdbc.version>3.2.0-${flink.version}</flink.connector.jdbc.version>
+        <flink.connector.kafka.version>3.4.0-${flink.version}</flink.connector.kafka.version>
+        <flink.connector.hbase.version>3.0.0-${flink.version}</flink.connector.hbase.version>
+        <flink.connector.elasticsearch.version>3.0.1-${flink.version}</flink.connector.elasticsearch.version>
     </properties>
     <modules>
         <module>FlinkCheckpointJavaExample</module>
@@ -49,7 +53,8 @@
         <profile>
             <id>scala-2.12</id>
             <properties>
-                <scala.version>2.12.7</scala.version>
+                <!-- Bump Scala because 2.12.7 doesn't compile on Java 17. -->
+                <scala.version>2.12.15</scala.version>
                 <scala.binary.version>2.12</scala.binary.version>
             </properties>
             <activation>

@@ -19,7 +19,7 @@
 ## 注意事项
 
 1. 目前CTBase相关类暂不支持序列化，无法在spark算子中使用，建议在客户端/Driver侧进行转换，但是需要注意一次扫描获取的数据量不能过大，否则可能引发OOM问题，建议分批扫描导出，例如采用给定扫描数据的时间范围等方式。
-2. 目前MRS-Spark2x使用的Scala版本为2.12.14
+2. 目前MRS-Spark使用的Scala版本为2.12.19
 
 ## 数据准备
 
@@ -105,10 +105,10 @@ end
 本样例是ctbase样例的一部分，使用时，需要打开ctbase样例工程的下面一级目录：sample_project/src/ctbase-examples/ctbase-export-examples。
 
 1. 打开ctbase导出样例工程，执行**mvn clean package**编译项目。
-2. 拷贝target目录下最内层的ctbase-export-examples-8.5.0-350.r11目录到客户端节点任意位置，例如/opt。
-3. 登录客户端节点，执行**cd /opt**进入到该目录下，执行**chmod -R 755 ctbase-export-examples-8.5.0-350.r11**，给予权限。
+2. 拷贝target目录下最内层的ctbase-export-examples-8.5.1-351.r22目录到客户端节点任意位置，例如/opt。
+3. 登录客户端节点，执行**cd /opt**进入到该目录下，执行**chmod -R 755 ctbase-export-examples-8.5.1-351.r22**，给予权限。
 4. 执行 **source 客户端目录/bigdata_env**，进行账户认证：安全环境，执行**kinit *用户名***;非安全环境执行**export HADOOP_USER_NAME=*用户名***。
-5. 执行**cd ctbase-export-examples-8.5.0-350.r11**进入脚本目录下，执行任务提交脚本，**sh submit.sh**, 参数传入说明见脚本注释。
+5. 执行**cd ctbase-export-examples-8.5.1-351.r22**进入脚本目录下，执行任务提交脚本，**sh submit.sh**, 参数传入说明见脚本注释。
    注意：如果脚本遇到换行符问题无法执行，请切换为LF格式。
 6. 执行命令，拷贝HDFS下的导出结果到本地路径下，例如存到/tmp/export目录下，查看本地路径下导出的数据。
 

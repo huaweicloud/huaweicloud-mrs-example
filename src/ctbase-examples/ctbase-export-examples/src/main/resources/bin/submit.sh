@@ -12,9 +12,9 @@
 
 JAR_STR="${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/ctbase-core-*.jar,\
 ${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/hbase-it-bulk-load-*.jar,\
-${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/commons-io-2.11.0.jar"
+${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/commons-io-*.jar"
 
-CONF_STR="--conf \"spark.driver.extraJavaOptions=-Dlog4j.configuration=file:conf/log4j.properties\" \
+CONF_STR="--conf spark.driver.extraJavaOptions=-Dlog4j2.configuration=file:conf/log4j2.properties \
 --conf spark.yarn.user.classpath.first=true \
 --conf spark.executor.userClassPathFirst=true \
 --conf spark.driver.userClassPathFirst=true"

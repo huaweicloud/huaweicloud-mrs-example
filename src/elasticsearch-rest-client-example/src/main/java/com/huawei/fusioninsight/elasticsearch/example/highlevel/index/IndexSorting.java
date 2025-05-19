@@ -56,7 +56,7 @@ public class IndexSorting {
         }
     }
 
-    private static void refresh(RestHighLevelClient highLevelClient, String index) {
+    public static void refresh(RestHighLevelClient highLevelClient, String index) {
         try {
             RefreshRequest refRequest = new RefreshRequest(index);
             highLevelClient.indices().refresh(refRequest, RequestOptions.DEFAULT);

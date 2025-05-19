@@ -23,6 +23,7 @@ public class JDBCExampleBroker {
     private static void init() throws ClassNotFoundException {
         properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
         properties.setProperty("SSL", "false");
+        properties.setProperty("tenant", "YourTenant");
         Class.forName("io.trino.jdbc.TrinoDriver");
     }
 

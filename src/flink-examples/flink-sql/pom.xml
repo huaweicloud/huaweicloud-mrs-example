@@ -6,17 +6,21 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>flink-sql</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.1-351.r22</version>
 
     <name>flink-sql</name>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <flink.version>1.17.1-h0.cbu.mrs.350.r11</flink.version>
+        <flink.version>1.20.0-h0.cbu.mrs.351.r22</flink.version>
         <scala.version>2.12</scala.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.350.r11</kafka.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
         <lib_path>lib</lib_path>
+        <flink.connector.jdbc.version>3.2.0-${flink.version}</flink.connector.jdbc.version>
+        <flink.connector.kafka.version>3.4.0-${flink.version}</flink.connector.kafka.version>
+        <flink.connector.hbase.version>3.0.0-${flink.version}</flink.connector.hbase.version>
+        <flink.connector.elasticsearch.version>3.0.1-${flink.version}</flink.connector.elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -24,126 +28,52 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-core</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-hadoop-2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-hadoop-2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-sql-parser</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-zookeeper-3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-redis</artifactId>
             <version>${flink.version}</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-hive_${scala.version}</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-elasticsearch6</artifactId>
-            <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${flink.connector.elasticsearch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-elasticsearch7</artifactId>
-            <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${flink.connector.elasticsearch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka</artifactId>
-            <version>${flink.version}</version>
+            <version>${flink.connector.kafka.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.github.luben</groupId>
@@ -152,10 +82,6 @@
                 <exclusion>
                     <artifactId>kafka-clients</artifactId>
                     <groupId>org.apache.kafka</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -168,89 +94,41 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-files</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-sql-connector-hbase-2.2</artifactId>
-            <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${flink.connector.hbase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner_${scala.version}</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-csv</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-sql-orc</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-sql-parquet</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-jdbc</artifactId>
-            <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>${flink.connector.jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-yarn</artifactId>
             <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -292,7 +170,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-connector-jdbc</artifactId>
-                                    <version>${flink.version}</version>
+                                    <version>${flink.connector.jdbc.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
@@ -302,17 +180,17 @@
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-connector-elasticsearch6</artifactId>
-                                    <version>${flink.version}</version>
+                                    <version>${flink.connector.elasticsearch.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-connector-elasticsearch7</artifactId>
-                                    <version>${flink.version}</version>
+                                    <version>${flink.connector.elasticsearch.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-connector-kafka</artifactId>
-                                    <version>${flink.version}</version>
+                                    <version>${flink.connector.kafka.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
@@ -322,7 +200,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>
                                     <artifactId>flink-sql-connector-hbase-2.2</artifactId>
-                                    <version>${flink.version}</version>
+                                    <version>${flink.connector.hbase.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.flink</groupId>

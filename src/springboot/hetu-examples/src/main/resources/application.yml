@@ -13,3 +13,4 @@ hetu:
   user: xx  # [Mandatory]: Hetu connection user
   password: xx  # [Optional]: Hetu connection password, it is inactive for cluster in normal mode
   ssl: true  # [Mandatory]: Hetu connection use ssl or not, it is false for cluster in normal mode
+  tenant: default  # [Mandatory]: the name of compute instance to be visit

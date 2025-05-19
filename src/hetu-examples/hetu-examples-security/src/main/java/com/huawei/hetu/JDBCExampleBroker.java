@@ -25,6 +25,7 @@ public class JDBCExampleBroker {
         // The password is stored in environment variables for identity authentication. Before running this example, set the environment variable HETUENGINE_PASSWORD.
         String password = System.getenv("HETUENGINE_PASSWORD");
         properties.setProperty("password", password);
+        properties.setProperty("tenant", "YourTenant");
         Class.forName("io.trino.jdbc.TrinoDriver");
     }
 

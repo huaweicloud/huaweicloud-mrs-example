@@ -1,0 +1,57 @@
+{
+  "aliases": {
+    "pangu_wiki": {}
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "_inference": {
+          "properties": {
+            "semantic_vector": {
+              "type": "vector",
+              "index": false,
+              "meta": {
+                "dim_type": "float",
+                "dimension": "768",
+                "indexing": "true",
+                "offload_ivf": "false"
+              },
+              "indexing": "true",
+              "offload_ivf": "false",
+              "dim_type": "float",
+              "dimension": "768",
+              "metric": "inner_product",
+              "algorithm": "GRAPH"
+            }
+          }
+        },
+        "title": {
+          "type": "text"
+        },
+        "desc": {
+          "type": "text"
+        },
+        "content": {
+          "type": "text"
+        },
+        "author": {
+          "type": "keyword"
+        }
+      }
+    }
+  },
+  "settings": {
+    "index.vector": true,
+    "index.inference.semantic_search_enabled": true,
+    "index.inference.field": [
+      "title:100",
+      "desc:80",
+      "content:30"
+    ],
+    "index.inference.embedding_model": "%s",
+    "index.inference.reorder_enabled": true,
+    "index.inference.reorder_model": "%s",
+    "index.inference.semantic_search_type": "vector",
+    "number_of_shards": 3
+  }
+}

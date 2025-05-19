@@ -49,6 +49,7 @@ import java.security.PrivilegedAction;
 import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -117,11 +118,20 @@ public class HBaseRestTest {
 
     public static void main(String[] args) throws Exception {
         // Set absolute path of 'user.keytab' and 'krb5.conf'
-
-        //In Windows environment
-        String userdir = HBaseRestTest.class.getClassLoader().getResource("conf").getPath() + File.separator;
-        //In Linux environment
-        //String userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+        String userdir;
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        if (osName.contains("windows")) {
+            // In Windows environment
+            userdir = HBaseRestTest.class.getClassLoader().getResource("conf").getPath() + File.separator;
+            // For JDK 9+, not support the path starts with /, need remove it.
+            if (userdir.startsWith("/")) {
+                int length = userdir.length();
+                userdir = userdir.substring(1, length);
+            }
+        } else {
+            // In Linux environment
+            userdir = System.getProperty("user.dir") + File.separator + "conf" + File.separator;
+        }
 
         userKeytabFile = userdir + "user.keytab";
         krb5File = userdir + "krb5.conf";

@@ -22,7 +22,7 @@ public class JDBCExampleZk {
 
     private static void init() throws ClassNotFoundException {
         properties.setProperty("user", "YourUserName"); // need to change the value based on the cluster information
-        properties.setProperty("tenant", "default"); // need to change the value based on the cluster information
+        properties.setProperty("tenant", "YourTenant"); // need to change the value based on the cluster information
         properties.setProperty("deploymentMode", "on_yarn");
         properties.setProperty("ZooKeeperAuthType", "simple");
         Class.forName("io.trino.jdbc.TrinoDriver");
