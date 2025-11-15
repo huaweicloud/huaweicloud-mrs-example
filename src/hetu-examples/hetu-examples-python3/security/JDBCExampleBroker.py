@@ -4,7 +4,7 @@ import os
 driver = "io.trino.jdbc.TrinoDriver"
 
 # need to change the value based on the cluster information
-url = "jdbc:trino://192.168.43.223:29860,192.168.43.244:29860/hive/default?serviceDiscoveryMode=hsbroker"
+url = "jdbc:trino://192.168.1.130:29860,192.168.1.131:29860/hive/default?serviceDiscoveryMode=hsbroker"
 user = "YourUserName"
 # Hard-coded password or plaintext password in code poses significant security risks. Encrypt and store them in configuration files or environment variables and decrypt them when needed.
 # The password is stored in environment variables for identity authentication. Before running this example, set the environment variable HETUENGINE_PASSWORD.

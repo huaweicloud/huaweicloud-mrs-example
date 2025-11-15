@@ -4,20 +4,22 @@
 
 package com.huawei.bigdata.flink.examples;
 
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 
 /**
  * @since 8.0.2
@@ -29,7 +31,7 @@ public class FemaleInfoCollectionFromKafka {
             " /opt/test.jar --windowTime 2 --topic topic-test --bootstrap.servers xxx.xxx.xxx.xxx:21005");
         System.out.println("./bin/flink run --class com.huawei.bigdata.flink.examples.FemaleInfoCollectionFromKafka" +
             " /opt/test.jar --windowTime 2 --topic topic-test --bootstrap.servers xxx.xxx.xxx.xxx:21007 --security.protocol " +
-                "SASL_PLAINTEXT --sasl.kerberos.service.name kafka");
+            "SASL_PLAINTEXT --sasl.kerberos.service.name kafka");
         System.out.println("******************************************************************************************");
         System.out.println("<windowTime> is the width of the window, time as minutes");
         System.out.println("<topic> is the kafka topic name");
@@ -41,39 +43,45 @@ public class FemaleInfoCollectionFromKafka {
         ParameterTool paraTool = ParameterTool.fromArgs(args);
         final Integer windowTime = paraTool.getInt("windowTime", 2);
 
-    DataStream<String> messageStream = env.addSource(new FlinkKafkaConsumer<>(
-        paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties()));
-    messageStream.map(new MapFunction<String, UserRecord>() {
-      @Override
-      public UserRecord map(String value) throws Exception {
-        return getRecord(value);
-      }
-    }).assignTimestampsAndWatermarks(
-        new Record2TimestampExtractor()
-    ).filter(new FilterFunction<UserRecord>() {
-      @Override
-      public boolean filter(UserRecord value) throws Exception {
-        return value.gender.equals("female");
-      }
-    }).keyBy(
-        new UserRecordSelector()
-    ).window(
-        TumblingEventTimeWindows.of(Time.minutes(windowTime))
-    ).reduce(new ReduceFunction<UserRecord>() {
-      @Override
-      public UserRecord reduce(UserRecord value1, UserRecord value2)
-          throws Exception {
-        value1.shoppingTime += value2.shoppingTime;
-        return value1;
-      }
-    }).filter(new FilterFunction<UserRecord>() {
-      @Override
-      public boolean filter(UserRecord value) throws Exception {
-        return value.shoppingTime > 120;
-      }
-    }).print();
-    env.execute();
-  }
+        KafkaSource<String> source = KafkaSource.<String>builder()
+            .setTopics(paraTool.get("topic"))
+            .setStartingOffsets(OffsetsInitializer.earliest())
+            .setValueOnlyDeserializer(new SimpleStringSchema())
+            .setProperties(paraTool.getProperties())
+            .build();
+        DataStream<String> messageStream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
+
+        messageStream.map(new MapFunction<String, UserRecord>() {
+            @Override
+            public UserRecord map(String value) throws Exception {
+                return getRecord(value);
+            }
+        }).assignTimestampsAndWatermarks(
+            new Record2TimestampExtractor()
+        ).filter(new FilterFunction<UserRecord>() {
+            @Override
+            public boolean filter(UserRecord value) throws Exception {
+                return value.gender.equals("female");
+            }
+        }).keyBy(
+            new UserRecordSelector()
+        ).window(
+            TumblingEventTimeWindows.of(Time.minutes(windowTime))
+        ).reduce(new ReduceFunction<UserRecord>() {
+            @Override
+            public UserRecord reduce(UserRecord value1, UserRecord value2)
+                throws Exception {
+                value1.shoppingTime += value2.shoppingTime;
+                return value1;
+            }
+        }).filter(new FilterFunction<UserRecord>() {
+            @Override
+            public boolean filter(UserRecord value) throws Exception {
+                return value.shoppingTime > 120;
+            }
+        }).print();
+        env.execute();
+    }
 
     private static class UserRecordSelector implements KeySelector<UserRecord, Tuple2<String, String>> {
         @Override

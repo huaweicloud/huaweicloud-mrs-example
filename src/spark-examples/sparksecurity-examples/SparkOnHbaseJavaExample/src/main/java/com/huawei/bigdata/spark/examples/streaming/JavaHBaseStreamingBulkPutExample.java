@@ -44,7 +44,6 @@ public final class JavaHBaseStreamingBulkPutExample {
             System.out.println("JavaHBaseBulkPutExample  " + "{host} {port} {tableName} {columnFamily}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String host = args[0];
         String port = args[1];
         String tableName = args[2];

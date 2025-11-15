@@ -4,11 +4,15 @@
 
 package com.huawei.redis.security;
 
+import com.huawei.redis.CommonSslSocketFactory;
 import com.huawei.redis.Const;
 
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
+import javax.net.ssl.SSLSocketFactory;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +35,7 @@ public class SecureJedisClusterDemo {
      *
      * @param args args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Set<HostAndPort> hosts = new HashSet<HostAndPort>();
         hosts.add(new HostAndPort(Const.IP_1, Const.PORT_1));
         hosts.add(new HostAndPort(Const.IP_2, Const.PORT_2));
@@ -39,7 +43,17 @@ public class SecureJedisClusterDemo {
         // add host...
         // System.setProperty("SERVER_REALM","HADOOP.COM");
 
-        JedisCluster client = new JedisCluster(hosts, 15000);
+        boolean ssl = true;
+        int maxAttempts = 2;
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        final SSLSocketFactory socketFactory = CommonSslSocketFactory.createTrustALLSslSocketFactory();
+
+        DefaultJedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder()
+                .connectionTimeoutMillis(5000)
+                .ssl(ssl)
+                .sslSocketFactory(socketFactory)
+                .build();
+        JedisCluster client = new JedisCluster(hosts, jedisClientConfig, maxAttempts, jedisPoolConfig);
         System.out.println(client.set("SecureJedisClusterDemo", "value"));
         System.out.println(client.get("SecureJedisClusterDemo"));
         client.del("SecureJedisClusterDemo");

@@ -27,20 +27,6 @@ import java.util.List;
  */
 public class SparkHbasetoHbase {
     public static void main(final String[] args) throws Exception {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
-        String principalName = KerberosUtil.getKrb5DomainRealm();
-        String ZKServerPrincipal = "zookeeper/hadoop." + principalName;
-
-        String ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME = "Client";
-        String ZOOKEEPER_SERVER_PRINCIPAL_KEY = "zookeeper.server.principal";
-
-        Configuration hadoopConf = new Configuration();
-        LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, userPrincipal, userKeytabPath);
-        LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZKServerPrincipal);
-        LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
         SparkConf conf = new SparkConf().setAppName("SparkHbasetoHbase");
         conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
         conf.set("spark.kryo.registrator", "com.huawei.bigdata.spark.examples.MyRegistrator");

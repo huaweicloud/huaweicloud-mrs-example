@@ -29,9 +29,9 @@ public class SecureJedisClusterDemo5 {
     public static void main(String[] args) throws KeyManagementException, NoSuchAlgorithmException {
         // 初始化套集群的认证信息
         Set<HostAndPort> hosts = new HashSet<>();
-        hosts.add(new HostAndPort("ip1", 22400));
+        hosts.add(new HostAndPort(Const.IP_1, Const.PORT_1));
         Set<HostAndPort> hosts2 = new HashSet<>();
-        hosts2.add(new HostAndPort("ip2", 22400));
+        hosts2.add(new HostAndPort(Const.IP_2, Const.PORT_2));
 
         // 初始化连接池
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();

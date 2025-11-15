@@ -17,7 +17,6 @@ object HBaseBulkLoadExample {
         println ("JavaHBaseBulkLoadExample {outputPath} {tableName}");
         return
       }
-      LoginUtil.loginWithUserKeytab
       val outputPath: String = args(0)
       val tableName: String = args(1)
       val columnFamily1: String = "f1"

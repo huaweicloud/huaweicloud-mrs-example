@@ -5,7 +5,7 @@
 
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>huawei-spring-boot-kafka-examples</artifactId>
-	<version>8.5.1-351.r22</version>
+	<version>8.6.0-360.r9</version>
 	<packaging>jar</packaging>
 
 	<name>SpringDataKafka</name>
@@ -14,14 +14,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.2</version>
+		<version>2.7.0</version>
 		<relativePath/>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
+		<kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
 		<bcprov-jdk18on.version>1.78</bcprov-jdk18on.version>
 	</properties>
 
@@ -33,6 +33,10 @@
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>logback-classic</artifactId>
+					<groupId>ch.qos.logback</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -124,6 +128,12 @@
 			</plugin>
 		</plugins>
 		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
 			<resource>
 				<directory>lib</directory>
 				<targetPath>BOOT-INF/lib/</targetPath>

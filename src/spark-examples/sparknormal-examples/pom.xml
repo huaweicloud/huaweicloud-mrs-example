@@ -3,19 +3,50 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs.spark.examples.normal</groupId>
     <artifactId>parent</artifactId>
-    <version>8.5.0</version>
+    <version>8.6.0</version>
     <packaging>pom</packaging>
     <name>Huawei Spark Normal Example</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <checkstyle.skip>true</checkstyle.skip>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scala.version>2.12.19</scala.version>
+        <scala.maven.plugin.version>4.8.0</scala.maven.plugin.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <!--jdk 17\21 update to the corresponding Java version.
+         Note: jdk 1.8 must be null string,otherwise an error will occur. -->
+        <maven.compiler.release></maven.compiler.release>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <clickhouse.version>0.6.5-h0.cbu.mrs.360.r9</clickhouse.version>
+        <es.version>7.10.2-h0.cbu.mrs.360.r9</es.version>
+        <mrs.version>8.6.0-360.r9</mrs.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
+        <hudi.version>0.15.0-h0.cbu.mrs.360.r9</hudi.version>
+        <hive.version>3.1.0-h0.cbu.mrs.360.r9</hive.version>
+        <iceberg.version>1.7.0-h0.cbu.mrs.360.r9</iceberg.version>
+        <spark.version>3.5.6-h0.cbu.mrs.360.r9</spark.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
+        <kryo.version>2.21</kryo.version>
+        <protobuf.version>3.23.4</protobuf.version>
+        <junit.version>4.8.2</junit.version>
+        <jackson-databind.version>2.10.0</jackson-databind.version>
+        <jackson-core.version>2.10.0</jackson-core.version>
+        <elasticsearch-spark-30_2.12.version>7.12.0</elasticsearch-spark-30_2.12.version>
+        <kryo-shaded.version>4.0.2</kryo-shaded.version>
+        <httpcore-nio.version>4.4.6</httpcore-nio.version>
+        <httpasyncclient.version>4.1.3</httpasyncclient.version>
+        <log4j-core.version>2.12.0</log4j-core.version>
+        <log4j-api.version>2.12.0</log4j-api.version>
+        <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
+        <commons-logging.version>1.1.3</commons-logging.version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
     </properties>
     <modules>
-        <module>SparkHbasetoCarbonJavaExample</module>
         <module>SparkHbasetoHbaseJavaExample</module>
         <module>SparkHbasetoHbasePythonExample</module>
         <module>SparkHbasetoHbaseScalaExample</module>
@@ -37,9 +68,6 @@
         <module>SparkOnHbaseScalaExample</module>
         <module>SparkOnHudiJavaExample</module>
         <module>SparkOnHudiScalaExample</module>
-        <module>SparkOnSolrJavaExample</module>
-        <module>SparkOnSolrPythonExample</module>
-        <module>SparkOnSolrScalaExample</module>
         <module>SparkSQLJavaExample</module>
         <module>SparkSQLScalaExample</module>
         <module>SparkStreamingKafka010JavaExample</module>

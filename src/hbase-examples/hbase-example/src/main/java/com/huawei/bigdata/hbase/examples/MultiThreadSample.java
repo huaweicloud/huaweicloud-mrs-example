@@ -66,7 +66,11 @@ public class MultiThreadSample {
     private static final int SHUT_DOWN_POOL_WAIT_TIMEOUT_SEC = 300;
 
     public MultiThreadSample() throws IOException {
-        Configuration gsiClientConf = HBaseConfiguration.create(Utils.createClientConf());
+        this(Utils.createClientConf());
+    }
+
+    public MultiThreadSample(Configuration conf) throws IOException {
+        Configuration gsiClientConf = HBaseConfiguration.create(conf);
         Utils.handleZkSslEnabled(gsiClientConf);
         this.conn = ConnectionFactory.createConnection(gsiClientConf);
     }

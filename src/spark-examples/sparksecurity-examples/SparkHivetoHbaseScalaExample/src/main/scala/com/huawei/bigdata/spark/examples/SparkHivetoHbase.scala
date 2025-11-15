@@ -19,13 +19,6 @@ object SparkHivetoHbase {
   case class FemaleInfo(name: String, gender: String, stayTime: Int)
 
   def main(args: Array[String]) {
-    val userPrincipal = "sparkuser"
-    val userKeytabPath = "/opt/FIclient/user.keytab"
-    val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
-
-    val hadoopConf: Configuration = new Configuration();
-    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
     // Obtain the data in the table through the Spark interface.
     val sparkConf = new SparkConf().setAppName("SparkHivetoHbase")
     val sc = new SparkContext(sparkConf)

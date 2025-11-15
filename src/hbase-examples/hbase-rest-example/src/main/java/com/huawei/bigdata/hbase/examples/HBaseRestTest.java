@@ -47,8 +47,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.PrivilegedAction;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -140,17 +142,24 @@ public class HBaseRestTest {
 
         login(principal, userKeytabFile, krb5File);
 
-        // RESTServer's hostname.
-        String restHostName = "xxx.xxx.xxx.xxx";
-        String securityModeUrl = new StringBuilder("https://").append(restHostName).append(":21309").toString();
-        String nonSecurityModeUrl = new StringBuilder("http://").append(restHostName).append(":21309").toString();
-        HBaseRestTest test = new HBaseRestTest();
+        // Specify the Rest server hostnames, separated by comma if multiple are there.
+        String restServerHostNames = "xxx.xxx.xxx.x,xxx.xxx.xxx.xx,xxx.xxx.xxx.xxx";
+        for (String hostname : restServerHostNames.split(",")) {
+            try {
+                String securityModeUrl = new StringBuilder("https://").append(hostname).append(":21309").toString();
+                String nonSecurityModeUrl = new StringBuilder("http://").append(hostname).append(":21309").toString();
+                HBaseRestTest test = new HBaseRestTest();
 
-        //If cluster is non-security mode，use nonSecurityModeUrl as parameter.
-        test.test(securityModeUrl);
+                //If cluster is non-security mode，use nonSecurityModeUrl as parameter.
+                test.test(securityModeUrl);
+                break;
+            } catch (IOException e) {
+                LOG.error("Failed to connect to the host: {}, retrying with other servers if any", hostname, e);
+            }
+        }
     }
 
-    private void test(String url) {
+    private void test(String url) throws IOException {
         // Cluster info
         getClusterVersion(url);
         getClusterStatus(url);
@@ -182,7 +191,7 @@ public class HBaseRestTest {
             "{\"name\":\"default:testRest\",\"ColumnSchema\":[{\"name\":\"testCF\"," + "\"VERSIONS\":\"3\"}]}");
     }
 
-    private void modifyTable(String url, String tableName, String jsonHTD) {
+    private void modifyTable(String url, String tableName, String jsonHTD) throws IOException {
         LOG.info("Start modify table.");
         String endpoint = "/" + tableName + "/schema";
         JsonElement tableDesc = new JsonParser().parse(jsonHTD);
@@ -191,7 +200,7 @@ public class HBaseRestTest {
         handleNormalResult(sendAction(url + endpoint, MethodType.POST, tableDesc));
     }
 
-    private void createTable(String url, String tableName, String jsonHTD) {
+    private void createTable(String url, String tableName, String jsonHTD) throws IOException {
         LOG.info("Start create table.");
         String endpoint = "/" + tableName + "/schema";
         JsonElement tableDesc = new JsonParser().parse(jsonHTD);
@@ -200,7 +209,7 @@ public class HBaseRestTest {
         handleCreateTableResult(sendAction(url + endpoint, MethodType.PUT, tableDesc));
     }
 
-    private void deleteTable(String url, String tableName, String jsonHTD) {
+    private void deleteTable(String url, String tableName, String jsonHTD) throws IOException {
         LOG.info("Start delete table.");
         String endpoint = "/" + tableName + "/schema";
         JsonElement tableDesc = new JsonParser().parse(jsonHTD);
@@ -209,13 +218,13 @@ public class HBaseRestTest {
         handleNormalResult(sendAction(url + endpoint, MethodType.DELETE, tableDesc));
     }
 
-    private void descTable(String url, String tableName) {
+    private void descTable(String url, String tableName) throws IOException {
         String endpoint = "/" + tableName + "/schema";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult((Optional<ResultModel>) result);
     }
 
-    private void getClusterVersion(String url) {
+    private void getClusterVersion(String url) throws IOException {
         String endpoint = "/version/cluster";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult((Optional<ResultModel>) result);
@@ -239,25 +248,25 @@ public class HBaseRestTest {
         }
     }
 
-    private void getClusterStatus(String url) {
+    private void getClusterStatus(String url) throws IOException {
         String endpoint = "/status/cluster";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult(result);
     }
 
-    private void getAllUserTables(String url) {
+    private void getAllUserTables(String url) throws IOException {
         String endpoint = "/";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult(result);
     }
 
-    private void getAllNamespace(String url) {
+    private void getAllNamespace(String url) throws IOException {
         String endpoint = "/namespaces";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult(result);
     }
 
-    private void createNamespace(String url, String namespace) {
+    private void createNamespace(String url, String namespace) throws IOException {
         String endpoint = "/namespaces/" + namespace;
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.POST, null);
         if (result.orElse(new ResultModel()).getStatusCode() == HttpStatus.SC_CREATED) {
@@ -267,7 +276,7 @@ public class HBaseRestTest {
         }
     }
 
-    private void deleteNamespace(String url, String namespace) {
+    private void deleteNamespace(String url, String namespace) throws IOException {
         String endpoint = "/namespaces/" + namespace;
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.DELETE, null);
         if (result.orElse(new ResultModel()).getStatusCode() == HttpStatus.SC_OK) {
@@ -277,13 +286,13 @@ public class HBaseRestTest {
         }
     }
 
-    private void getAllNamespaceTables(String url, String namespace) {
+    private void getAllNamespaceTables(String url, String namespace) throws IOException {
         String endpoint = "/namespaces/" + namespace + "/tables";
         Optional<ResultModel> result = sendAction(url + endpoint, MethodType.GET, null);
         handleNormalResult(result);
     }
 
-    private Optional<ResultModel> sendAction(String url, MethodType requestType, JsonElement requestContent) {
+    private Optional<ResultModel> sendAction(String url, MethodType requestType, JsonElement requestContent) throws IOException {
         PrivilegedAction<ResultModel> sendAction = () -> {
             ResultModel result = null;
             try {
@@ -296,7 +305,11 @@ public class HBaseRestTest {
             return result;
         };
         ResultModel result = Subject.doAs(subject, sendAction);
-        return result == null ? Optional.empty() : Optional.of(result);
+        // If the result is not successful, throw an exception. Will be cathed in the main method.
+        if (result == null) {
+            throw new IOException("Exception occurred while connecting to " + url);
+        }
+        return Optional.of(result);
     }
 
     private ResultModel call(String url, MethodType type, JsonElement requestContent)

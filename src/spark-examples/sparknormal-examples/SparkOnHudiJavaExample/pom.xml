@@ -2,30 +2,20 @@
 <!--
 Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.huawei.mrs.spark.examples.normal</groupId>
+    <version>8.6.0</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.huawei.mrs.spark.examples.normal.java</groupId>
   <artifactId>hudi-java-examples</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
-
-  <properties>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.source>17</maven.compiler.source>
-    <checkstyle.skip>true</checkstyle.skip>
-    <hudi.version>0.15.0-h0.cbu.mrs.351.r22</hudi.version>
-    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-    <scala.binary.version>2.12</scala.binary.version>
-  </properties>
-
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-  </build>
 
   <dependencies>
     <dependency>
@@ -96,4 +86,68 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
       </exclusions>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Scala编译打包插件 -->
+      <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>${scala.maven.plugin.version}</version>
+        <configuration>
+          <scalaVersion>${scala.version}</scalaVersion>
+          <args>
+            <arg>-target:${java.version}</arg>
+            <arg>-deprecation</arg>
+            <arg>-feature</arg>
+            <arg>-unchecked</arg>
+            <arg>-encoding</arg>
+            <arg>UTF-8</arg>
+          </args>
+        </configuration>
+        <executions>
+          <execution>
+            <id>scala-compile-first</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>add-source</goal>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>scala-test-compile</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>add-source</goal>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
+    </plugins>
+    <directory>target</directory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <outputDirectory>target/classes</outputDirectory>
+    <testOutputDirectory>target/test-classes</testOutputDirectory>
+  </build>
 </project>

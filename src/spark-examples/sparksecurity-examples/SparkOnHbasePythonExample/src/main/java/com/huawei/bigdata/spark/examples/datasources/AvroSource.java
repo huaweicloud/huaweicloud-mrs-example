@@ -54,7 +54,6 @@ public class AvroSource {
                     + "}";
 
     public static void execute(JavaSparkContext jsc) throws IOException {
-        LoginUtil.loginWithUserKeytab();
         SQLContext sqlContext = new SQLContext(jsc);
         Configuration hbaseconf = new HBaseConfiguration().create();
         JavaHBaseContext hBaseContext = new JavaHBaseContext(jsc, hbaseconf);

@@ -47,7 +47,6 @@ public class HBaseSource {
     }
 
     public static void main(String args[]) throws IOException {
-        LoginUtil.loginWithUserKeytab();
         SparkConf sparkConf = new SparkConf().setAppName("HBaseSourceExample");
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         SQLContext sqlContext = new SQLContext(jsc);

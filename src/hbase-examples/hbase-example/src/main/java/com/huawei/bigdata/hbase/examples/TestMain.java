@@ -9,6 +9,7 @@ import com.huawei.hadoop.security.Utils;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.security.User;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,9 +40,14 @@ public class TestMain {
 
     private static final String USER_NAME = "hbaseuser";
 
+    private static Configuration conf;
+
     public static void main(String[] args) {
         try {
+            // keytab authentication (default authentication)
             login();
+            // basic authentication
+            // basicLogin();
         } catch (IOException e) {
             LOG.error("Failed to login because ", e);
             return;
@@ -58,7 +64,7 @@ public class TestMain {
 
     private static void testHBaseSample() {
         try {
-            HBaseSample hBaseSample = new HBaseSample();
+            HBaseSample hBaseSample = new HBaseSample(conf);
             hBaseSample.createConnection();
             hBaseSample.test();
         } catch (IOException e) {
@@ -69,7 +75,7 @@ public class TestMain {
 
     private static void testMultiThreadSample() {
         try {
-            MultiThreadSample multiThreadSample = new MultiThreadSample();
+            MultiThreadSample multiThreadSample = new MultiThreadSample(conf);
             multiThreadSample.test();
         } catch (IOException e) {
             LOG.error("Failed to test HBase because ", e);
@@ -79,7 +85,7 @@ public class TestMain {
 
     private static void testHBaseDualReadSample() {
         try {
-            HBaseDualReadSample dualReadSample = new HBaseDualReadSample();
+            HBaseDualReadSample dualReadSample = new HBaseDualReadSample(conf);
             dualReadSample.createConnection();
             dualReadSample.test();
         } catch (IOException e) {
@@ -90,7 +96,7 @@ public class TestMain {
 
     private static void testGlobalSecondaryIndexSample() {
         try {
-            GlobalSecondaryIndexSample gsiSample = new GlobalSecondaryIndexSample();
+            GlobalSecondaryIndexSample gsiSample = new GlobalSecondaryIndexSample(conf);
             gsiSample.test();
         } catch (IOException e) {
             LOG.error("Failed to test Global Secondary Index because ", e);
@@ -109,8 +115,8 @@ public class TestMain {
     }
 
     private static void login() throws IOException {
-        Configuration clientConf = Utils.createClientConf();
-        if (User.isHBaseSecurityEnabled(clientConf)) {
+        conf = Utils.createClientConf();
+        if (User.isHBaseSecurityEnabled(conf)) {
             // In Windows environment
             String userDir = TestMain.class.getClassLoader().getResource(Utils.CONF_DIRECTORY).getPath() + File.separator;
             // In Linux environment
@@ -128,7 +134,19 @@ public class TestMain {
              */
             LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, USER_NAME, userKeytabFile);
             LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL);
-            LoginUtil.login(USER_NAME, userKeytabFile, krb5File, clientConf);
+            LoginUtil.login(USER_NAME, userKeytabFile, krb5File, conf);
+        }
+    }
+
+    private static void basicLogin() throws IOException {
+        conf = Utils.createClientConf();
+        if (User.isHBaseSecurityEnabled(conf)) {
+            UserGroupInformation.setConfiguration(conf);
+            /*
+              Set basic auth configurations
+             */
+            conf.set("hbase.basic.auth.username", "hbaseuser");
+            conf.set("hbase.basic.auth.password", "xxxxx");
         }
     }
 }

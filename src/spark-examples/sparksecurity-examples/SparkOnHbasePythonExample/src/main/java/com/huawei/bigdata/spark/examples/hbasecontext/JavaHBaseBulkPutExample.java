@@ -44,7 +44,6 @@ public class JavaHBaseBulkPutExample {
             System.out.println("JavaHBaseBulkPutExample  " + "{tableName} {columnFamily}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
         String columnFamily = args[1];
         System.out.println("tableName:" + tableName);

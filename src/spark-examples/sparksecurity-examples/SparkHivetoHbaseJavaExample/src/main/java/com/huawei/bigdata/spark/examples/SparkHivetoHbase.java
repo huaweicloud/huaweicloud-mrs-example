@@ -24,12 +24,6 @@ import java.util.List;
  */
 public class SparkHivetoHbase {
     public static void main(String[] args) throws Exception {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
-        Configuration hadoopConf = new Configuration();
-        LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
         // Obtain the data in the table through the Spark interface.
         SparkConf conf = new SparkConf().setAppName("SparkHivetoHbase");
         JavaSparkContext jsc = new JavaSparkContext(conf);

@@ -36,7 +36,6 @@ object HBaseBulkPutExample {
       System.out.println("HBaseBulkPutTimestampExample {tableName} {columnFamily} are missing an argument")
       return
     }
-    LoginUtil.loginWithUserKeytab
     val tableName = args(0)
     val columnFamily = args(1)
 

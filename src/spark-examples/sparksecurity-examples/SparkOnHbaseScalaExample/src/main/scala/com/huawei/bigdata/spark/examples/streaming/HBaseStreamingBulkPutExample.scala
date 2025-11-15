@@ -16,7 +16,6 @@ object HBaseStreamingBulkPutExample {
       println("HBaseStreamingBulkPutExample {host} {port} {tableName} {columnFamily}")
       return
     }
-    LoginUtil.loginWithUserKeytab()
 
     val host = args(0)
     val port = args(1)

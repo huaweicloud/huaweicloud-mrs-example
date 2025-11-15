@@ -47,7 +47,6 @@ public class JavaHBaseBulkGetExample {
             System.out.println("JavaHBaseBulkGetExample  {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
 
         try {

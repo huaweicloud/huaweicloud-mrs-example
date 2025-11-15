@@ -48,7 +48,6 @@ public class JavaHBaseDistributedScanExample {
             System.out.println("JavaHBaseDistributedScan {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
 
         try {

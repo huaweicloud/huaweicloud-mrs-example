@@ -3,15 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>main.java.examples</groupId>
-    <artifactId>HDFSTest</artifactId>
-    <version>8.5.1-351.r22</version>
+    <artifactId>HDFSTest-normal</artifactId>
+    <version>8.6.0-360.r9</version>
     <packaging>jar</packaging>
     <name>hdfs-example-normal</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-        <hadoop.ext.version>8.5.1-351.r22</hadoop.ext.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+        <hadoop.ext.version>8.6.0-360.r9</hadoop.ext.version>
     </properties>
 
     <dependencies>

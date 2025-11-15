@@ -86,8 +86,6 @@ public class Bulk {
                     request.add(
                         new UpdateRequest(indexName, String.valueOf(ThreadLocalRandom.current().nextInt(1, 100))).doc(
                             XContentType.JSON, "update", new Date())
-                            .setIfSeqNo(1L)
-                            .setIfPrimaryTerm(1L)
                             .upsert(jsonMap, XContentType.JSON));
                 }
                 BulkResponse bulkResponse = highLevelClient.bulk(request, RequestOptions.DEFAULT);

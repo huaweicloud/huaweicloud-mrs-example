@@ -8,15 +8,13 @@ Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.5.1-351.r22</version>
+        <version>8.6.0-360.r9</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>FlinkHudiJavaExample</artifactId>
+    <artifactId>FlinkHudiJavaExample-normal</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lib_path>lib</lib_path>
     </properties>
@@ -92,16 +90,6 @@ Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <target>17</target>
-                    <source>17</source>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

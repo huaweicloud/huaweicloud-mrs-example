@@ -36,7 +36,6 @@ object HBaseBulkDeleteExample {
       println("HBaseBulkDeleteExample {tableName} missing an argument")
       return
     }
-    LoginUtil.loginWithUserKeytab
     val tableName = args(0)
 
     val sparkConf = new SparkConf().setAppName("HBaseBulkDeleteExample " + tableName)

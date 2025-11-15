@@ -77,8 +77,8 @@ public class GlobalSecondaryIndexSample {
 
     private final Connection conn;
     
-    public GlobalSecondaryIndexSample() throws IOException {
-        Configuration gsiClientConf = HBaseConfiguration.create(Utils.createClientConf());
+    public GlobalSecondaryIndexSample(Configuration conf) throws IOException {
+        Configuration gsiClientConf = HBaseConfiguration.create(conf);
         // If you want to use global secondary index in client, must set "hbase.client.gsi.cache.enabled" to true.
         gsiClientConf.setBoolean("hbase.client.gsi.cache.enabled", true);
         Utils.handleZkSslEnabled(gsiClientConf);

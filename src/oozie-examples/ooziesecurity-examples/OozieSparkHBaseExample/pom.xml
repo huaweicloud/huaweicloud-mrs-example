@@ -6,14 +6,14 @@
 
     <groupId>com.huawei.bigdata</groupId>
     <artifactId>OozieSparkHBase</artifactId>
-    <version>8.5.1-351.r22</version>
+    <version>8.6.0-360.r9</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-        <oozie.version>5.1.0-h0.cbu.mrs.351.r22</oozie.version>
-        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+        <oozie.version>5.1.0-h0.cbu.mrs.360.r9</oozie.version>
+        <spark.version>3.5.6-h0.cbu.mrs.360.r9</spark.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -62,6 +62,10 @@
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.us</groupId>
+                    <artifactId>us-common</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -101,6 +105,10 @@
                 <exclusion>
                     <groupId>com.huawei.mrs</groupId>
                     <artifactId>SMS4JA</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.kafka</groupId>
+                    <artifactId>kafka-clients</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

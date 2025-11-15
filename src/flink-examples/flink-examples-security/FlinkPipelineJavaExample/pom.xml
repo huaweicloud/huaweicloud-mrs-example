@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.5.1-351.r22</version>
+        <version>8.6.0-360.r9</version>
     </parent>
     <artifactId>FlinkPipelineJavaExample</artifactId>
 
@@ -33,16 +33,6 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <target>17</target>
-                    <source>17</source>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

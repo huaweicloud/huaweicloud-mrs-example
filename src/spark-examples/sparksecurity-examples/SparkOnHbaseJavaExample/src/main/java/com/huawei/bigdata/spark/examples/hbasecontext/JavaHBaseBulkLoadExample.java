@@ -56,7 +56,6 @@ public final class JavaHBaseBulkLoadExample {
             System.out.println("JavaHBaseBulkLoadExample {outputPath} {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String outputPath = args[0];
         String tableName = args[1];
         String columnFamily1 = "f1";

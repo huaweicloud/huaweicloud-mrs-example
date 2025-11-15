@@ -9,7 +9,6 @@ import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
-import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil
 import org.apache.spark.serializer.KryoRegistrator
 import org.apache.spark.{SparkContext, SparkConf}
@@ -32,8 +31,7 @@ object SparkHbasetoHbase {
     // Declare the information of the table to be queried.
     val scan = new Scan()
     scan.addFamily(Bytes.toBytes("cf")) //colomn family
-    val proto = ProtobufUtil.toScan(scan)
-    val scanToString = TableMapReduceUtil.convertScanToString(new Scan())
+    val scanToString = TableMapReduceUtil.convertScanToString(scan)
     hbConf.set(TableInputFormat.INPUT_TABLE, "table1") //table name
     hbConf.set(TableInputFormat.SCAN, scanToString)
 

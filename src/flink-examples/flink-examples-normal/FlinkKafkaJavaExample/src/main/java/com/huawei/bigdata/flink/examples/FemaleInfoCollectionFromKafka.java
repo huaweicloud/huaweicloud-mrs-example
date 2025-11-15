@@ -4,20 +4,22 @@
 
 package com.huawei.bigdata.flink.examples;
 
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 
 /**
  * kafka example启动类
@@ -47,10 +49,14 @@ public class FemaleInfoCollectionFromKafka {
         ParameterTool paraTool = ParameterTool.fromArgs(args);
         final Integer windowTime = paraTool.getInt("windowTime", 2);
 
-        DataStream<String> messageStream =
-                env.addSource(
-                        new FlinkKafkaConsumer<>(
-                                paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties()));
+        KafkaSource<String> source = KafkaSource.<String>builder()
+            .setTopics(paraTool.get("topic"))
+            .setStartingOffsets(OffsetsInitializer.earliest())
+            .setValueOnlyDeserializer(new SimpleStringSchema())
+            .setProperties(paraTool.getProperties())
+            .build();
+        DataStream<String> messageStream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
+
         messageStream
                 .map(
                         new MapFunction<String, UserRecord>() {

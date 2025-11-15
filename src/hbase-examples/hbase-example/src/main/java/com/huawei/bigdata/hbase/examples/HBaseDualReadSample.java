@@ -44,8 +44,8 @@ public class HBaseDualReadSample extends HBaseSample {
      *
      * @throws IOException Creating sample exception
      */
-    public HBaseDualReadSample() throws IOException {
-        super();
+    public HBaseDualReadSample(Configuration clientConf) throws IOException {
+        super(clientConf);
         setHbaseDualReadParam();
     }
 

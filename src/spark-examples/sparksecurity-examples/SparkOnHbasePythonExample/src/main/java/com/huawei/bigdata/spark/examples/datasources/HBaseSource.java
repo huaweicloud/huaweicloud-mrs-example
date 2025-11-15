@@ -47,7 +47,6 @@ public class HBaseSource {
     }
 
     public static void execute(JavaSparkContext jsc) throws IOException {
-        LoginUtil.loginWithUserKeytab();
         SQLContext sqlContext = new SQLContext(jsc);
 
         Configuration conf = HBaseConfiguration.create();

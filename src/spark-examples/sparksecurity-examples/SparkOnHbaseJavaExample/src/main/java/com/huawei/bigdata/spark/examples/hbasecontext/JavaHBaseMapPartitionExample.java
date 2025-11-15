@@ -54,7 +54,6 @@ public class JavaHBaseMapPartitionExample {
             System.out.println("JavaHBaseMapPartitionExample {tableName} is missing an argument");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         final String tableName = args[0];
         SparkConf sparkConf = new SparkConf().setAppName("HBaseMapPartitionExample " + tableName);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);

@@ -93,6 +93,7 @@ public class TestExample {
         bulkImportFaq(client);
         uploadStructuredData(client);
         queryFilesStatus(client);
+        chat(client);
         searchText(client);
     }
 
@@ -206,6 +207,27 @@ public class TestExample {
             }
         }
     }
+
+    private static void chat(LakeSearchClient client) {
+        String endpoint = "/v1/" + projectId + "/applications/" + applicationId + "/uni-search/experience/chat";
+
+        String requestBody = "{\n" +
+            " \"repo_id\": \"" + createRepoId + "\",\n" +
+            " \"extra_repo_ids\": [],\n" +
+            " \"chat_id\": \"\",\n" +
+            " \"messages\": [{\n" +
+            " \"content\": \"What is Java?\"\n" +
+            " }],\n" +
+            " \"chat_create_flag\": 1,\n" +
+            " \"refresh_flag\": 0,\n" +
+            " \"stream\": \"false\"\n" +
+            "}";
+        JsonElement requestBodyJson = JsonParser.parseString(requestBody);
+
+        Optional<ResultModel> result = client.sendAction(subject, protocol, ipPort, endpoint, MethodType.POST,
+            requestBodyJson, OperateType.CHAT, null);
+    }
+
 
     private static void login(String principal, String userKeytabFile, String krb5File) throws LoginException {
         Map<String, String> options = new HashMap<>();

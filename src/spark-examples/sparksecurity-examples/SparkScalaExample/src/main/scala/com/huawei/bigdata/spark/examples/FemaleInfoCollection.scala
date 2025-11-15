@@ -16,12 +16,6 @@ object FemaleInfoCollection {
 
     }
 
-    val userPrincipal = "sparkuser"
-    val userKeytabPath = "/opt/FIclient/user.keytab"
-    val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
-    val hadoopConf: Configuration  = new Configuration()
-    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
     // Configure the Spark application name.
 
     val spark = SparkSession

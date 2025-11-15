@@ -44,7 +44,6 @@ public class JavaHBaseBulkDeleteExample {
             System.out.println("JavaHBaseBulkDeleteExample  {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
 
         try {

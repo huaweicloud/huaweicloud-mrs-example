@@ -6,7 +6,6 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{TableInputFormat, TableMapReduceUtil}
-import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{CellUtil, HColumnDescriptor, HTableDescriptor, TableName}
 import org.apache.spark.SparkContext
@@ -87,7 +86,6 @@ class HbaseUtil(sc: SparkContext, conf: Configuration) {
   def readFromHbase(tableName: String): Unit = {
     val scan = new Scan()
     scan.addFamily(Bytes.toBytes("INFO"))
-    val proto = ProtobufUtil.toScan(scan)
     val scanToString = TableMapReduceUtil.convertScanToString(new Scan())
     conf.set(TableInputFormat.INPUT_TABLE, tableName)
 //    conf.set(TableInputFormat.SCAN, scanToString)

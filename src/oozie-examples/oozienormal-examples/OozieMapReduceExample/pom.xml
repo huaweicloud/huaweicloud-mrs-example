@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.bigdata</groupId>
-    <artifactId>OozieMapReduce</artifactId>
-    <version>8.5.1-351.r22</version>
+    <artifactId>OozieMapReduce-normal</artifactId>
+    <version>8.6.0-360.r9</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-        <oozie.version>5.1.0-h0.cbu.mrs.351.r22</oozie.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+        <oozie.version>5.1.0-h0.cbu.mrs.360.r9</oozie.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -41,6 +41,10 @@
                 <exclusion>
                     <groupId>javax.jms</groupId>
                     <artifactId>jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.huawei.us</groupId>
+                    <artifactId>us-common</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

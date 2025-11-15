@@ -2,20 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>com.huawei.mrs.spark.examples.security</groupId>
+        <version>8.6.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs.spark.examples.security.python</groupId>
     <artifactId>SparkOnHbasePythonExample</artifactId>
     <version>1.0</version>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.351.r22</kafka.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -86,12 +82,12 @@
         <dependency>
             <groupId>com.esotericsoftware.kryo</groupId>
             <artifactId>kryo</artifactId>
-            <version>2.21</version>
+            <version>${kryo.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>2.5.0</version>
+            <version>${protobuf.version}</version>
         </dependency>
 
         <dependency>
@@ -132,7 +128,18 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.4.0</version>
+                <version>${scala.maven.plugin.version}</version>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <args>
+                        <arg>-target:${java.version}</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                        <arg>-unchecked</arg>
+                        <arg>-encoding</arg>
+                        <arg>UTF-8</arg>
+                    </args>
+                </configuration>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -155,7 +162,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>compile</phase>
@@ -165,8 +172,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
         </plugins>

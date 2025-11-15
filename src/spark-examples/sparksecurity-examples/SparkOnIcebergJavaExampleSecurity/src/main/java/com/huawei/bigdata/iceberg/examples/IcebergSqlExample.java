@@ -56,9 +56,9 @@ public class IcebergSqlExample
     }
 
     public static void kerberosLogin() throws IOException {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
+        String userPrincipal = "admintest";
+        String userKeytabPath = "/tmp/FusionInsight-Keytab/user.keytab";
+        String krb5ConfPath = "/tmp/FusionInsight-Keytab/krb5.conf";
         Configuration hadoopConf = new Configuration();
         LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
     }

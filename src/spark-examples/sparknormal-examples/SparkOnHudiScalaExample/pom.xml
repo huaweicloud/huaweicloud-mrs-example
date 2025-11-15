@@ -2,7 +2,14 @@
 <!--
 Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.huawei.mrs.spark.examples.normal</groupId>
+    <version>8.6.0</version>
+  </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.huawei.mrs.spark.examples.normal.scala</groupId>
@@ -10,26 +17,23 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
   <version>1.0</version>
   <packaging>jar</packaging>
 
-  <properties>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.source>17</maven.compiler.source>
-    <checkstyle.skip>true</checkstyle.skip>
-    <hudi.version>0.15.0-h0.cbu.mrs.351.r22</hudi.version>
-    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-    <scala.binary.version>2.12</scala.binary.version>
-  </properties>
-
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
+        <version>${scala.maven.plugin.version}</version>
+        <configuration>
+          <scalaVersion>${scala.version}</scalaVersion>
+          <args>
+            <arg>-target:${java.version}</arg>
+            <arg>-deprecation</arg>
+            <arg>-feature</arg>
+            <arg>-unchecked</arg>
+            <arg>-encoding</arg>
+            <arg>UTF-8</arg>
+          </args>
+        </configuration>
         <executions>
           <execution>
             <id>scala-compile-first</id>
@@ -39,9 +43,36 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
               <goal>compile</goal>
             </goals>
           </execution>
+          <execution>
+            <id>scala-test-compile</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>add-source</goal>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
     </plugins>
+    <directory>target</directory>
+    <outputDirectory>target/classes</outputDirectory>
+    <testOutputDirectory>target/test-classes</testOutputDirectory>
   </build>
 
   <dependencies>

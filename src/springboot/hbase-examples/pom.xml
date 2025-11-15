@@ -12,16 +12,16 @@
 
     <groupId>org.example</groupId>
     <artifactId>hbase-springboot</artifactId>
-    <version>8.5.1-351.r22</version>
+    <version>8.6.0-360.r9</version>
 
     <properties>
         <source>1.8</source>
         <target>1.8</target>
-        <fi.version>8.5.1-351.r22</fi.version>
-        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-        <phoenix-core.version>5.2.1-h0.cbu.mrs.351.r22</phoenix-core.version>
-        <phoenix-hbase-compat.version>5.2.1-h0.cbu.mrs.351.r22</phoenix-hbase-compat.version>
+        <fi.version>8.6.0-360.r9</fi.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+        <phoenix-core.version>5.2.1-h0.cbu.mrs.360.r9</phoenix-core.version>
+        <phoenix-hbase-compat.version>5.2.1-h0.cbu.mrs.360.r9</phoenix-hbase-compat.version>
     </properties>
 
     <dependencies>

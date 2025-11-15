@@ -46,7 +46,6 @@ public final class JavaHBaseDistributedScanExample {
             System.out.println("JavaHBaseDistributedScan {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseDistributedScan " + tableName);

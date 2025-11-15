@@ -52,7 +52,6 @@ public final class JavaHBaseForEachPartitionExample {
             System.out.println("JavaHBaseForEachPartitionExample {tableName} {columnFamily}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         final String tableName = args[0];
         final String columnFamily = args[1];
 

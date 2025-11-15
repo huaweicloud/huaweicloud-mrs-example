@@ -37,7 +37,6 @@ object HBaseForEachPartitionExample {
       println("HBaseForeachPartitionExample {tableName} {columnFamily} are missing an arguments")
       return
     }
-    LoginUtil.loginWithUserKeytab
     val tableName = args(0)
     val columnFamily = args(1)
 

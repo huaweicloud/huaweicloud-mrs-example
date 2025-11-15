@@ -22,11 +22,16 @@ public class HiveDataSourceUtil {
     private static final String HIVE_DRIVER = "org.apache.hive.jdbc.HiveDriver";
     private static final String ZOOKEEPER_SERVER_PRINCIPAL_KEY = "zookeeper.server.principal";
     private static String ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = null;
+
+    // 是否使用用户名和密码认证
+    private static boolean HIVE_BASIC_AUTH_ENABLE = false;
+    private static String USER_NAME = null;
+    private static String PASSWORD = null;
     private static String FOUR_EMPTY = "    ";
     private static String KRB5_FILE = null;
-    private static String USER_NAME = null;
     private static String USER_KEYTAB_FILE = null;
     private static Configuration CONF = null;
+    private static String SSL = null;
 
     /**
      * zookeeper节点ip和端口列表
@@ -102,11 +107,14 @@ public class HiveDataSourceUtil {
         principal = clientInfo.getProperty("principal");
         auditAddition = clientInfo.getProperty("auditAddition");
         KRB5_FILE = userdir + "krb5.conf";
+        SSL = clientInfo.getProperty("ssl");
         System.setProperty("java.security.krb5.conf", KRB5_FILE);
         // 设置新建用户的USER_NAME，其中"xxx"指代之前创建的用户名，例如创建的用户为user，则USER_NAME为user
-        USER_NAME = clientInfo.getProperty("user.name");
+        USER_NAME = "xxx";
+        // 设置用户的密码，使用用户名和密码认证时需要将"xxx"修改成真实的密码
+        PASSWORD = "xxx";
 
-        if ("KERBEROS".equalsIgnoreCase(auth)) {
+        if ("KERBEROS".equalsIgnoreCase(auth) && !HIVE_BASIC_AUTH_ENABLE) {
             // 设置客户端的keytab和zookeeper认证principal
             USER_KEYTAB_FILE = "src/main/resources/user.keytab";
             ZOOKEEPER_DEFAULT_SERVER_PRINCIPAL = "zookeeper/" + getUserRealm();
@@ -141,10 +149,15 @@ public class HiveDataSourceUtil {
                 .append(auth)
                 .append(";principal=")
                 .append(principal)
-                .append(";user.principal=")
-                .append(USER_NAME)
-                .append(";user.keytab=")
-                .append(USER_KEYTAB_FILE);
+                .append(";ssl=")
+                .append(SSL);
+
+            if (!HIVE_BASIC_AUTH_ENABLE) {
+                strBuilder.append(";user.principal=")
+                    .append(USER_NAME)
+                    .append(";user.keytab=")
+                    .append(USER_KEYTAB_FILE);
+            }
         } else {
             /* 普通模式 */
             strBuilder
@@ -164,8 +177,13 @@ public class HiveDataSourceUtil {
             // 加载Hive JDBC驱动
             Class.forName(HIVE_DRIVER);
             // 获取JDBC连接
-            // 如果使用的是普通模式，那么第二个参数需要填写正确的用户名，否则会以匿名用户(anonymous)登录
-            return DriverManager.getConnection(url, "", "");
+            if (HIVE_BASIC_AUTH_ENABLE) {
+                connection = DriverManager.getConnection(url, USER_NAME, PASSWORD);
+            } else {
+                // 如果使用的是普通模式，那么第二个参数需要填写正确的用户名，否则会以匿名用户(anonymous)登录
+                connection = DriverManager.getConnection(url, "", "");
+            }
+            return connection;
         } catch (ClassNotFoundException | SQLException e) {
             LOG.error("Create connection failed.");
             throw new RuntimeException("Create connection failed.", e);

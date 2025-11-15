@@ -53,8 +53,6 @@ public class SparkOnStreamingToHbaseExample {
         if (args.length < 4) {
             printUsage();
         }
-        // in security cluster, do login
-        LoginUtil.loginWithUserKeytab();
 
         String checkPointDir = args[0];
         String topics = args[1];

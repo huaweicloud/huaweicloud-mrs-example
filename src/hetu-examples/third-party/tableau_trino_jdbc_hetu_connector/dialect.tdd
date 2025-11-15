@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dialect name='SimplePresto' class='HuaweiMRSHetuEngine_jdbc' base='PrestoDialect' version='18.1'>
+</dialect>

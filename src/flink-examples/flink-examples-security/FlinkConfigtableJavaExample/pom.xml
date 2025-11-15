@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.5.1-351.r22</version>
+        <version>8.6.0-360.r9</version>
     </parent>
     <artifactId>FlinkConfigtableJavaExample</artifactId>
 
@@ -71,7 +71,6 @@
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${lib_path}</outputDirectory>
-
                         </configuration>
                     </execution>
                 </executions>

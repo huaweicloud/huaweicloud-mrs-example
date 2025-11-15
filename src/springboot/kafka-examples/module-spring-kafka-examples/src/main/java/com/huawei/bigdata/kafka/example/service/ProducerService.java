@@ -9,6 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.concurrent.ExecutionException;
 
@@ -26,22 +27,31 @@ public class ProducerService {
 
   public ProducerService(KafkaTemplate<String, Object> kafkaProducerTemplate) {
     this.kafkaProducerTemplate = kafkaProducerTemplate;
-    LOG.info("isAsync: " + isAsync);
+    LOG.info("isAsync: {}", isAsync);
   }
 
   public void sendMessage(String topic, Object o) {
     // 使用异步方式发送 Kafka 消息
     if (isAsync) {
       // 分区设置为 null，交给 kafka 自己去分配
-      ProducerRecord<String, Object> producerRecord = new ProducerRecord<>(topic, null, System.currentTimeMillis(), String.valueOf(o.hashCode()), o);
+      ProducerRecord<String, Object> record = new ProducerRecord<>(
+              topic, null, System.currentTimeMillis(), String.valueOf(o.hashCode()), o
+      );
 
-      ListenableFuture<SendResult<String, Object>> future = (ListenableFuture<SendResult<String, Object>>) kafkaProducerTemplate.send(producerRecord);
-      future.addCallback(
-        result -> {
-          assert result != null;
-          LOG.info("The producer send message to topic {} successfully", result.getRecordMetadata().topic());
-        },
-        ex -> LOG.error("The producer send message failed, because {}", ex.getMessage()));
+      ListenableFuture<SendResult<String, Object>> future = kafkaProducerTemplate.send(record);
+
+      future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
+        @Override
+        public void onSuccess(SendResult<String, Object> result) {
+          LOG.info("The producer send message to topic {} successfully",
+              result.getRecordMetadata().topic());
+        }
+
+        @Override
+        public void onFailure(Throwable ex) {
+          LOG.error("The producer send async message failed, because {}", ex.getMessage());
+        }
+      });
     } else {
     // 使用同步方式发送 Kafka 消息
       try {

@@ -9,7 +9,6 @@ import org.apache.hadoop.hbase.{TableName, CellUtil, HBaseConfiguration}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
-import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil
 import org.apache.spark.serializer.KryoRegistrator
@@ -25,19 +24,6 @@ object SparkHbasetoHbase {
   case class FemaleInfo(name: String, gender: String, stayTime: Int)
 
   def main(args: Array[String]) {
-    val userPrincipal = "sparkuser"
-    val userKeytabPath = "/opt/FIclient/user.keytab"
-    val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
-    val principalName = KerberosUtil.getKrb5DomainRealm()
-    val ZKServerPrincipal = "zookeeper/hadoop." + principalName
-
-    val ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME: String = "Client"
-    val ZOOKEEPER_SERVER_PRINCIPAL_KEY: String = "zookeeper.server.principal"
-    val hadoopConf: Configuration = new Configuration()
-    LoginUtil.setJaasConf(ZOOKEEPER_DEFAULT_LOGIN_CONTEXT_NAME, userPrincipal, userKeytabPath)
-    LoginUtil.setZookeeperServerPrincipal(ZOOKEEPER_SERVER_PRINCIPAL_KEY, ZKServerPrincipal)
-    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf)
-
     val conf = new SparkConf().setAppName("SparkHbasetoHbase")
     conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     conf.set("spark.kryo.registrator", "com.huawei.bigdata.spark.examples.MyRegistrator")
@@ -48,8 +34,7 @@ object SparkHbasetoHbase {
     // Declare the information of the table to be queried.
     val scan = new Scan()
     scan.addFamily(Bytes.toBytes("cf")) //colomn family
-    val proto = ProtobufUtil.toScan(scan)
-    val scanToString = TableMapReduceUtil.convertScanToString(new Scan())
+    val scanToString = TableMapReduceUtil.convertScanToString(scan)
     hbConf.set(TableInputFormat.INPUT_TABLE, "table1") //table name
     hbConf.set(TableInputFormat.SCAN, scanToString)
 

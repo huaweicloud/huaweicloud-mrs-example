@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.huawei.mrs</groupId>
+    <artifactId>parent-example</artifactId>
+    <version>8.6.0</version>
+    <packaging>pom</packaging>
+    <name>Huawei MRS Sample project</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>8</java.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    
+        <mvn-compiler-plugin.version>3.8.1</mvn-compiler-plugin.version>
+        <mvn-surefire-plugin.version>2.21.0</mvn-surefire-plugin.version>
+    </properties>
+    <modules>
+        <module>clickhouse-examples/ClickHouseJDBCJavaExample</module>
+        <module>clickhouse-examples/ClickHouseJDBC-Transaction-JavaExample</module>
+        <module>ctbase-examples/ctbase-export-examples</module>
+        <module>doris-examples/doris-flink-jar-example</module>
+        <module>doris-examples/doris-jdbc-example</module>
+        <module>doris-examples/doris-stream-load-example-normal</module>
+        <module>doris-examples/doris-stream-load-example-security</module>
+        <module>elasticsearch-rest-client-example</module>
+        <module>flink-examples/flink-cep</module>
+        <module>flink-examples/flink-examples-normal</module>
+        <module>flink-examples/flink-examples-security</module>
+        <module>flink-examples/flink-sql</module>
+        <module>graphbase-examples</module>
+        <module>hbase-examples/hbase-example</module>
+        <module>hbase-examples/hbase-rest-example</module>
+        <module>hbase-examples/hbase-thrift-example</module>
+        <module>hbase-examples/hbase-zk-example</module>
+        <module>hdfs-example-normal</module>
+        <module>hdfs-example-security</module>
+        <module>hetu-examples/hetu-examples-normal</module>
+        <module>hetu-examples/hetu-examples-rest-normal</module>
+        <module>hetu-examples/hetu-examples-rest-security</module>
+        <module>hetu-examples/hetu-examples-security</module>
+        <module>hive-examples/hcatalog-example</module>
+        <module>hive-examples/hive-jdbc-example</module>
+        <module>hive-examples/hive-jdbc-example-multizk</module>
+        <module>iotdb-examples/iotdb-jdbc-example</module>
+        <module>iotdb-examples/iotdb-kafka-example</module>
+        <module>iotdb-examples/iotdb-session-example</module>
+        <module>iotdb-examples/iotdb-udf-example</module>
+        <module>kafka-examples</module>
+        <module>kudu-examples/kudu-client-normal</module>
+        <module>kudu-examples/kudu-client-sec</module>
+        <module>lakesearch-examples</module>
+        <module>manager-examples</module>
+        <module>mapreduce-example-normal</module>
+        <module>mapreduce-example-security</module>
+        <module>oozie-examples/oozienormal-examples/OozieMapReduceExample</module>
+        <module>oozie-examples/oozienormal-examples/OozieSparkHBaseExample</module>
+        <module>oozie-examples/oozienormal-examples/OozieSparkHiveExample</module>
+        <module>oozie-examples/ooziesecurity-examples/OozieMapReduceExample</module>
+        <module>oozie-examples/ooziesecurity-examples/OozieSparkHBaseExample</module>
+        <module>oozie-examples/ooziesecurity-examples/OozieSparkHiveExample</module>
+        <module>redis-examples/redis-examples-java</module>
+        <module>spark-examples</module>
+        <module>springboot/clickhouse-examples/clickhouse-rest-client-example</module>
+        <module>springboot/doris-examples/doris-rest-client-example</module>
+        <module>springboot/elasticsearch-examples/elasticsearch-rest-client-example</module>
+        <module>springboot/flink-examples/flink-dws-read-example</module>
+        <module>springboot/flink-examples/flink-dws-sink-example</module>
+        <module>springboot/flink-examples/flink-es-sink-example</module>
+        <module>springboot/hbase-examples</module>
+        <module>springboot/hdfs-examples</module>
+        <module>springboot/hetu-examples</module>        
+        <module>springboot/hive-examples/hive-rest-client-example</module>
+        <module>springboot/kafka-examples/kafka-springboot-examples</module>
+        <module>springboot/kafka-examples/module-spring-kafka-examples</module>
+        <module>springboot/redis-examples</module>
+        <module>zk-example-normal</module>
+        <module>zk-example-security</module>
+    </modules>
+
+    <dependencies>
+    </dependencies>
+    <build>
+        <plugins>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${mvn-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                        <arg>-Xlint:-processing</arg>
+                    </compilerArgs>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${mvn-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.time=ALL-UNNAMED
+                        --add-opens java.base/java.time.format=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

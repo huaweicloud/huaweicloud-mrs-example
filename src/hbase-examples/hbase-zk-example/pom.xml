@@ -10,10 +10,10 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-zk-example</artifactId>
-    <version>8.5.1-352.r22</version>
+    <version>8.6.0-360.r9</version>
     <properties>
-        <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
         <log4j2.version>2.24.1</log4j2.version>
         <slf4j.version>2.0.16</slf4j.version>
         <source>1.8</source>

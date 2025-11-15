@@ -37,8 +37,6 @@ object SparkOnStreamingToHbaseExample {
     if (args.length < 5) {
       printUsage
     }
-    // in security cluster, do login
-    LoginUtil.loginWithUserKeytab()
 
     val Array(checkPointDir, topics, brokers, tableName, columnFamily) = args
     val sparkConf = new SparkConf().setAppName("SparkOnStreamingToHbase_Scala")

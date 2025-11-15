@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<connection-metadata>
+  <database enabled='true' label='Database'>
+    <field optional='true' default-value='' />
+  </database>
+  <schema enabled='true' label="Schema" />
+  <table enabled='true' label="Table" />
+</connection-metadata>

@@ -5,11 +5,12 @@
 package com.huawei.bigdata.flink.examples;
 
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 
 /**
  * @since 8.0.2
@@ -34,8 +35,17 @@ public class WriteIntoKafka {
         env.setParallelism(1);
         ParameterTool paraTool = ParameterTool.fromArgs(args);
         DataStream<String> messageStream = env.addSource(new SimpleStringGenerator());
-        messageStream.addSink(
-                new FlinkKafkaProducer<>(paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties()));
+
+        KafkaSink<String> sink = KafkaSink.<String>builder()
+            .setKafkaProducerConfig(paraTool.getProperties())
+            .setRecordSerializer(
+                KafkaRecordSerializationSchema.builder()
+                    .setValueSerializationSchema(new SimpleStringSchema())
+                    .setTopic(paraTool.get("topic"))
+                    .build())
+            .build();
+        messageStream.sinkTo(sink);
+
         env.execute();
     }
 

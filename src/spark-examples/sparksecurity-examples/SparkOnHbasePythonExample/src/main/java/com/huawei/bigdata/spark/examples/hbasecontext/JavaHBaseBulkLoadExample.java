@@ -55,7 +55,6 @@ public class JavaHBaseBulkLoadExample {
             System.out.println("JavaHBaseBulkLoadExample  " + "{outputPath}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = "bulkload-table-test";
         String columnFamily1 = "f1";
         String columnFamily2 = "f2";

@@ -55,7 +55,6 @@ public class JavaHBaseMapPartitionExample {
             System.out.println("JavaHBaseMapPartitionExample {tableName} is missing an argument");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         final String tableName = args[0];
 
         try {

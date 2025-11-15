@@ -47,7 +47,6 @@ public class JavaHBaseForEachPartitionExampleTest {
             System.out.println("JavaHBaseForEachPartitionExample {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         final String tableName = args[0];
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseBulkGetExample " + tableName);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);

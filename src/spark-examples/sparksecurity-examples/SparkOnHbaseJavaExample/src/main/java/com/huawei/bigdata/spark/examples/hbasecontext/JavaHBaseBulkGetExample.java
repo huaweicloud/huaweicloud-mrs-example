@@ -48,7 +48,6 @@ public final class JavaHBaseBulkGetExample {
             System.out.println("JavaHBaseBulkGetExample  {tableName}");
             return;
         }
-        LoginUtil.loginWithUserKeytab();
         String tableName = args[0];
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseBulkGetExample " + tableName);

@@ -44,12 +44,6 @@ public class FemaleInfoCollection {
     }
 
     public static void main(String[] args) throws Exception {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
-        Configuration hadoopConf = new Configuration();
-        LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
         SparkSession spark = SparkSession.builder().appName("CollectFemaleInfo").getOrCreate();
 
         // Convert RDD to DataFrame through the implicit conversion.

@@ -5,31 +5,24 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.security</groupId>
-        <version>8.5.0</version>
+        <version>8.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.huawei.mrs.spark.examples.security.java</groupId>
     <artifactId>SparkOnIcebergJavaExampleSecurity</artifactId>
     <version>1.0</version>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <iceberg.version>1.7.0-h0.cbu.mrs.351.r22</iceberg.version>
-        <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-spark-runtime-3.3_${scala.binary.version}</artifactId>
+            <artifactId>iceberg-spark-runtime-3.5_${scala.binary.version}</artifactId>
             <version>${iceberg.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-spark-extensions-3.3_${scala.binary.version}</artifactId>
+            <artifactId>iceberg-spark-extensions-3.5_${scala.binary.version}</artifactId>
             <version>${iceberg.version}</version>
         </dependency>
 
@@ -49,4 +42,62 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${scala.maven.plugin.version}</version>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <args>
+                        <arg>-target:${java.version}</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                        <arg>-unchecked</arg>
+                        <arg>-encoding</arg>
+                        <arg>UTF-8</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+        <directory>target</directory>
+        <outputDirectory>target/classes</outputDirectory>
+        <testOutputDirectory>target/test-classes</testOutputDirectory>
+    </build>
 </project>

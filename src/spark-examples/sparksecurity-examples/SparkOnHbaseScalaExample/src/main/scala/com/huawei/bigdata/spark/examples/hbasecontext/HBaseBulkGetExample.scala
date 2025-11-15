@@ -38,7 +38,6 @@ object HBaseBulkGetExample {
       println("HBaseBulkGetExample {tableName} missing an argument")
       return
     }
-    LoginUtil.loginWithUserKeytab
     val tableName = args(0)
 
     val sparkConf = new SparkConf().setAppName("HBaseBulkGetExample " + tableName)

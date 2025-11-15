@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<connection-fields>
+  <field name="server" label="Server" value-type="string" category="endpoint" />
+  <field name="authentication" label="Authentication" category="authentication" value-type="string" editable="false" default-value="auth-user-pass" />
+  <field name="username" label="Username" value-type="string" category="authentication" />
+  <field name="password" label="Password" value-type="string" category="authentication" secure="true" />
+  <field name="v-mode" label="ServiceDiscoveryMode" value-type="string" category="general" default-value="hsbroker" />
+  <field name="v-tenant" label="Tenant" value-type="string" category="general" default-value="default" />
+
+</connection-fields>

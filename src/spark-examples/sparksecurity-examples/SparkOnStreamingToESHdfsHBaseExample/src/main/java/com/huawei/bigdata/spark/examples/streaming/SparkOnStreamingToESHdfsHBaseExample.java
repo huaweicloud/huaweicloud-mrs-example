@@ -59,7 +59,6 @@ public class SparkOnStreamingToESHdfsHBaseExample {
     public static void main(String[] args) throws Exception {
         try {
             init();
-            login();
         } catch (IOException e) {
             LOG.error("Failed to login because ", e);
             return;

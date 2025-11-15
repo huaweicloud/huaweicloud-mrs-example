@@ -2,15 +2,15 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.huawei.mrs.ctbase.examples</groupId>
   <artifactId>ctbase-export-examples</artifactId>
-  <version>8.5.1-351.r22</version>
+  <version>8.6.0-360.r9</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
+    <spark.version>3.5.6-h0.cbu.mrs.360.r9</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-    <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
-    <ctbase.version>0.99.0-h0.cbu.mrs.351.r22</ctbase.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+    <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
+    <ctbase.version>0.99.0-h0.cbu.mrs.360.r9</ctbase.version>
     <log4j2.version>2.24.1</log4j2.version>
     <slf4j.version>2.0.16</slf4j.version>
     <source>1.8</source>
@@ -101,6 +101,10 @@
           <groupId>com.huawei.mrs</groupId>
           <artifactId>SMS4JA</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka-clients</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -180,7 +184,6 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <version>4.9.5</version>
         <executions>
           <execution>
             <id>main-scalac</id>

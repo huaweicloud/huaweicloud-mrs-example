@@ -4,12 +4,14 @@
 
 package com.huawei.bigdata.flink.examples;
 
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
 
 /**
  * 消费kafka示例类
@@ -35,10 +37,15 @@ public class ReadFromKafka {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
         ParameterTool paraTool = ParameterTool.fromArgs(args);
-        DataStream<String> messageStream =
-                env.addSource(
-                        new FlinkKafkaConsumer<>(
-                                paraTool.get("topic"), new SimpleStringSchema(), paraTool.getProperties()));
+
+        KafkaSource<String> source = KafkaSource.<String>builder()
+            .setTopics(paraTool.get("topic"))
+            .setStartingOffsets(OffsetsInitializer.earliest())
+            .setValueOnlyDeserializer(new SimpleStringSchema())
+            .setProperties(paraTool.getProperties())
+            .build();
+        DataStream<String> messageStream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
+
         messageStream
                 .rebalance()
                 .map(

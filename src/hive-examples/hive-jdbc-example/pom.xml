@@ -6,20 +6,22 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>hive-jdbc-example</artifactId>
-  <version>8.5.1-351.r22</version>
+  <version>8.6.0-360.r9</version>
+
   <properties>
-    <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-    <hive.version>3.1.0-h0.cbu.mrs.351.r22</hive.version>
-    <zookeeper.version>3.8.1-h0.cbu.mrs.351.r22</zookeeper.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
+    <hive.version>3.1.0-h0.cbu.mrs.360.r9</hive.version>
+    <zookeeper.version>3.8.1-h0.cbu.mrs.360.r9</zookeeper.version>
     <log4j2.version>2.17.1</log4j2.version>
-    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <commons-lang3.version>3.18.0</commons-lang3.version>
     <commons-lang.version>2.6</commons-lang.version>
     <curator.version>5.7.0</curator.version>
     <woodstox-core.version>5.4.0</woodstox-core.version>
     <hadoop-shaded-guava.version>1.3.0</hadoop-shaded-guava.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <libthrift.version>0.14.1</libthrift.version>
-    <commons-configuration2.version>2.10.1</commons-configuration2.version>
+    <commons-configuration2.version>2.11.0</commons-configuration2.version>
+    <us-common.version>1.0.76.6</us-common.version>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
@@ -217,6 +219,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.huawei.us</groupId>
+      <artifactId>us-common</artifactId>
+      <version>${us-common.version}</version>
     </dependency>
   </dependencies>
   <build>

@@ -186,7 +186,7 @@ public class SparkOnEs implements Serializable {
                                             Iterator<Tuple2<String, Map<String, Object>>> iterator) throws Exception {
                                         List<Tuple2<String, Long>> list = new ArrayList<>(10000);
                                         iterator.forEachRemaining(
-                                                row -> list.add(new Tuple2<>(row._2.get(field).toString(), 1L)));
+                                                row -> list.add(new Tuple2<>(row._2.getOrDefault(field, "").toString(), 1L)));
                                         return list.iterator();
                                     }
                                 })

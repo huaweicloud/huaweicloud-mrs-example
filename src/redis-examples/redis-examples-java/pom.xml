@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>redis-demo</artifactId>
-	<version>8.5.0-350.r11</version>
+	<version>8.6.0-360.r9</version>
 
 	<properties>
-		<commons-pools2.version>2.11.1</commons-pools2.version>
+		<commons-pools2.version>2.12.1</commons-pools2.version>
 		<log4j.version>1.2.17-atlassian-13</log4j.version>
-		<jedis.version>3.6.3-h0.cbu.mrs.350.r11</jedis.version>
+		<jedis.version>5.2.0-h0.cbu.mrs.360.r9</jedis.version>
 	</properties>
 	<dependencies>
 
@@ -34,7 +34,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

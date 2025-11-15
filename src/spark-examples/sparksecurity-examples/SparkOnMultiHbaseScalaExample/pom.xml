@@ -1,17 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.huawei.mrs.spark.examples.security</groupId>
+    <version>8.6.0</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.huawei.mrs.spark.examples.security.scala</groupId>
   <artifactId>SparkOnMultiHbase</artifactId>
   <version>1.0</version>
   <inceptionYear>2008</inceptionYear>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <scala.version>2.12.19</scala.version>
-    <spark.version>3.3.1-h0.cbu.mrs.351.r22</spark.version>
-    <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.351.r22</hadoop.version>
-    <hbase.version>2.6.1-h0.cbu.mrs.351.r22</hbase.version>
-  </properties>
 
   <repositories>
     <repository>
@@ -48,6 +48,10 @@
           <groupId>com.huawei.lakeformation</groupId>
           <artifactId>lakeformation-lakecat-client-base</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>com.huawei.us</groupId>
+          <artifactId>us-common</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -62,6 +66,10 @@
         <exclusion>
           <groupId>com.huawei.lakeformation</groupId>
           <artifactId>lakeformation-lakecat-client-base</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.huawei.us</groupId>
+          <artifactId>us-common</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -126,7 +134,7 @@
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <version>4.4.0</version>
+        <version>${scala.maven.plugin.version}</version>
         <executions>
           <execution>
             <id>eclipse-add-source</id>
@@ -163,14 +171,14 @@
         <configuration>
           <scalaVersion>${scala.version}</scalaVersion>
           <args>
-            <arg>-target:jvm-17</arg>
+            <arg>-target:${java.version}</arg>
           </args>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>${maven.compiler.plugin.version}</version>
         <executions>
           <execution>
             <phase>compile</phase>
@@ -179,6 +187,10 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
       </plugin>
     </plugins>
   </build>

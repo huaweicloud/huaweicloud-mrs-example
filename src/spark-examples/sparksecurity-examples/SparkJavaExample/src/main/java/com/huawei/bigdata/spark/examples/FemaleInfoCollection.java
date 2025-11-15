@@ -15,12 +15,6 @@ import org.apache.spark.sql.SparkSession;
 
 public class FemaleInfoCollection {
     public static void main(String[] args) throws Exception {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
-        Configuration hadoopConf = new Configuration();
-        LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
         // Create a configuration class SparkConf, and then create a SparkContext.
         SparkSession spark = SparkSession.builder().appName("CollectFemaleInfo").getOrCreate();
 

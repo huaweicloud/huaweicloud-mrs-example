@@ -25,11 +25,6 @@ object SparkOnStreamingToHbase {
     if (args.length < 3) {
       printUsage
     }
-    val userPrincipal = "sparkuser"
-    val userKeytabPath = "/opt/FIclient/user.keytab"
-    val krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf"
-    val hadoopConf: Configuration = new Configuration()
-    LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf)
 
     val Array(checkPointDir, topics, brokers) = args
     val sparkConf = new SparkConf().setAppName("SparkOnStreamingToHbase")

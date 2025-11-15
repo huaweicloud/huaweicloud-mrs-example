@@ -54,7 +54,6 @@ public class AvroSource {
                     + "}";
 
     public static void main(String args[]) throws IOException {
-        LoginUtil.loginWithUserKeytab();
         SparkConf sparkConf = new SparkConf().setAppName("AvroSourceExample");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
         SQLContext sqlContext = new SQLContext(sc);

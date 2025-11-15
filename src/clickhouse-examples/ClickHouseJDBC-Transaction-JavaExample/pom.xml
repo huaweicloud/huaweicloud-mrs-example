@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs</groupId>
-    <artifactId>clickhouse-examples</artifactId>
-    <version>8.5.1-351.r22</version>
+    <artifactId>clickhouse-transaction-examples</artifactId>
+    <version>8.6.0-360.r9</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.11.2</log4j2.version>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.4.5-h0.cbu.mrs.351.r22</version>
+            <version>0.6.5-h0.cbu.mrs.360.r9</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -36,6 +36,16 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lz4</groupId>
+            <artifactId>lz4-java</artifactId>
+            <version>1.8.0</version>
         </dependency>
     </dependencies>
     <build>

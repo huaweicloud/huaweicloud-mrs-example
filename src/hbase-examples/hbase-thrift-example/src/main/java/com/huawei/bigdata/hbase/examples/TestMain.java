@@ -67,7 +67,9 @@ public class TestMain {
         ThriftSample test = null;
         try {
             test = new ThriftSample();
-            test.test("xxx.xxx.xxx.xxx", THRIFT_PORT, conf);
+            // Specify the Thrift server hostnames, separated by comma if multiple are there.
+            String thriftServerHostNames = "xxx.xxx.xxx.xxx,xxx.xxx.xxx.xxx";
+            test.test(thriftServerHostNames, THRIFT_PORT, conf);
         } catch (TException | IOException e) {
             LOG.error("Test thrift error", e);
         }

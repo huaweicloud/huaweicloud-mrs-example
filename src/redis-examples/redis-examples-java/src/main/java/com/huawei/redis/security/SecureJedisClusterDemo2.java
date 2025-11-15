@@ -6,11 +6,15 @@ package com.huawei.redis.security;
 
 import com.huawei.jredis.client.GlobalConfig;
 import com.huawei.jredis.client.auth.AuthConfiguration;
+import com.huawei.redis.CommonSslSocketFactory;
 import com.huawei.redis.Const;
 
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPoolConfig;
 
+import javax.net.ssl.SSLSocketFactory;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,15 +34,26 @@ import java.util.Set;
  * @since 2020-09-30
  */
 public class SecureJedisClusterDemo2 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.setProperty("java.security.krb5.conf", "krb5.conf file path");
-        AuthConfiguration authConfiguration = new AuthConfiguration("keytab file path", "principal");
+        AuthConfiguration authConfiguration = new AuthConfiguration("keytab file path", "user@HADOOP1.COM");
         GlobalConfig.setAuthConfiguration(authConfiguration);
         // System.setProperty("SERVER_REALM","HADOOP.COM");
 
         Set<HostAndPort> hosts = new HashSet<HostAndPort>();
         hosts.add(new HostAndPort(Const.IP_1, Const.PORT_1));
-        JedisCluster client = new JedisCluster(hosts, 5000);
+
+        boolean ssl = true;
+        int maxAttempts = 2;
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        final SSLSocketFactory socketFactory = CommonSslSocketFactory.createTrustALLSslSocketFactory();
+
+        DefaultJedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder()
+                .connectionTimeoutMillis(5000)
+                .ssl(ssl)
+                .sslSocketFactory(socketFactory)
+                .build();
+        JedisCluster client = new JedisCluster(hosts, jedisClientConfig, maxAttempts, jedisPoolConfig);
 
         client.set("test-key", System.currentTimeMillis() + "");
         System.out.println(client.get("test-key"));

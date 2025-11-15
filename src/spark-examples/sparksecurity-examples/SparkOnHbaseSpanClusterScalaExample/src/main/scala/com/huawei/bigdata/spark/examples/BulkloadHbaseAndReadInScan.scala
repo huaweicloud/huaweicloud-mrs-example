@@ -7,8 +7,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.hadoop.hbase._
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.hadoop.hbase.mapreduce.{HFileOutputFormat2, TableInputFormat}
-import org.apache.hadoop.hbase.protobuf.ProtobufUtil
+import org.apache.hadoop.hbase.mapreduce.{HFileOutputFormat2, TableInputFormat, TableMapReduceUtil}
 import org.apache.hadoop.hbase.tool.BulkLoadHFiles
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.mapreduce.Job
@@ -167,8 +166,7 @@ object BulkloadHbaseAndReadInScan extends ExportToHbaseTask {
   override def readFromHbase(spark: SparkSession): Unit = {
     val scan = new Scan()
     scan.addFamily(Bytes.toBytes(hbaseConfigure.columnfamily))
-    val proto = ProtobufUtil.toScan(scan)
-    val scanToString = Base64.getEncoder.encodeToString(proto.toByteArray);
+    val scanToString = TableMapReduceUtil.convertScanToString(scan);
     conf.set(TableInputFormat.INPUT_TABLE, hbaseConfigure.tableName)
     conf.set(TableInputFormat.SCAN, scanToString)
 

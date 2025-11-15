@@ -33,9 +33,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.security.sasl.Sasl;
 import javax.security.sasl.SaslClient;
@@ -67,10 +69,10 @@ public class ThriftSample {
     /**
      * HBaseThriftSample test
      */
-    public void test(String host, int port, Configuration conf) throws TException, IOException {
+    public void test(String hostnames, int port, Configuration conf) throws TException, IOException {
         PrivilegedAction action = (PrivilegedAction<Object>) () -> {
             try {
-                doTest(host, port, conf);
+                doTest(hostnames, port, conf);
             } catch (TException | IOException e) {
                 LOGGER.error("Run test failed.", e);
             }
@@ -79,9 +81,9 @@ public class ThriftSample {
         UserGroupInformation.getLoginUser().doAs(action);
     }
 
-    private void doTest(String host, int port, Configuration conf) throws IOException, TException {
+    private void doTest(String hostnames, int port, Configuration conf) throws IOException, TException {
         try {
-            client = getClient(host, port, conf);
+            client = getClient(hostnames, port, conf);
 
             // Get table of specified namespace.
             getTableNamesByNamespace(client, "default");
@@ -123,24 +125,36 @@ public class ThriftSample {
         return SaslUtil.initSaslProperties(rpcSting);
     }
 
-    private THBaseService.Iface getClient(String host, int port, Configuration conf)
+    private THBaseService.Iface getClient(String hostnames, int port, Configuration conf)
         throws SaslException, TTransportException {
         if (client == null) {
+            List<String> thriftServers = Arrays.stream(hostnames.split(",")).collect(Collectors.toList());
             synchronized (lock) {
-                if (client == null) {
-                    transport = new TSocket(host, port);
-                    if (User.isHBaseSecurityEnabled(conf)) {
-                        String[] names = SaslUtil.splitKerberosName(conf.get("hbase.thrift.kerberos.principal"));
-                        SaslClient saslClient = Sasl.createSaslClient(
-                            new String[] {AuthMethod.KERBEROS.getMechanismName()}, null, names[0], names[1],
-                            transferProctection(conf), null);
-                        transport = new TSaslClientTransport(saslClient, transport);
+                for (String host : thriftServers) {
+                    try {
+                        if (client == null) {
+                            transport = new TSocket(host, port);
+                            if (User.isHBaseSecurityEnabled(conf)) {
+                                String[] names = SaslUtil.splitKerberosName(conf.get("hbase.thrift.kerberos.principal"));
+                                SaslClient saslClient = Sasl.createSaslClient(
+                                        new String[]{AuthMethod.KERBEROS.getMechanismName()}, null, names[0], names[1],
+                                        transferProctection(conf), null);
+                                transport = new TSaslClientTransport(saslClient, transport);
+                            }
+                            TProtocol protocol = new TBinaryProtocol(transport);
+                            client = new THBaseService.Client(protocol);
+                            transport.open();
+                            break;
+                        }
+                    } catch (TTransportException exception) {
+                        LOGGER.error("Failed to connect to {}:{}, retry with other server if any", host, port, exception);
+                        client = null;
                     }
-                    TProtocol protocol = new TBinaryProtocol(transport);
-                    client = new THBaseService.Client(protocol);
-                    transport.open();
                 }
             }
+        }
+        if (client == null) {
+            throw new TTransportException("Could not connect to any thrift server: " + hostnames);
         }
         return client;
     }

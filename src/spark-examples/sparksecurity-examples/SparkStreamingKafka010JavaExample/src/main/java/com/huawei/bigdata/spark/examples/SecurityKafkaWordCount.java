@@ -41,13 +41,6 @@ public class SecurityKafkaWordCount {
     }
 
     private static JavaStreamingContext createContext(String[] args) throws Exception {
-        String userPrincipal = "sparkuser";
-        String userKeytabPath = "/opt/FIclient/user.keytab";
-        String krb5ConfPath = "/opt/FIclient/KrbClient/kerberos/var/krb5kdc/krb5.conf";
-
-        Configuration hadoopConf = new Configuration();
-        LoginUtil.login(userPrincipal, userKeytabPath, krb5ConfPath, hadoopConf);
-
         String checkPointDir = args[0];
         String brokers = args[1];
         String topics = args[2];

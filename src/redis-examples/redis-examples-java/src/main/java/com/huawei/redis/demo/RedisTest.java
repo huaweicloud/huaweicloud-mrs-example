@@ -10,16 +10,18 @@ import com.huawei.redis.CommonSslSocketFactory;
 import com.huawei.redis.Const;
 import com.huawei.redis.LoginUtil;
 
+import redis.clients.jedis.ClusterPipeline;
 import redis.clients.jedis.GeoCoordinate;
-import redis.clients.jedis.GeoRadiusResponse;
-import redis.clients.jedis.GeoUnit;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Response;
+import redis.clients.jedis.args.GeoUnit;
 import redis.clients.jedis.params.GeoRadiusParam;
 import redis.clients.jedis.params.SetParams;
 
 import org.apache.log4j.Logger;
+import redis.clients.jedis.resps.GeoRadiusResponse;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -53,6 +55,11 @@ public class RedisTest {
      * pipeline
      */
     private ClusterBatch pipeline;
+
+    /**
+     * pipelineV2
+     */
+    private ClusterPipeline pipelineV2;
 
     /**
      * principal
@@ -320,7 +327,7 @@ public class RedisTest {
         client.zadd(key, 1912, "Alan Turing");
 
         // sort by score, ascending order
-        Set<String> setValues = client.zrange(key, 0, -1);
+        List<String> setValues = client.zrange(key, 0, -1);
         LOGGER.info("All hackers: " + setValues);
 
         long size = client.zcard(key);
@@ -333,7 +340,7 @@ public class RedisTest {
         LOGGER.info("Count: " + count);
 
         // sort by score, descending order
-        Set<String> setValues2 = client.zrevrange(key, 0, -1);
+        List<String> setValues2 = client.zrevrange(key, 0, -1);
         LOGGER.info("All hackers 2: " + setValues2);
 
         client.zrem(key, "Linus Torvalds");
@@ -426,6 +433,45 @@ public class RedisTest {
         }
     }
 
+    /**
+     * pipelineV2 测试
+     */
+    public void testPipelineV2() {
+        // Lazy load
+        try {
+            if (null == pipelineV2) {
+                pipelineV2 = client.pipelined();
+            }
+
+            pipelineV2.hset("website", "google", "google");
+            pipelineV2.hset("website", "baidu", "baidu");
+            pipelineV2.hset("website", "sina", "sina");
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("cardid", "card976");
+            map.put("username", "jzkangta");
+            pipelineV2.hmset("hash", map);
+
+            // submit
+            pipelineV2.sync();
+
+            Response<String> response1 = pipelineV2.hget("website", "google");
+            Response<String> response2 = pipelineV2.hget("website", "baidu");
+            Response<String> response3 = pipelineV2.hget("website", "sina");
+
+            // submit and get all return result
+            pipelineV2.sync();
+            LOGGER.info("response1: " + response1.get());
+            LOGGER.info("response2: " + response2.get());
+            LOGGER.info("response3: " + response3.get());
+
+            client.del("website");
+            client.del("hash");
+        } catch (Exception e) {
+            LOGGER.error("Fail to excute example cluster Pipeline ", e);
+        }
+    }
+
     private static String getResource(String name) {
         ClassLoader cl = RedisTest.class.getClassLoader();
         if (cl == null) {
@@ -481,6 +527,7 @@ public class RedisTest {
         test.testSortedSet();
         test.testKey();
         test.testPipeline();
+        test.testPipelineV2();
         test.testGeo();
         test.testSerialization();
         test.destory();
