@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-rest-security</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.0-350.r26</version>
 
     <dependencies>
         <dependency>

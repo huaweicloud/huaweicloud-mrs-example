@@ -12,7 +12,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>doris-rest-client-example</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.0-350.r26</version>
 
     <properties>
         <mariadb.version>3.1.4</mariadb.version>

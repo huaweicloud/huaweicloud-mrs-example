@@ -6,11 +6,11 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>kafka-examples</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.0-350.r26</version>
 
     <properties>
-        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r11</zookeeper.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.350.r11</kafka.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r26</zookeeper.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.350.r26</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

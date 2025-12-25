@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>graphbase-examples</artifactId>
-        <version>8.5.0-350.r11</version>
+        <version>8.5.0-350.r26</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>graphbase-core-example</artifactId>

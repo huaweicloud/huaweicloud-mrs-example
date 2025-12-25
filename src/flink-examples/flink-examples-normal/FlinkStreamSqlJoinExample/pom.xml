@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-normal</artifactId>
-        <version>8.5.0-350.r11</version>
+        <version>8.5.0-350.r26</version>
     </parent>
     <artifactId>FlinkStreamSqlJoinExample</artifactId>
 

@@ -11,15 +11,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
-        <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.331.r10</kafka.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.350.r26</hadoop.version>
+        <hbase.version>2.4.14-h0.cbu.mrs.350.r26</hbase.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.350.r26</kafka.version>
         <lucene.version>8.7.0-h0.cbu.css.v1.0.1.0.r1</lucene.version>
         <log4j2.version>2.17.2</log4j2.version>
-        <elasticsearch.version>7.10.2-h0.cbu.mrs.331.r10</elasticsearch.version>
-        <opendistro.version>1.13.0.0-h0.cbu.mrs.331.r10</opendistro.version>
+        <elasticsearch.version>7.10.2-h0.cbu.mrs.350.r26</elasticsearch.version>
+        <opendistro.version>1.13.0.0-h0.cbu.mrs.350.r26</opendistro.version>
     </properties>
 
     <dependencies>

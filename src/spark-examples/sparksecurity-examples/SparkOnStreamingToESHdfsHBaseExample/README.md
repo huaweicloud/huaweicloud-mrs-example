@@ -57,9 +57,9 @@ bin/kafka-acls.sh --bootstrap-server 192.168.207.8:21007 --command-config config
 
 7、从spark客户端拷贝jar包到 /opt/sanbox/jars目录下
 ```shell
-cp $SPARK_HOME/spark/jars/streamingClient010/kafka-clients-2.8.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar /opt/sanbox/jars/
-cp $SPARK_HOME/spark/jars/streamingClient010/spark-streaming-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar /opt/sanbox/jars/
-cp $SPARK_HOME/spark/jars/streamingClient010/spark-token-provider-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar /opt/sanbox/jars/
+cp $SPARK_HOME/spark/jars/streamingClient010/kafka-clients-2.8.1-h0.cbu.mrs.350.r26.jar /opt/sanbox/jars/
+cp $SPARK_HOME/spark/jars/streamingClient010/spark-streaming-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.350.r26.jar /opt/sanbox/jars/
+cp $SPARK_HOME/spark/jars/streamingClient010/spark-token-provider-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.350.r26.jar /opt/sanbox/jars/
 ```
 
 8、修改spark客户端下的jaas.conf和jaas-zk.conf文件, 分别追加KafkaClient项
@@ -101,7 +101,7 @@ kinit sandbox
 
 cd /opt/sandbox
 
-spark-submit --master yarn-client --files ./user.keytab --class com.huawei.bigdata.spark.examples.streaming.SparkOnStreamingToESHdfsHBaseExample --keytab /opt/sandbox/user.keytab --principal sandbox --archives /opt/sandbox/conf.zip#conf --jars /opt/sandbox/jars/kafka-clients-2.8.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar,/opt/sandbox/jars/spark-streaming-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar,/opt/sandbox/jars/spark-token-provider-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.331.r1-SNAPSHOT.jar /opt/sandbox/SparkOnStreamingToESHdfsHbaseExample-1.0.jar /tmp detaildata,reportdata 192.168.207.8:21007
+spark-submit --master yarn-client --files ./user.keytab --class com.huawei.bigdata.spark.examples.streaming.SparkOnStreamingToESHdfsHBaseExample --keytab /opt/sandbox/user.keytab --principal sandbox --archives /opt/sandbox/conf.zip#conf --jars /opt/sandbox/jars/kafka-clients-2.8.1-h0.cbu.mrs.350.r26.jar,/opt/sandbox/jars/spark-streaming-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.350.r26.jar,/opt/sandbox/jars/spark-token-provider-kafka-0-10_2.12-3.3.1-h0.cbu.mrs.350.r26.jar /opt/sandbox/SparkOnStreamingToESHdfsHbaseExample-1.0.jar /tmp detaildata,reportdata 192.168.207.8:21007
 ```
 
 ### 四、生产kafka数据源

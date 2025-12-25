@@ -15,8 +15,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <iceberg.version>1.4.1-h0.cbu.mrs.331.r10</iceberg.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <iceberg.version>1.4.1-h0.cbu.mrs.350.r26</iceberg.version>
+        <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 

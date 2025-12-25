@@ -11,10 +11,10 @@
 
     <groupId>org.example</groupId>
     <artifactId>hetu-rest-client-example</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.0-350.r26</version>
 
     <properties>
-        <hetu-jdbc.version>399-h0.cbu.mrs.350.r11</hetu-jdbc.version>
+        <hetu-jdbc.version>399-h0.cbu.mrs.350.r26</hetu-jdbc.version>
     </properties>
 
     <dependencies>

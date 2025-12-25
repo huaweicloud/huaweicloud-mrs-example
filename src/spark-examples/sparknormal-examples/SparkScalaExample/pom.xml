@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
     </properties>
 

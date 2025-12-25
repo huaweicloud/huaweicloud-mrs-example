@@ -6,12 +6,12 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-udf-example</artifactId>
-    <version>8.5.0-350.r11</version>
+    <version>8.5.0-350.r26</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <iotdb.version>1.1.0-h0.cbu.mrs.350.r11</iotdb.version>
+        <iotdb.version>1.1.0-h0.cbu.mrs.350.r26</iotdb.version>
     </properties>
     <dependencies>
         <dependency>

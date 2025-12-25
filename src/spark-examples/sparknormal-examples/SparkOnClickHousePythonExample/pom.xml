@@ -16,9 +16,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
         <java.version>1.8</java.version>
-        <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+        <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <clickhouse.version>0.4.5-h0.cbu.mrs.331.r10</clickhouse.version>
+        <clickhouse.version>0.4.5-h0.cbu.mrs.350.r26</clickhouse.version>
     </properties>
 
     <dependencies>

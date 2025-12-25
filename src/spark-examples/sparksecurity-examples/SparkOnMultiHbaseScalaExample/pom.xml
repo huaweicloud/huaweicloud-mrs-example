@@ -7,10 +7,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.12.15</scala.version>
-    <spark.version>3.3.1-h0.cbu.mrs.331.r10</spark.version>
+    <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <hadoop.version>3.3.1-h0.cbu.mrs.331.r10</hadoop.version>
-    <hbase.version>2.4.14-h0.cbu.mrs.331.r10</hbase.version>
+    <hadoop.version>3.3.1-h0.cbu.mrs.350.r26</hadoop.version>
+    <hbase.version>2.4.14-h0.cbu.mrs.350.r26</hbase.version>
   </properties>
 
   <repositories>

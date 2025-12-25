@@ -14,9 +14,9 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <checkstyle.skip>true</checkstyle.skip>
-    <hudi.version>0.15.0-h0.cbu.mrs.350.r11</hudi.version>
+    <hudi.version>0.15.0-h0.cbu.mrs.350.r26</hudi.version>
     <scala.binary.version>2.12</scala.binary.version>
-    <spark.version>3.3.1-h0.cbu.mrs.350.r11</spark.version>
+    <spark.version>3.3.1-h0.cbu.mrs.350.r26</spark.version>
   </properties>
 
   <build>
