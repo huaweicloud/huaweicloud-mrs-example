@@ -19,8 +19,7 @@ public class TestCreateTenants {
                 "\n\t \"tenantId\":\"92\"," +
                 "\n\t \"tenantName\":\"test92\"," +
                 "\n\t \"remark\":\"test tenant remark1\"," +
-                "\n\t \"updateUser\":\"test_updateUser1\"," +
-                "\n\t \"createUser\":\"test_createUser1\"" +
+                "\n\t \"createUser\":\"" + principal + "\"" +
                 "\n}";
 
         try {

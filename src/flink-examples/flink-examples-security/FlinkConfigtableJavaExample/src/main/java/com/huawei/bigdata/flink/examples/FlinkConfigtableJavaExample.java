@@ -281,7 +281,7 @@ public class FlinkConfigtableJavaExample {
             final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
 
             client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
-                "","", poolConfig, ssl, socketFactory, null,
+                null,"", poolConfig, ssl, socketFactory, null,
                 null, null);
             System.out.println("JedisCluster init, getClusterNodes: " + client.getClusterNodes().size());
         }

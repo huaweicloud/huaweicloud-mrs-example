@@ -75,7 +75,7 @@ object FlinkConfigtableScalaExample {
           val poolConfig = new JedisPoolConfig
           val socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory
 
-          val client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS, "", "", poolConfig, ssl, socketFactory, null, null, null)
+          val client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS, null, "", poolConfig, ssl, socketFactory, null, null, null)
 
           if (client.getClusterNodes.size() <= 0) {
             System.out.println("JedisCluster init failed, getClusterNodes: " + client.getClusterNodes.size())

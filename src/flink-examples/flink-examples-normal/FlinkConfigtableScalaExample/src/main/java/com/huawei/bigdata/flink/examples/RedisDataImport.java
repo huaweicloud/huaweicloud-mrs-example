@@ -77,7 +77,7 @@ public class RedisDataImport {
         final SSLSocketFactory socketFactory = SslSocketFactoryUtil.createTrustALLSslSocketFactory();
 
         final JedisCluster client = new JedisCluster(hosts, TIMEOUT, TIMEOUT, MAX_ATTEMPTS,
-            "","", poolConfig, ssl, socketFactory, null,
+            null,"", poolConfig, ssl, socketFactory, null,
             null, null);
 
         // get all files under csv file path

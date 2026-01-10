@@ -196,7 +196,7 @@
     </dependencies>
 
     <build>
-        <finalName>flink-dws-sink-example</finalName>
+        <finalName>flink-dws-read-example</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

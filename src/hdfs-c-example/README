@@ -4,7 +4,8 @@ connects to HDFS and put a string to a file.
 
 [pre condition]
 	1.export the env: source bigdata_env
-	2.login as hdfs: kinit hdfs
+	2.export the example env: source component_env_C_example
+	3.login as hdfs: kinit hdfs
 	
 [compile]
 	make
