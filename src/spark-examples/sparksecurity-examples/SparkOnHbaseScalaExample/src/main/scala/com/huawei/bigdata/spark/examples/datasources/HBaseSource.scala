@@ -78,7 +78,11 @@ object HBaseSource {
 
   def main(args: Array[String]) {
     LoginUtil.loginWithUserKeytab
+    val userPrincipal = "super"
+    val userKeytabPath = System.getProperty("user.dir") + java.io.File.separator + "user.keytab"
     val sparkConf = new SparkConf().setAppName("HBaseSourceExample")
+    sparkConf.set("spark.kerberos.principal", userPrincipal)
+    sparkConf.set("spark.kerberos.keytab", userKeytabPath)
     val sc = new SparkContext(sparkConf)
     val sqlContext = new SQLContext(sc)
 

@@ -31,6 +31,7 @@ import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -52,6 +53,10 @@ public final class JavaHBaseStreamingBulkPutExample {
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName("JavaHBaseStreamingBulkPutExample " + tableName + ":" + port + ":" + tableName);
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
 
         try {
             JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(1000));

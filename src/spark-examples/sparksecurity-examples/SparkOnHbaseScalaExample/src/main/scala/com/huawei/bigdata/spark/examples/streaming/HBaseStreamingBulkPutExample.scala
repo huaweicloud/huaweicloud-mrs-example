@@ -23,8 +23,12 @@ object HBaseStreamingBulkPutExample {
     val tableName = args(2)
     val columnFamily = args(3)
 
+    val userPrincipal = "super"
+    val userKeytabPath = System.getProperty("user.dir") + java.io.File.separator + "user.keytab"
     val conf = new SparkConf()
     conf.setAppName("HBase Streaming Bulk Put Example")
+    conf.set("spark.kerberos.principal", userPrincipal)
+    conf.set("spark.kerberos.keytab", userKeytabPath)
     val sc = new SparkContext(conf)
 
     try {

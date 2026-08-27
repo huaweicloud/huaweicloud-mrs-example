@@ -17,6 +17,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,10 @@ public class HBaseSource {
     public static void main(String args[]) throws IOException {
         LoginUtil.loginWithUserKeytab();
         SparkConf sparkConf = new SparkConf().setAppName("HBaseSourceExample");
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         SQLContext sqlContext = new SQLContext(jsc);
 

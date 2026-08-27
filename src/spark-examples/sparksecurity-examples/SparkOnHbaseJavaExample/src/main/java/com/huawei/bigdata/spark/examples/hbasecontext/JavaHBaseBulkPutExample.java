@@ -29,6 +29,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,10 @@ public final class JavaHBaseBulkPutExample {
         String columnFamily = args[1];
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseBulkPutExample " + tableName);
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 
         try {

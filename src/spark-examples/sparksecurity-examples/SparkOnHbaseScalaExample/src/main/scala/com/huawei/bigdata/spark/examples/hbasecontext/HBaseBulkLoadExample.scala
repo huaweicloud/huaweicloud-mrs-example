@@ -23,8 +23,12 @@ object HBaseBulkLoadExample {
       val columnFamily1: String = "f1"
       val columnFamily2: String = "f2"
 
-      val sparkConf = new SparkConf ().setAppName ("JavaHBaseBulkLoadExample " + tableName);
-      val sc = new SparkContext (sparkConf);
+      val userPrincipal = "super"
+      val userKeytabPath = System.getProperty("user.dir") + java.io.File.separator + "user.keytab"
+      val sparkConf = new SparkConf().setAppName("JavaHBaseBulkLoadExample " + tableName)
+      sparkConf.set("spark.kerberos.principal", userPrincipal)
+      sparkConf.set("spark.kerberos.keytab", userKeytabPath)
+      val sc = new SparkContext(sparkConf)
 
       try {
         val arr = Array(
