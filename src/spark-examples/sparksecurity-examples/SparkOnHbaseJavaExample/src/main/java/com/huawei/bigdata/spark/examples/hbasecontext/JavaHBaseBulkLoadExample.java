@@ -32,6 +32,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,10 @@ public final class JavaHBaseBulkLoadExample {
         String columnFamily2 = "f2";
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseBulkLoadExample " + tableName);
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 
         try {

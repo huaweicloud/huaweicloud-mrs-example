@@ -37,6 +37,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,6 +58,10 @@ public final class JavaHBaseForEachPartitionExample {
         final String columnFamily = args[1];
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaHBaseBulkGetExample " + tableName);
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 
         try {

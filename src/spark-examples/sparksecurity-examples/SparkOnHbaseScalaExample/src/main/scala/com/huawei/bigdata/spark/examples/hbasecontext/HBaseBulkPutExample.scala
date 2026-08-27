@@ -40,8 +40,12 @@ object HBaseBulkPutExample {
     val tableName = args(0)
     val columnFamily = args(1)
 
+    val userPrincipal = "super"
+    val userKeytabPath = System.getProperty("user.dir") + java.io.File.separator + "user.keytab"
     val sparkConf = new SparkConf().setAppName("HBaseBulkPutTimestampExample " +
       tableName + " " + columnFamily)
+    sparkConf.set("spark.kerberos.principal", userPrincipal)
+    sparkConf.set("spark.kerberos.keytab", userKeytabPath)
     val sc = new SparkContext(sparkConf)
 
     try {

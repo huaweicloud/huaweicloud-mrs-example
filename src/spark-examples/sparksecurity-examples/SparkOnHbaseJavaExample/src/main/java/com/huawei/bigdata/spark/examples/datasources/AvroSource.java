@@ -1,23 +1,18 @@
 package com.huawei.bigdata.spark.examples.datasources;
 
 import com.huawei.hadoop.security.LoginUtil;
-
-import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericData;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.spark.AvroSerdes;
-import org.apache.hadoop.hbase.spark.HBaseContext;
 import org.apache.hadoop.hbase.spark.JavaHBaseContext;
 import org.apache.hadoop.hbase.spark.example.datasources.UserCustomizedSampleException;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +51,10 @@ public class AvroSource {
     public static void main(String args[]) throws IOException {
         LoginUtil.loginWithUserKeytab();
         SparkConf sparkConf = new SparkConf().setAppName("AvroSourceExample");
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
         SQLContext sqlContext = new SQLContext(sc);
         Configuration hbaseconf = new HBaseConfiguration().create();

@@ -37,6 +37,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.VoidFunction;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +58,10 @@ public class JavaHBaseMapPartitionExample {
         LoginUtil.loginWithUserKeytab();
         final String tableName = args[0];
         SparkConf sparkConf = new SparkConf().setAppName("HBaseMapPartitionExample " + tableName);
+        String userPrincipal = "super";
+        String userKeytabPath = System.getProperty("user.dir") + File.separator + "user.keytab";
+        sparkConf.set("spark.kerberos.principal", userPrincipal);
+        sparkConf.set("spark.kerberos.keytab", userKeytabPath);
         JavaSparkContext jsc = new JavaSparkContext(sparkConf);
         try {
             List<byte[]> list = new ArrayList();

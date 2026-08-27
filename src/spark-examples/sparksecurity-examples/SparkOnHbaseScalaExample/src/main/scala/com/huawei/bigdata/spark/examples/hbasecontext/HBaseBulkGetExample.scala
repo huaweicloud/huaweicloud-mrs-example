@@ -41,7 +41,11 @@ object HBaseBulkGetExample {
     LoginUtil.loginWithUserKeytab
     val tableName = args(0)
 
+    val userPrincipal = "super"
+    val userKeytabPath = System.getProperty("user.dir") + java.io.File.separator + "user.keytab"
     val sparkConf = new SparkConf().setAppName("HBaseBulkGetExample " + tableName)
+    sparkConf.set("spark.kerberos.principal", userPrincipal)
+    sparkConf.set("spark.kerberos.keytab", userKeytabPath)
     val sc = new SparkContext(sparkConf)
 
     try {
