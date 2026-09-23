@@ -46,6 +46,8 @@ public class ReadFromHudi {
         options.put(FlinkOptions.TABLE_TYPE.key(), HoodieTableType.MERGE_ON_READ.name());
         options.put(FlinkOptions.READ_AS_STREAMING.key(), "true"); // this option enable the streaming read
         options.put(FlinkOptions.READ_START_COMMIT.key(), startCommit); // specifies the start commit instant time
+        options.put(FlinkOptions.INDEX_TYPE.key(), "BUCKET");
+        options.put(FlinkOptions.BUCKET_INDEX_NUM_BUCKETS.key(), "2");
         HoodiePipeline.Builder builder = HoodiePipeline.builder(targetTable)
                 .column("uuid VARCHAR(20)")
                 .column("name VARCHAR(10)")

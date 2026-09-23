@@ -42,8 +42,6 @@ public class IcebergSqlExample {
             example.showTableHistory();
             example.showTableRef();
 
-            // drop table
-            example.dropTable();
         } finally {
             example.closeSpark();
         }

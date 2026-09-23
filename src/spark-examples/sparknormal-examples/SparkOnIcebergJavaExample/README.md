@@ -1,5 +1,8 @@
 #Iceberg样例
 
+## 编译
+请使用Java21编译
+
 ## Windows本地运行
 1. 修改SparkSessionFactory的buildSparkSession方法，指定SparkSession的mater为local
    ```java

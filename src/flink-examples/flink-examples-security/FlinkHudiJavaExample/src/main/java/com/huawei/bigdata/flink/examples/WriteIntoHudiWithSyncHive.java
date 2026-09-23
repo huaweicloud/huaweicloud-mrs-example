@@ -63,6 +63,8 @@ public class WriteIntoHudiWithSyncHive {
     options.put(FlinkOptions.TABLE_TYPE.key(), HoodieTableType.MERGE_ON_READ.name());
     options.put(FlinkOptions.PRECOMBINE_FIELD.key(), "ts");
     options.put(FlinkOptions.INDEX_BOOTSTRAP_ENABLED.key(), "true");
+    options.put(FlinkOptions.INDEX_TYPE.key(), "BUCKET");
+    options.put(FlinkOptions.BUCKET_INDEX_NUM_BUCKETS.key(), "2");
     // sync hive
     options.put(FlinkOptions.HIVE_SYNC_ENABLED.key(), "true");
     options.put(FlinkOptions.HIVE_SYNC_TABLE.key(), targetTable);

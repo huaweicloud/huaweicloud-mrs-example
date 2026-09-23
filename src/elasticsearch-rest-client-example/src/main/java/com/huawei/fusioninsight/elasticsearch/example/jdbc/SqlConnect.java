@@ -68,8 +68,8 @@ public class SqlConnect {
         }
         configPath = userPath + File.separator + "conf" + File.separator;
         String path = configPath + "esParams.properties";
-        try {
-	        properties.load(new FileInputStream(new File(path)));
+        try (FileInputStream fis = new FileInputStream(path)) {
+            properties.load(fis);
         } catch (IOException e) {
             LOG.error("Failed to load properties file: {} ", path);
             return null;

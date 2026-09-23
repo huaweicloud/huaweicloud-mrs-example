@@ -60,7 +60,7 @@ public class MultiComponentLocalRunner {
         Class hiveShimClass = Class.forName("org.apache.hadoop.hive.metastore.security.HadoopThriftAuthBridge23");
         Class thriftCLIClass = Class.forName("org.apache.hive.service.cli.thrift.ThriftCLIService");
         Class thriftType = Class.forName("org.apache.hadoop.hive.serde2.thrift.Type");
-        Class stringClass = Class.forName("org.apache.commons.lang.StringUtils");
+        Class stringClass = Class.forName("org.apache.commons.lang3.StringUtils");
 
         // add dependency jars to Job
         JarFinderUtil.addDependencyJars(config, hiveDriverClass, serviceThriftCLIClass, thriftCLIClass, thriftClass,

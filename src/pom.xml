@@ -49,8 +49,9 @@
         <module>iotdb-examples/iotdb-session-example</module>
         <module>iotdb-examples/iotdb-udf-example</module>
         <module>kafka-examples</module>
-        <module>kudu-examples/kudu-client-normal</module>
-        <module>kudu-examples/kudu-client-sec</module>
+        <module>impala-examples/impala-examples-normal</module>
+        <module>impala-examples/impala-examples-security</module>
+        <module>impala-examples/impala-rest-example</module>
         <module>lakesearch-examples</module>
         <module>manager-examples</module>
         <module>mapreduce-example-normal</module>

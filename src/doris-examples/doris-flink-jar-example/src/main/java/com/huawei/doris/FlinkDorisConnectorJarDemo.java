@@ -44,6 +44,8 @@ public class FlinkDorisConnectorJarDemo {
     private static String FE_NODES = ""; // Leader Node host
     private static String USER = "";
     private static String PASSWD = "";
+    private static Boolean IGNORE_HTTPS_CA = false;
+    private static Boolean ENABLE_HTTPS = false;
 
     public static void main(String[] args) throws Exception {
         Properties confProperties = new Properties();
@@ -51,10 +53,12 @@ public class FlinkDorisConnectorJarDemo {
         InputStream in = FlinkDorisConnectorJarDemo.class.getClassLoader().getResourceAsStream("conf.properties");
         // 使用properties对象加载输入流
         confProperties.load(in);
-        //获取key对应的value值
+        // 获取key对应的value值
         USER = confProperties.getProperty("USER");
         PASSWD = confProperties.getProperty("PASSWD");
         FE_NODES = confProperties.getProperty("FE_NODES");
+        IGNORE_HTTPS_CA = Boolean.parseBoolean(confProperties.getProperty("IGNORE_HTTPS_CA"));
+        ENABLE_HTTPS = Boolean.parseBoolean(confProperties.getProperty("ENABLE_HTTPS"));
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         EnvironmentSettings environmentSettings =
@@ -76,9 +80,9 @@ public class FlinkDorisConnectorJarDemo {
                 .setUsername(USER)
                 .setPassword(PASSWD)
                 // 普通集群为false，安全集群为true
-                .setIgnoreHttpsCA(false)
+                .setIgnoreHttpsCA(IGNORE_HTTPS_CA)
                 // 普通集群为false，安全集群为true
-                .setEnableHttps(false)
+                .setEnableHttps(ENABLE_HTTPS)
                 // 默认值为true，如果flink jar在运行后报307，可将该值改为false
                 .setAutoRedirect(false);
 
@@ -92,7 +96,7 @@ public class FlinkDorisConnectorJarDemo {
                 .setDeletable(false)
                 .setStreamLoadProp(properties); //streamload params
 
-        //flink rowdata‘s schema
+        //flink rowdata's schema
         String[] fields = {"city", "longitude", "latitude", "destroy_date"};
         DataType[] types = {DataTypes.VARCHAR(256), DataTypes.DOUBLE(), DataTypes.DOUBLE(), DataTypes.DATE()};
 

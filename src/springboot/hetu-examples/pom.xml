@@ -6,17 +6,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.5.12</version>
     </parent>
 
     <groupId>org.example</groupId>
     <artifactId>hetu-rest-client-example</artifactId>
-    <version>8.6.0-360.r9</version>
+    <version>8.6.0-360.r18</version>
 
     <properties>
         <source>1.8</source>
         <target>1.8</target>
-        <hetu-jdbc.version>453-h0.cbu.mrs.360.r9</hetu-jdbc.version>
+        <hetu-jdbc.version>453-h0.cbu.mrs.360.r18</hetu-jdbc.version>
+        <tomcat.version>10.1.53</tomcat.version>
     </properties>
 
     <dependencies>
@@ -36,25 +37,35 @@
             <version>${hetu-jdbc.version}</version>
             <exclusions>
                 <exclusion>
-                  <artifactId>*</artifactId>
-                  <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.25.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.25.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <version>2.25.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.25.4</version>
         </dependency>
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>build-with-jdk8</id>
-            <activation>
-                <jdk>[1.8,17)</jdk>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <source>1.8</source>
-                <target>1.8</target>
-            </properties>
-        </profile>
         <profile>
             <id>build-with-jdk17</id>
             <activation>

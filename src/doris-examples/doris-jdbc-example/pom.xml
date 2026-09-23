@@ -6,9 +6,9 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>doris-jdbc-example</artifactId>
-  <version>8.6.0-360.r9</version>
+  <version>8.6.0-360.r18</version>
 	<properties>
-		<log4j2.version>2.11.2</log4j2.version>
+		<log4j2.version>2.25.4</log4j2.version>
 		<mariadb.version>3.1.4</mariadb.version>
 		<mysql.version>8.1.0</mysql.version>
  	</properties>
@@ -23,6 +23,17 @@
 		  <groupId>com.mysql</groupId>
 		  <artifactId>mysql-connector-j</artifactId>
 		  <version>${mysql.version}</version>
+		  <exclusions>
+			  <exclusion>
+				  <groupId>com.google.protobuf</groupId>
+				  <artifactId>protobuf-java</artifactId>
+			  </exclusion>
+		  </exclusions>
+	  </dependency>
+	  <dependency>
+		  <groupId>com.google.protobuf</groupId>
+		  <artifactId>protobuf-java</artifactId>
+		  <version>3.25.9</version>
 	  </dependency>
 	  <dependency>
 		  <groupId>org.apache.logging.log4j</groupId>

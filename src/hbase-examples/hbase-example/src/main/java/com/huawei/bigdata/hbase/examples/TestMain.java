@@ -144,6 +144,7 @@ public class TestMain {
             UserGroupInformation.setConfiguration(conf);
             /*
               Set basic auth configurations
+              Storing authenticated passwords in code or in plain text poses significant security risks. It is recommended to handle the encryption and decryption of the password at application side and set in hbase.basic.auth.password using Configuration API to ensure security.
              */
             conf.set("hbase.basic.auth.username", "hbaseuser");
             conf.set("hbase.basic.auth.password", "xxxxx");

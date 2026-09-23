@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>iotdb-kafka-examples</artifactId>
-    <version>8.6.0-360.r9</version>
+    <version>8.6.0-360.r18</version>
 
     <properties>
-        <iotdb.version>1.3.4-h0.cbu.mrs.360.r9</iotdb.version>
-        <zookeeper.version>3.8.1-h0.cbu.mrs.360.r9</zookeeper.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
+        <iotdb.version>1.3.4-h0.cbu.mrs.360.r18</iotdb.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.360.r18</zookeeper.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

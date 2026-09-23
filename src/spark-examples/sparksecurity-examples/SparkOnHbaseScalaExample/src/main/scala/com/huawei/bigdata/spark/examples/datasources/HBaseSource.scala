@@ -77,7 +77,6 @@ object HBaseSource {
                 |}""".stripMargin
 
   def main(args: Array[String]) {
-    LoginUtil.loginWithUserKeytab
     val sparkConf = new SparkConf().setAppName("HBaseSourceExample")
     val sc = new SparkContext(sparkConf)
     val sqlContext = new SQLContext(sc)

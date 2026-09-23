@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.huawei.mrs</groupId>
         <artifactId>flink-examples-security</artifactId>
-        <version>8.6.0-360.r9</version>
+        <version>8.6.0-360.r18</version>
     </parent>
     <artifactId>FlinkConfigtableScalaExample</artifactId>
 
@@ -26,6 +26,12 @@
             <version>${jedisclient.version}</version>
             <type>jar</type>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.huawei.us</groupId>
+                    <artifactId>us-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.sf.supercsv</groupId>

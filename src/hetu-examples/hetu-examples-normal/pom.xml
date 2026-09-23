@@ -6,12 +6,12 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-normal</artifactId>
-    <version>8.6.0-360.r9</version>
+    <version>8.6.0-360.r18</version>
 
     <properties>
         <source>1.8</source>
         <target>1.8</target>
-        <dep.slf4j.version>2.0.16</dep.slf4j.version>
+        <dep.slf4j.version>2.0.17</dep.slf4j.version>
         <dep.reload4j.version>1.2.26</dep.reload4j.version>
     </properties>
 
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>hetu-jdbc</artifactId>
-            <version>453-h0.cbu.mrs.360.r9</version>
+            <version>453-h0.cbu.mrs.360.r18</version>
             <exclusions>
                 <exclusion>
                     <artifactId>*</artifactId>

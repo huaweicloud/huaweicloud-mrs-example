@@ -4,9 +4,9 @@ The Huawei Cloud MRS example code include HBase, HDFS, Hive, Kafka, Mapreduce, H
 
 ### Version Mapping:
 
-MRS_3.6.0 Components mapping:
+MRS_3.6.0.1 Components mapping:
 
-| Component\MRS version | MRS 3.6.0     |
+| Component\MRS version | MRS 3.6.0.1     |
 |-----------------------|---------------|
 | Flink                 | 1.20.0        |
 | Hive                  | 3.1.0         |
@@ -46,7 +46,7 @@ For more details, please ref to MRS's [Deveployer Guide](https://support.huaweic
 
 To run the examples required:
 
-- Java 1.8+
+- Java 1.8或者Java 21
 - Maven 3.0+
 
 #### Specify the Maven Repository

@@ -54,8 +54,40 @@ public class RedisClusterPasswordConfig {
         RedisClusterConfiguration clusterConfiguration = new RedisClusterConfiguration();
         String[] instances = nodes.split(",");
         for (String str : instances) {
-            String[] nodeAndPort = str.split(":");
-            clusterConfiguration.clusterNode(nodeAndPort[0], Integer.parseInt(nodeAndPort[1]));
+            String host;
+            int port;
+            try {
+                if (str.startsWith("[")) {
+                    int closeBracket = str.indexOf("]");
+                    if (closeBracket < 0) {
+                        LOGGER.warn("Invalid IPv6 node format, missing closing bracket: {}", str);
+                        continue;
+                    }
+                    host = str.substring(0, closeBracket + 1);
+                    String portPart = str.substring(closeBracket + 1);
+                    if (portPart.startsWith(":")) {
+                        port = Integer.parseInt(portPart.substring(1));
+                    } else if (portPart.isEmpty()) {
+                        LOGGER.warn("Invalid node format, missing port: {}", str);
+                        continue;
+                    } else {
+                        LOGGER.warn("Invalid node format after bracket: {}", str);
+                        continue;
+                    }
+                } else {
+                    int lastColonIndex = str.lastIndexOf(":");
+                    if (lastColonIndex > 0) {
+                        host = str.substring(0, lastColonIndex);
+                        port = Integer.parseInt(str.substring(lastColonIndex + 1));
+                    } else {
+                        LOGGER.warn("Invalid node format, missing port: {}", str);
+                        continue;
+                    }
+                }
+                clusterConfiguration.clusterNode(host, port);
+            } catch (NumberFormatException e) {
+                LOGGER.warn("Failed to parse port for node: {}, error: {}", str, e.getMessage());
+            }
         }
         clusterConfiguration.setUsername(username);
         clusterConfiguration.setPassword(password);

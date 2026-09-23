@@ -5,7 +5,7 @@
 
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>module-spring-kafka-examples</artifactId>
-	<version>8.6.0-360.r9</version>
+	<version>8.6.0-360.r18</version>
 	<packaging>jar</packaging>
 
 	<name>SpringDataKafka</name>
@@ -21,7 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
+		<kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
 		<bcprov-jdk18on.version>1.78</bcprov-jdk18on.version>
 	</properties>
 

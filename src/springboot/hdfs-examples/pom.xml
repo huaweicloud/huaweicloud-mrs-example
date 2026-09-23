@@ -21,8 +21,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
-		<hadoop.ext.version>8.6.0-360.r9</hadoop.ext.version>
+		<hadoop.version>3.3.1-h0.cbu.mrs.360.r18</hadoop.version>
+		<hadoop.ext.version>8.6.0-360.r18</hadoop.ext.version>
 		<commons-pools2.version>2.11.1</commons-pools2.version>
 	</properties>
 
@@ -91,6 +91,9 @@
 			</plugin>
 		</plugins>
 		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
 			<resource>
 				<directory>lib</directory>
 				<targetPath>BOOT-INF/lib/</targetPath>

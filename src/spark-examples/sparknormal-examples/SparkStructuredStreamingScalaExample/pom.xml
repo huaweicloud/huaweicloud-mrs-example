@@ -15,9 +15,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r9</spark.version>
+        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
     </properties>
 
     <dependencies>

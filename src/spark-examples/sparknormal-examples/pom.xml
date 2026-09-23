@@ -21,16 +21,16 @@
          Note: jdk 1.8 must be null string,otherwise an error will occur. -->
         <maven.compiler.release></maven.compiler.release>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-        <clickhouse.version>0.6.5-h0.cbu.mrs.360.r9</clickhouse.version>
-        <es.version>7.10.2-h0.cbu.mrs.360.r9</es.version>
-        <mrs.version>8.6.0-360.r9</mrs.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.360.r9</hadoop.version>
-        <hbase.version>2.6.1-h0.cbu.mrs.360.r9</hbase.version>
-        <hudi.version>0.15.0-h0.cbu.mrs.360.r9</hudi.version>
-        <hive.version>3.1.0-h0.cbu.mrs.360.r9</hive.version>
-        <iceberg.version>1.7.0-h0.cbu.mrs.360.r9</iceberg.version>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r9</spark.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.360.r9</kafka.version>
+        <clickhouse.version>0.6.5-h0.cbu.mrs.360.r18</clickhouse.version>
+        <es.version>7.10.2-h0.cbu.mrs.360.r18</es.version>
+        <mrs.version>8.6.0-360.r18</mrs.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.360.r18</hadoop.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.360.r18</hbase.version>
+        <hudi.version>0.15.0-h0.cbu.mrs.360.r18</hudi.version>
+        <hive.version>3.1.0-h0.cbu.mrs.360.r18</hive.version>
+        <iceberg.version>1.7.0-h0.cbu.mrs.360.r18</iceberg.version>
+        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
+        <kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
         <kryo.version>2.21</kryo.version>
         <protobuf.version>3.23.4</protobuf.version>
         <junit.version>4.8.2</junit.version>
@@ -66,7 +66,6 @@
         <module>SparkOnHbaseJavaExample</module>
         <module>SparkOnHbasePythonExample</module>
         <module>SparkOnHbaseScalaExample</module>
-        <module>SparkOnHudiJavaExample</module>
         <module>SparkOnHudiScalaExample</module>
         <module>SparkSQLJavaExample</module>
         <module>SparkSQLScalaExample</module>

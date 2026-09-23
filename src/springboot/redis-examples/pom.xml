@@ -5,7 +5,7 @@
 
 	<groupId>com.huawei.mrs</groupId>
 	<artifactId>spring-boot-redis</artifactId>
-	<version>8.6.0-360.r9</version>
+	<version>8.6.0-360.r18</version>
 	<packaging>jar</packaging>
 
 	<name>SpringDataRedis</name>
@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
-		<jedis.version>5.2.0-h0.cbu.mrs.360.r9</jedis.version>
+		<jedis.version>5.2.0-h0.cbu.mrs.360.r18</jedis.version>
 		<commons-pools2.version>2.12.1</commons-pools2.version>
 	</properties>
 

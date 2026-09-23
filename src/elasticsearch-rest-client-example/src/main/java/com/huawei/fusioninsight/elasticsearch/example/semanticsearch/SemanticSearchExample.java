@@ -36,6 +36,7 @@ import org.springframework.core.io.Resource;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -260,8 +261,8 @@ public class SemanticSearchExample {
     private static void initProperties() {
         Properties properties = new Properties();
         String proPath = confPath + "esParams.properties";
-        try {
-            properties.load(Files.newInputStream(UsFileUtils.getFile(proPath).toPath()));
+        try (FileInputStream fis = new FileInputStream(proPath)) {
+            properties.load(fis);
         } catch (IOException e) {
             LOG.error("Failed to load properties file.", e);
         }

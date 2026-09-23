@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.doris</groupId>
     <artifactId>doris-flink-jar-example</artifactId>
-    <version>8.6.0-360.r9</version>
+    <version>8.6.0-360.r18</version>
     <name>Archetype - doris-flink-jar-example</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-        <flink.version>1.20.0-h0.cbu.mrs.360.r9</flink.version>
+        <flink.version>1.20.0-h0.cbu.mrs.360.r18</flink.version>
         <scala.version>2.12</scala.version>
-        <flink-doris-connector.version>1.5.2-h0.cbu.mrs.360.r9</flink-doris-connector.version>
+        <flink-doris-connector.version>25.1.0-h0.cbu.mrs.360.r18</flink-doris-connector.version>
     </properties>
     <dependencies>
         <dependency>

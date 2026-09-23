@@ -115,20 +115,11 @@ public class LineSearchReqObj {
         this.vertexEdgeLimit = vertexEdgeLimit;
     }
 
-    /**
-     * 是否返回点属性
-     *
-     * @return 是否返回点属性
-     */
     public Boolean getWithVertexProperty() {
         return withVertexProperty;
     }
 
-    /**
-     * 设置是否返回点属性
-     *
-     * @param withVertexProperty 是否返回点属性
-     */
+
     public void setWithVertexProperty(Boolean withVertexProperty) {
         this.withVertexProperty = withVertexProperty;
     }
