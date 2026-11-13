@@ -6,6 +6,7 @@
    spark.yarn.security.credentials.hbase.enabled参数配置为true
 """
 
+import os
 import sys
 from py4j.java_gateway import java_import
 from pyspark.sql import SparkSession
@@ -15,6 +16,8 @@ from pyspark.sql import SparkSession
 spark = SparkSession\
         .builder\
         .appName("JavaHBaseMapPartitionExample")\
+        .config("spark.kerberos.principal", "super")\
+        .config("spark.kerberos.keytab", os.path.join(os.getcwd(), "user.keytab"))\
         .getOrCreate()
 
 # 向sc._jvm中导入要运行的类

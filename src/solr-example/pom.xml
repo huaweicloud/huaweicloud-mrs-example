@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>solr-example</artifactId>
-    <version>8.5.0-350.r26</version>
+    <version>8.5.0-350.r41</version>
 
     <properties>
-        <hadoop.version>3.3.1-h0.cbu.mrs.350.r26</hadoop.version>
-        <solr.version>8.11.2-h0.cbu.mrs.350.r26</solr.version>
-        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r26</zookeeper.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.350.r41</hadoop.version>
+        <solr.version>8.11.2-h0.cbu.mrs.350.r41</solr.version>
+        <zookeeper.version>3.8.1-h0.cbu.mrs.350.r41</zookeeper.version>
         <http.version>4.5.14</http.version>
-        <eclipse.jetty.version>9.4.48.v20220622</eclipse.jetty.version>
+        <eclipse.jetty.version>9.4.58.v20250814</eclipse.jetty.version>
         <log4j2.version>2.17.2</log4j2.version>
         <slf4j.version>1.7.36</slf4j.version>
         <us.version>1.0.76.6</us.version>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>manager-examples</artifactId>
-    <version>8.5.0-350.r26</version>
+    <version>8.5.0-350.r41</version>
 
     <build>
         <plugins>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>3.18.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -12,12 +12,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>elasticsearch</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>8.5.0-350.r41</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <elasticsearch.version>7.10.2-h0.cbu.mrs.350.r11</elasticsearch.version>
+        <elasticsearch.version>7.10.2-h0.cbu.mrs.350.r41</elasticsearch.version>
     </properties>
 
     <dependencies>
