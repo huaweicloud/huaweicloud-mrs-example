@@ -5,7 +5,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -87,8 +87,8 @@
         <!-- 以下依赖均来自开源，可从 Maven 中心仓库获取 -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-spark-30_2.12</artifactId>
-            <version>${elasticsearch-spark-30_2.12.version}</version>
+            <artifactId>elasticsearch-spark-30_2.13</artifactId>
+            <version>${elasticsearch-spark-30_2.13.version}</version>
         </dependency>
 
         <dependency>
@@ -134,6 +134,7 @@
                 <version>${scala.maven.plugin.version}</version>
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
+                    <sendJavaToScalac>false</sendJavaToScalac>
                     <args>
                         <arg>-target:${java.version}</arg>
                         <arg>-deprecation</arg>

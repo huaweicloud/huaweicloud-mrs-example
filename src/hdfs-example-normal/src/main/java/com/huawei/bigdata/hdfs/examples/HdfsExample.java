@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.Trash;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 
 import java.io.BufferedReader;
@@ -113,6 +114,8 @@ public class HdfsExample {
 
         // delete file
         delete();
+        // 此处使用deleteToTrash()将文件移动到回收站，实现安全删除
+        deleteToTrash();
 
         // delete directory
         rmdir();
@@ -286,6 +289,47 @@ public class HdfsExample {
             LOG.info("success to delete the file " + destPath + File.separator + fileName);
         } else {
             LOG.warn("failed to delete the file " + destPath + File.separator + fileName);
+        }
+    }
+
+    /**
+     * delete file to trash (recycle bin)
+     * <p>
+     * 使用Trash机制将文件移动到回收站，避免直接永久删除数据造成不可恢复的损失。
+     * 此方法主动创建一个单独的文件（test_trash.txt），与delete()方法操作的文件分开，
+     * 然后将其移动到HDFS回收站，用于独立演示Trash机制。
+     * 与delete()方法的区别：
+     * - delete()使用fSystem.delete()永久删除数据，不进回收站，不可恢复；
+     * - deleteToTrash()使用Trash.moveToTrash()将文件移动到HDFS回收站，可在回收站保留期内恢复。
+     * 推荐在生产环境中使用deleteToTrash()进行安全删除。
+     *
+     * @throws java.io.IOException
+     */
+    private void deleteToTrash() throws IOException {
+        // 创建单独的文件用于演示Trash删除，与delete()方法操作的文件分开
+        String trashFileName = "test_trash.txt";
+        Path trashFilePath = new Path(destPath + File.separator + trashFileName);
+
+        // 先创建文件并写入内容
+        FSDataOutputStream out = null;
+        try {
+            out = fSystem.create(trashFilePath);
+            out.write("This file will be moved to trash.".getBytes());
+            out.hsync();
+            LOG.info("success to create file for trash demo: " + trashFilePath);
+        } finally {
+            // make sure the stream is closed finally.
+            if (out != null) {
+                out.close();
+            }
+        }
+
+        // 使用Trash机制将文件移动到回收站，避免直接永久删除数据造成不可恢复的损失
+        Trash trash = new Trash(fSystem, conf);
+        if (trash.moveToTrash(trashFilePath)) {
+            LOG.info("success to move the file to trash: " + trashFilePath);
+        } else {
+            LOG.warn("trash is not enabled, failed to move the file to trash: " + trashFilePath);
         }
     }
 

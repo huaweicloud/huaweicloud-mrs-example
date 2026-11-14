@@ -24,8 +24,8 @@ public class SparkOnClickHouseExample {
 
     public static void sparkOnClickHouse(JavaSparkContext jsc, ArrayList originArgs) throws SQLException {
         String[] args = (String[]) originArgs.subList(1, originArgs.size()).toArray(new String[originArgs.size()]);
-        if (args.length < 3) {
-            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName");
+        if (args.length < 4) {
+            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName");
             System.exit(0);
         }
 

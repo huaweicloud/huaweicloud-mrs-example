@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2022-2026. All rights reserved.
  */
 
 package com.huawei.bigdata.ctbase.examples
@@ -398,7 +398,7 @@ object CTBaseExportExample {
 	                        splitRowKeyBytes: ListBuffer[(Array[Byte],
 		                        Array[Byte])],
 	                        exportBySecIndex4StandAlone: Boolean): RDD[Result] = {
-		val scanResultRDD: RDD[Result] = sc.parallelize(splitRowKeyBytes, PARTITION_NUM).flatMap(
+		val scanResultRDD: RDD[Result] = sc.parallelize(splitRowKeyBytes.toSeq, PARTITION_NUM).flatMap(
 			(splitRowKeyRange: (Array[Byte], Array[Byte])) => {
 				// 扫描数据
 				var conn: Connection = null
@@ -454,7 +454,7 @@ object CTBaseExportExample {
 	private def collectDataArrayUseSecIdx(clusterTableName: String,
 	                                      sc: SparkContext,
 	                                      rowKeyGets: ListBuffer[Get]): Array[Result] = {
-		sc.parallelize(rowKeyGets, PARTITION_NUM).mapPartitionsWithIndex(
+		sc.parallelize(rowKeyGets.toSeq, PARTITION_NUM).mapPartitionsWithIndex(
 			(_, getsIter: Iterator[Get]) => {
 				var conn: Connection = null
 				var table: Table = null
@@ -466,11 +466,11 @@ object CTBaseExportExample {
 					while (getsIter.hasNext) {
 						gets.add(getsIter.next)
 						if (gets.size() >= CACHE_NUM) {
-							getResults ++= table.get(gets).to[ListBuffer]
+							getResults ++= table.get(gets).toBuffer
 							gets.clear()
 						}
 						if (gets.size() > 0) {
-							getResults ++= table.get(gets).to[ListBuffer]
+							getResults ++= table.get(gets).toBuffer
 						}
 					}
 

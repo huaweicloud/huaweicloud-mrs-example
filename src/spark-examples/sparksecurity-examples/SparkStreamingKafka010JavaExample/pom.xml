@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.security</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -54,7 +54,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka_2.12</artifactId>
+                    <artifactId>kafka_${scala.binary.version}</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -71,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
+            <artifactId>kafka_${scala.binary.version}</artifactId>
             <version>${kafka.version}</version>
             <exclusions>
                 <exclusion>
@@ -81,8 +81,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-kafkaWriter-0-10_${scala.binary.version}</artifactId>
+            <groupId>com.huawei.mrs</groupId>
+            <artifactId>spark-streaming-kafka-writer-0-10-2-13</artifactId>
             <version>${spark.version}</version>
         </dependency>
     </dependencies>
@@ -95,6 +95,7 @@
                 <version>${scala.maven.plugin.version}</version>
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
+                    <sendJavaToScalac>false</sendJavaToScalac>
                     <args>
                         <arg>-target:${java.version}</arg>
                         <arg>-deprecation</arg>

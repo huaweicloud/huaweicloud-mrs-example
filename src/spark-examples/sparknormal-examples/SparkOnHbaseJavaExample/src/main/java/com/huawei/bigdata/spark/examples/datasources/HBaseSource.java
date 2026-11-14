@@ -12,7 +12,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.serializer.KryoRegistrator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.classic.SQLContext;
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog;
 
 import java.io.IOException;

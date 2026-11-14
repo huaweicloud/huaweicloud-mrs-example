@@ -10,12 +10,12 @@
 
     <groupId>hbase-examples</groupId>
     <artifactId>hbase-example</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
     <properties>
-        <hbase.version>2.6.1-h0.cbu.mrs.360.r18</hbase.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.360.r18</hadoop.version>
-        <phoenix-core.version>5.2.1-h0.cbu.mrs.360.r18</phoenix-core.version>
-        <dualclient.version>8.6.0-360.r18</dualclient.version>
+        <hbase.version>2.6.1-h0.cbu.mrs.370.r22</hbase.version>
+        <hadoop.version>3.3.1-h0.cbu.mrs.370.r22</hadoop.version>
+        <phoenix-core.version>5.2.1-h0.cbu.mrs.370.r22</phoenix-core.version>
+        <dualclient.version>8.7.0-370.r22</dualclient.version>
         <log4j2.version>2.24.1</log4j2.version>
         <slf4j.version>2.0.16</slf4j.version>
         <source>1.8</source>
@@ -81,6 +81,34 @@
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-hindex</artifactId>
             <version>${hbase.version}</version>
+            <exclusions>
+                <!-- hbase-hindex 的 pom 在 compile 作用域误引入了 test-jar（tests 包），
+                     仓库中不存在会导致依赖解析失败；主 jar 均由本 pom 直接依赖提供，排除无影响 -->
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-procedure</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hbase</groupId>
+                    <artifactId>hbase-testing-util</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Global Secondary Index-->

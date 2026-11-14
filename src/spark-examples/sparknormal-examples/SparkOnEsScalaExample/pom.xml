@@ -5,20 +5,13 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs.spark.examples.normal.scala</groupId>
     <artifactId>SparkOnEs</artifactId>
     <version>1.0</version>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <es.version>7.10.2-h0.cbu.mrs.360.r18</es.version>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.360.r18</hadoop.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -87,8 +80,8 @@
         <!-- 以下依赖均来自开源，可从 Maven 中心仓库获取 -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-spark-30_2.12</artifactId>
-            <version>${elasticsearch-spark-30_2.12.version}</version>
+            <artifactId>elasticsearch-spark-30_2.13</artifactId>
+            <version>${elasticsearch-spark-30_2.13.version}</version>
         </dependency>
 
         <dependency>

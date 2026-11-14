@@ -30,7 +30,6 @@
         <module>flink-examples/flink-examples-normal</module>
         <module>flink-examples/flink-examples-security</module>
         <module>flink-examples/flink-sql</module>
-        <module>graphbase-examples</module>
         <module>hbase-examples/hbase-example</module>
         <module>hbase-examples/hbase-rest-example</module>
         <module>hbase-examples/hbase-thrift-example</module>
@@ -44,10 +43,6 @@
         <module>hive-examples/hcatalog-example</module>
         <module>hive-examples/hive-jdbc-example</module>
         <module>hive-examples/hive-jdbc-example-multizk</module>
-        <module>iotdb-examples/iotdb-jdbc-example</module>
-        <module>iotdb-examples/iotdb-kafka-example</module>
-        <module>iotdb-examples/iotdb-session-example</module>
-        <module>iotdb-examples/iotdb-udf-example</module>
         <module>kafka-examples</module>
         <module>impala-examples/impala-examples-normal</module>
         <module>impala-examples/impala-examples-security</module>

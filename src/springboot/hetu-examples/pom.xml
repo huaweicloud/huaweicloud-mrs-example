@@ -11,12 +11,12 @@
 
     <groupId>org.example</groupId>
     <artifactId>hetu-rest-client-example</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
 
     <properties>
         <source>1.8</source>
         <target>1.8</target>
-        <hetu-jdbc.version>453-h0.cbu.mrs.360.r18</hetu-jdbc.version>
+        <hetu-jdbc.version>453-h0.cbu.mrs.370.r22</hetu-jdbc.version>
         <tomcat.version>10.1.53</tomcat.version>
     </properties>
 

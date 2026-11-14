@@ -8,7 +8,7 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
   <parent>
     <artifactId>parent</artifactId>
     <groupId>com.huawei.mrs.spark.examples.security</groupId>
-    <version>8.6.0</version>
+    <version>8.7.0-370.r22</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -23,6 +23,18 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
         <version>${scala.maven.plugin.version}</version>
+        <configuration>
+          <scalaVersion>${scala.version}</scalaVersion>
+          <sendJavaToScalac>false</sendJavaToScalac>
+          <args>
+            <arg>-target:${java.version}</arg>
+            <arg>-deprecation</arg>
+            <arg>-feature</arg>
+            <arg>-unchecked</arg>
+            <arg>-encoding</arg>
+            <arg>UTF-8</arg>
+          </args>
+        </configuration>
         <executions>
           <execution>
             <id>scala-compile-first</id>
@@ -43,12 +55,32 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>add-java-source</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/main/scala</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven.compiler.plugin.version}</version>
         <executions>
           <execution>
-            <phase>compile</phase>
+            <id>java-compile-before-scala</id>
+            <phase>process-sources</phase>
             <goals>
               <goal>compile</goal>
             </goals>
@@ -56,7 +88,6 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
         </executions>
         <configuration>
           <release>${maven.compiler.release}</release>
-          <release>${maven.compiler.target.version}</release>
         </configuration>
       </plugin>
     </plugins>
@@ -67,10 +98,19 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
 
   <dependencies>
     <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.hudi</groupId>
       <artifactId>hudi-common</artifactId>
       <version>${hudi.version}</version>
       <exclusions>
+        <exclusion>
+          <groupId>org.scala-lang</groupId>
+          <artifactId>scala-library</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>org.apache.orc</groupId>
           <artifactId>*</artifactId>
@@ -105,12 +145,12 @@ Copyright (c) Huawei Technologies Co., Ltd. 2012-2019. All rights reserved.
     </dependency>
     <dependency>
       <groupId>org.apache.hudi</groupId>
-      <artifactId>hudi-spark-common_2.12</artifactId>
+      <artifactId>hudi-spark-common_2.13</artifactId>
       <version>${hudi.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hudi</groupId>
-      <artifactId>hudi-spark_2.12</artifactId>
+      <artifactId>hudi-spark_2.13</artifactId>
       <version>${hudi.version}</version>
     </dependency>
     <dependency>

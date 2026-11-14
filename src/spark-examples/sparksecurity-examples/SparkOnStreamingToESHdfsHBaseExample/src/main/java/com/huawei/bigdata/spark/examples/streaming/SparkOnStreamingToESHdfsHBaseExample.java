@@ -22,7 +22,7 @@ import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
-import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.StructType;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
@@ -87,7 +87,9 @@ public class SparkOnStreamingToESHdfsHBaseExample {
 
         JavaStreamingContext jssc = new JavaStreamingContext(sparkConf, Durations.seconds(Integer.parseInt("10")));
 
-        final SQLContext sqlContext = new SQLContext(jssc.ssc().sc());
+        final SparkSession spark = SparkSession.builder()
+                .config(jssc.ssc().sc().getConf())
+                .getOrCreate();
 
         JavaHBaseContext hbaseContext = new JavaHBaseContext(jssc.sparkContext(), conf);
 
@@ -163,7 +165,7 @@ public class SparkOnStreamingToESHdfsHBaseExample {
                     .add("Business_Code", "String")
                     .add("Service_Code", "String")
                     .add("Send_Direction", "String");
-            Dataset<Row> dataset = sqlContext.createDataFrame(javaRDD, schema);
+            Dataset<Row> dataset = spark.createDataFrame(javaRDD, schema);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             dataset.show();
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -194,7 +196,7 @@ public class SparkOnStreamingToESHdfsHBaseExample {
                     .add("Message_Status_Description", "String")
                     .add("Message_Length", "String")
                     .add("Details", "String");
-            Dataset<Row> dataset = sqlContext.createDataFrame(javaRDD, schema);
+            Dataset<Row> dataset = spark.createDataFrame(javaRDD, schema);
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             dataset.show();
             System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");

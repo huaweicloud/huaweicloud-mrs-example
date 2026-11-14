@@ -17,7 +17,7 @@ object SparkOnClickHouseExample {
 
   def main(args: Array[String]): Unit = {
     if (args.length < 5) {
-      println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName, password")
+      println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName, password=xxx")
       System.exit(0)
     }
 
@@ -32,7 +32,12 @@ object SparkOnClickHouseExample {
     val clickHouseDB = args(1)
     val clickHouseTable = args(2)
     val userName = args(3)
-    val password = args(4)
+    val passwordArg = args(4)
+    if (!passwordArg.startsWith("password=")) {
+      println("The 5th parameter must start with 'password=', e.g., password=xxx")
+      System.exit(1)
+    }
+    val password = passwordArg.substring("password=".length)
 
 
     val props = new Properties()
@@ -75,7 +80,7 @@ object SparkOnClickHouseExample {
 
     ckData.show()
 
-    ckData.registerTempTable("ckTempTable")
+    ckData.createOrReplaceTempView("ckTempTable")
 
     val newCkData = spark.sql("select EventDate,cast(id+20 as decimal(20,0)) as id,name,age,address from ckTempTable")
 

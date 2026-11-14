@@ -9,6 +9,7 @@ import com.huawei.fusioninsight.elasticsearch.example.highlevel.delete.DeleteInd
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByJson;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByMap;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.index.IndexByXContentBuilder;
+import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.RobustSearch;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.Search;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.search.SearchScroll;
 import com.huawei.fusioninsight.elasticsearch.example.highlevel.update.Update;
@@ -109,6 +110,7 @@ public class HighLevelRestClientAllRequests {
             bulk(highLevelClient, indexName, "1");
             getIndex(highLevelClient, indexName, "1");
             Search.search(highLevelClient, indexName);
+            RobustSearch.robustSearch(highLevelClient, hwRestClient, indexName);
             IndexSorting.doIndexSorting(highLevelClient);
             String scrollId = SearchScroll.searchScroll(highLevelClient, indexName);
             SearchScroll.clearScroll(highLevelClient, scrollId);

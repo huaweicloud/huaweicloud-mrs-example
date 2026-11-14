@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,13 +12,6 @@
     <artifactId>SparkStructuredStreamingScalaExample</artifactId>
     <version>1.0</version>
     <name>SparkStructuredStreamingScalaExample</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
-    </properties>
 
     <dependencies>
         <!-- Spark dependency -->
@@ -71,7 +64,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka_2.12</artifactId>
+                    <artifactId>kafka_${scala.binary.version}</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -88,7 +81,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
+            <artifactId>kafka_${scala.binary.version}</artifactId>
             <version>${kafka.version}</version>
             <exclusions>
                 <exclusion>

@@ -6,9 +6,10 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-rest-normal</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <source>1.8</source>
         <target>1.8</target>
     </properties>

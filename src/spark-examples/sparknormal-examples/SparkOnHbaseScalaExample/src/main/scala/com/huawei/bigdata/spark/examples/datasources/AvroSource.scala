@@ -24,9 +24,9 @@ import org.apache.hadoop.hbase.spark.{AvroSerdes, HBaseContext}
 import org.apache.hadoop.hbase.spark.example.datasources.UserCustomizedSampleException
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.col
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 
 
 /**
@@ -103,12 +103,13 @@ object AvroSource {
 
   def main(args: Array[String]) {
     val sparkConf = new SparkConf().setAppName("AvroSourceExample")
-    val sc = new SparkContext(sparkConf)
-    val sqlContext = new SQLContext(sc)
+    val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+    val sc = spark.sparkContext
+    val sqlContext = spark.sqlContext
     val hbaseConf = HBaseConfiguration.create()
     val hbaseContext = new HBaseContext(sc, hbaseConf)
 
-    import sqlContext.implicits._
+    import spark.implicits._
 
     def withCatalog(cat: String): DataFrame = {
       sqlContext
@@ -130,7 +131,7 @@ object AvroSource {
       val df = withCatalog(catalog)
       df.show()
       df.printSchema()
-      df.registerTempTable("ExampleAvrotable")
+      df.createOrReplaceTempView("ExampleAvrotable")
       val c = sqlContext.sql("select count(1) from ExampleAvrotable")
       c.show()
 

@@ -17,8 +17,8 @@ object SparkOnClickHouseExample {
 
   def main(args: Array[String]): Unit = {
 
-    if (args.length < 3) {
-      println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName")
+    if (args.length < 4) {
+      println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName")
       System.exit(0)
     }
 
@@ -62,7 +62,7 @@ object SparkOnClickHouseExample {
 
     ckData.show()
 
-    ckData.registerTempTable("ckTempTable")
+    ckData.createOrReplaceTempView("ckTempTable")
 
     val newCkData = spark.sql("select EventDate,cast(id+20 as decimal(20,0)) as id,name,age,address from ckTempTable")
 

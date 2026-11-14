@@ -2,7 +2,6 @@
 
 import sys
 from pyspark.sql import SparkSession
-from pyspark.sql import SQLContext
 
 
 def contains(str1, substr1):
@@ -16,25 +15,24 @@ if __name__ == "__main__":
         print("Usage: SparkSQLPythonExample.py <file>")
         exit(-1)
 
-    # 初始化SparkSession和SQLContext
-    sc = SparkSession.builder.appName("CollectFemaleInfo").getOrCreate()
-    sqlCtx = SQLContext(sc)
+    # 初始化SparkSession
+    spark = SparkSession.builder.appName("CollectFemaleInfo").getOrCreate()
 
     # RDD转换为DataFrame
     inputPath = sys.argv[1]
-    inputRDD = sc.read.text(inputPath).rdd.map(lambda r: r[0])\
+    inputRDD = spark.read.text(inputPath).rdd.map(lambda r: r[0])\
         .map(lambda line: line.split(","))\
         .map(lambda dataArr: (dataArr[0], dataArr[1], int(dataArr[2])))\
         .collect()
-    df = sqlCtx.createDataFrame(inputRDD)
+    df = spark.createDataFrame(inputRDD)
 
-    # 注册表
-    df.registerTempTable("FemaleInfoTable")
+    # 注册临时视图
+    df.createOrReplaceTempView("FemaleInfoTable")
 
     # 执行SQL查询并显示结果
-    FemaleTimeInfo = sqlCtx.sql("SELECT * FROM " +
+    FemaleTimeInfo = spark.sql("SELECT * FROM " +
                "(SELECT _1 AS Name,SUM(_3) AS totalStayTime FROM FemaleInfoTable " +
                "WHERE _2 = 'female' GROUP BY _1 )" +
                " WHERE totalStayTime >120").show()
 
-    sc.stop()
+    spark.stop()

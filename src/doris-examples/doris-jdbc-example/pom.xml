@@ -6,7 +6,7 @@
 
   <groupId>com.huawei.mrs</groupId>
   <artifactId>doris-jdbc-example</artifactId>
-  <version>8.6.0-360.r18</version>
+  <version>8.7.0-370.r22</version>
 	<properties>
 		<log4j2.version>2.25.4</log4j2.version>
 		<mariadb.version>3.1.4</mariadb.version>

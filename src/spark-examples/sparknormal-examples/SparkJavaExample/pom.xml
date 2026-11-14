@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,8 +15,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
     </properties>
 
     <dependencies>
@@ -72,6 +70,7 @@
                 <version>${scala.maven.plugin.version}</version>
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
+                    <sendJavaToScalac>false</sendJavaToScalac>
                     <args>
                         <arg>-target:${java.version}</arg>
                         <arg>-deprecation</arg>

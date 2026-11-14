@@ -5,13 +5,19 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.security</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs.spark.examples.security.java</groupId>
     <artifactId>SparkOnHbaseExample</artifactId>
     <version>1.0</version>
+
+    <properties>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.release>8</maven.compiler.release>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -157,7 +163,6 @@
                     <configuration>
                         <scalaVersion>${scala.version}</scalaVersion>
                         <args>
-                            <arg>-target:${java.version}</arg>
                             <arg>-deprecation</arg>
                             <arg>-feature</arg>
                             <arg>-unchecked</arg>
@@ -202,6 +207,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
         <testOutputDirectory>target/test-classes</testOutputDirectory>

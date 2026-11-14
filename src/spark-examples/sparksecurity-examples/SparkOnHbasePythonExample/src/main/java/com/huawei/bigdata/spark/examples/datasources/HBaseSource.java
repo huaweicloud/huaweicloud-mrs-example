@@ -14,7 +14,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.serializer.KryoRegistrator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog;
 
 import java.io.IOException;
@@ -40,14 +40,14 @@ public class HBaseSource {
                     + "}\n"
                     + "}";
 
-    public static Dataset withCatalog(SQLContext sqlContext, String cat) {
+    public static Dataset withCatalog(SparkSession spark, String cat) {
         Map map = new HashMap<String, String>();
         map.put(HBaseTableCatalog.tableCatalog(), cat);
-        return sqlContext.read().options(map).format("org.apache.hadoop.hbase.spark").load();
+        return spark.read().options(map).format("org.apache.hadoop.hbase.spark").load();
     }
 
     public static void execute(JavaSparkContext jsc) throws IOException {
-        SQLContext sqlContext = new SQLContext(jsc);
+        SparkSession spark = SparkSession.builder().getOrCreate();
 
         Configuration conf = HBaseConfiguration.create();
         JavaHBaseContext hbaseContext = new JavaHBaseContext(jsc, conf);
@@ -60,19 +60,19 @@ public class HBaseSource {
             map.put(HBaseTableCatalog.tableCatalog(), cat);
             map.put(HBaseTableCatalog.newTable(), "5");
             System.out.println("Before insert data into hbase table");
-            sqlContext
+            spark
                     .createDataFrame(list, HBaseRecord.class)
                     .write()
                     .options(map)
                     .format("org.apache.hadoop.hbase.spark")
                     .save();
-            Dataset<Row> ds = withCatalog(sqlContext, cat);
+            Dataset<Row> ds = withCatalog(spark, cat);
             System.out.println("After insert data into hbase table");
             ds.printSchema();
             ds.show();
             ds.filter("key <= 'row5'").select("key", "col1").show();
-            ds.registerTempTable("table1");
-            Dataset<Row> tempDS = sqlContext.sql("select count(col1) from table1 where key < 'row5'");
+            ds.createOrReplaceTempView("table1");
+            Dataset<Row> tempDS = spark.sql("select count(col1) from table1 where key < 'row5'");
             tempDS.show();
         } finally {
             jsc.stop();

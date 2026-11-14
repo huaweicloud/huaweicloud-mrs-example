@@ -5,22 +5,13 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.huawei.mrs.spark.examples.normal.python</groupId>
     <artifactId>SparkOnHbasePythonExample</artifactId>
     <version>1.0</version>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.version>3.5.6-h0.cbu.mrs.360.r18</spark.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <hadoop.version>3.3.1-h0.cbu.mrs.360.r18</hadoop.version>
-        <hbase.version>2.6.1-h0.cbu.mrs.360.r18</hbase.version>
-        <kafka.version>3.6.1-h0.cbu.mrs.360.r18</kafka.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -90,8 +81,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-hbaseV2_${scala.binary.version}</artifactId>
+            <groupId>com.huawei.mrs</groupId>
+            <artifactId>spark-hbasev2-2-13</artifactId>
             <version>${spark.version}</version>
         </dependency>
         <dependency>
@@ -116,7 +107,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
+            <artifactId>kafka_${scala.binary.version}</artifactId>
             <version>${kafka.version}</version>
         </dependency>
     </dependencies>
@@ -130,6 +121,7 @@
                 <version>${scala.maven.plugin.version}</version>
                 <configuration>
                     <scalaVersion>${scala.version}</scalaVersion>
+                    <sendJavaToScalac>false</sendJavaToScalac>
                     <args>
                         <arg>-target:${java.version}</arg>
                         <arg>-deprecation</arg>

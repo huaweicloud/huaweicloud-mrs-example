@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.huawei.mrs.spark.examples.normal</groupId>
-        <version>8.6.0</version>
+        <version>8.7.0-370.r22</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs.spark.examples.normal.java</groupId>
@@ -70,7 +70,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka_2.12</artifactId>
+                    <artifactId>kafka_${scala.binary.version}</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -87,7 +87,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
+            <artifactId>kafka_${scala.binary.version}</artifactId>
             <version>${kafka.version}</version>
             <exclusions>
                 <exclusion>

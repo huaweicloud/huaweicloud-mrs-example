@@ -15,7 +15,7 @@ import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class AvroSource {
                     + "}";
 
     public static void execute(JavaSparkContext jsc) throws IOException {
-        SQLContext sqlContext = new SQLContext(jsc);
+        SparkSession spark = SparkSession.builder().getOrCreate();
         Configuration hbaseconf = new HBaseConfiguration().create();
         JavaHBaseContext hBaseContext = new JavaHBaseContext(jsc, hbaseconf);
         List list = new ArrayList<AvroHBaseRecord>();
@@ -65,17 +65,17 @@ public class AvroSource {
             Map<String, String> map = new HashMap<String, String>();
             map.put(HBaseTableCatalog.tableCatalog(), catalog);
             map.put(HBaseTableCatalog.newTable(), "5");
-            sqlContext
+            spark
                     .createDataFrame(list, AvroHBaseRecord.class)
                     .write()
                     .options(map)
                     .format("org.apache.hadoop.hbase.spark")
                     .save();
-            Dataset<Row> ds = withCatalog(sqlContext, catalog);
+            Dataset<Row> ds = withCatalog(spark, catalog);
             ds.show();
             ds.printSchema();
-            ds.registerTempTable("ExampleAvrotable");
-            Dataset<Row> c = sqlContext.sql("select count(1) from ExampleAvrotable");
+            ds.createOrReplaceTempView("ExampleAvrotable");
+            Dataset<Row> c = spark.sql("select count(1) from ExampleAvrotable");
             c.show();
 
             Dataset<Row> filtered = ds.select("col0", "col1.favorite_array").where("col0 = 'name1'");
@@ -95,7 +95,7 @@ public class AvroSource {
             avroCatalogInsertMap.put(HBaseTableCatalog.tableCatalog(), avroCatalogInsert);
             ds.write().options(avroCatalogInsertMap).format("org.apache.hadoop.hbase.spark").save();
 
-            Dataset<Row> newDS = withCatalog(sqlContext, avroCatalogInsert);
+            Dataset<Row> newDS = withCatalog(spark, avroCatalogInsert);
             newDS.show();
             newDS.printSchema();
 
@@ -108,10 +108,10 @@ public class AvroSource {
         }
     }
 
-    public static Dataset<Row> withCatalog(SQLContext sqlContext, String cat) {
+    public static Dataset<Row> withCatalog(SparkSession spark, String cat) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("avroSchema", AvroHBaseRecord.schemaString);
         map.put(HBaseTableCatalog.tableCatalog(), avroCatalog);
-        return sqlContext.read().options(map).format("org.apache.hadoop.hbase.spark").load();
+        return spark.read().options(map).format("org.apache.hadoop.hbase.spark").load();
     }
 }

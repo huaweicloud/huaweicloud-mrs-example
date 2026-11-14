@@ -6,7 +6,7 @@
 
     <groupId>com.huawei.mrs</groupId>
     <artifactId>hetu-examples-security</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
 
     <properties>
         <source>1.8</source>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>hetu-jdbc</artifactId>
-            <version>453-h0.cbu.mrs.360.r18</version>
+            <version>453-h0.cbu.mrs.370.r22</version>
             <exclusions>
                 <exclusion>
                     <artifactId>*</artifactId>

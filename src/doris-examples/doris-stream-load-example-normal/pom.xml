@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example.stream.load</groupId>
     <artifactId>doris-stream-load-example-normal</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
     <name>doris-stream-load-example</name>
     <description>doris-stream-load-example</description>
     <properties>
@@ -14,7 +14,7 @@
         <mysql.version>8.1.0</mysql.version>
         <httpclient.version>4.5.13</httpclient.version>
         <log4j2.version>2.11.2</log4j2.version>
-        <us-common.version>1.0.76.6</us-common.version>
+        <us-common.version>1.0.90.9</us-common.version>
         <jackson.version>2.16.0</jackson.version>
     </properties>
     <dependencies>

@@ -45,7 +45,7 @@ object HBaseBulkPutExample {
 
     try {
 
-      val rdd = sc.parallelize(Array(
+      val rdd = sc.parallelize(Array[(Array[Byte], Array[(Array[Byte], Array[Byte], Array[Byte])])](
         (Bytes.toBytes("1"),
           Array((Bytes.toBytes(columnFamily), Bytes.toBytes("1"), Bytes.toBytes("1")))),
         (Bytes.toBytes("2"),

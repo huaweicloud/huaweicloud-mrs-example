@@ -15,9 +15,8 @@ ${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/hbase-it-bulk-load-*.jar,\
 ${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/commons-io-*.jar"
 
 CONF_STR="--conf spark.driver.extraJavaOptions=-Dlog4j2.configuration=file:conf/log4j2.properties \
---conf spark.yarn.user.classpath.first=true \
---conf spark.executor.userClassPathFirst=true \
---conf spark.driver.userClassPathFirst=true"
+--conf spark.driver.extraClassPath=${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/*:${BIGDATA_CLIENT_HOME}/HBase/hbase/conf:${BIGDATA_CLIENT_HOME}/Spark/spark/conf/:${BIGDATA_CLIENT_HOME}/Spark/spark/jars/*:${BIGDATA_CLIENT_HOME}/Spark/spark/x86/* \
+--conf spark.executor.extraClassPath=${BIGDATA_CLIENT_HOME}/HBase/hbase/lib/*"
 
 #非独立索引表 主索引导出
 spark-submit \

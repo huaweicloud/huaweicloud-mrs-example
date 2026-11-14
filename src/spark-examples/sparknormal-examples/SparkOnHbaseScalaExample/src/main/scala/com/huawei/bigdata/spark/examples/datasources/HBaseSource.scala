@@ -23,9 +23,8 @@ import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.spark.HBaseContext
 import org.apache.spark.sql.datasources.hbase.HBaseTableCatalog
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 import org.apache.spark.serializer.KryoRegistrator
 
 
@@ -77,13 +76,14 @@ object HBaseSource {
 
   def main(args: Array[String]) {
     val sparkConf = new SparkConf().setAppName("HBaseSourceExample")
-    val sc = new SparkContext(sparkConf)
-    val sqlContext = new SQLContext(sc)
+    val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+    val sc = spark.sparkContext
+    val sqlContext = spark.sqlContext
 
     val conf = HBaseConfiguration.create()
     val hbaseContext = new HBaseContext(sc,conf)
 
-    import sqlContext.implicits._
+    import spark.implicits._
 
     def withCatalog(cat: String): DataFrame = {
       sqlContext
@@ -106,7 +106,7 @@ object HBaseSource {
       df.show()
       df.filter($"col0" <= "row005")
         .select($"col0", $"col1").show
-      df.registerTempTable("table1")
+      df.createOrReplaceTempView("table1")
       val c = sqlContext.sql("select count(col1) from table1 where col0 < 'row050'")
       c.show()
     } finally {

@@ -112,7 +112,11 @@ public class IcebergSqlExample {
             return;
         }
 
-        spark.close();
+        try {
+            spark.close();
+        } catch (java.io.IOException e) {
+            System.err.println("Warning: failed to close SparkSession: " + e.getMessage());
+        }
     }
 
 }

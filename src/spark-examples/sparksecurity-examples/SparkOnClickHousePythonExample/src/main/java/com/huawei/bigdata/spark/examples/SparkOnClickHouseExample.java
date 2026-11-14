@@ -26,7 +26,7 @@ public class SparkOnClickHouseExample {
     public static void sparkOnClickHouse(JavaSparkContext jsc, ArrayList originArgs) throws SQLException {
         String[] args = (String[]) originArgs.subList(1, originArgs.size()).toArray(new String[originArgs.size()]);
         if (args.length < 5) {
-            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName, password");
+            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName, password=xxx");
             System.exit(0);
         }
 
@@ -40,7 +40,12 @@ public class SparkOnClickHouseExample {
         String ckDBName = args[1];
         String ckTableName = args[2];
         String userName = args[3];
-        String password = args[4];
+        String passwordArg = args[4];
+        if (!passwordArg.startsWith("password=")) {
+            System.out.println("The 5th parameter must start with 'password=', e.g., password=xxx");
+            System.exit(1);
+        }
+        String password = passwordArg.substring("password=".length());
 
         Properties props = new Properties();
         props.put("ssl", "true");

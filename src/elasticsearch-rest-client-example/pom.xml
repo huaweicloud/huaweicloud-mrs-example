@@ -4,16 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.huawei.mrs</groupId>
     <artifactId>elasticsearch-rest-client-example</artifactId>
-    <version>8.6.0-360.r18</version>
+    <version>8.7.0-370.r22</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <elasticsearch.version>7.10.2-h0.cbu.mrs.360.r18</elasticsearch.version>
-        <opendistro.version>1.13.0.0-h0.cbu.mrs.360.r18</opendistro.version>
-        <log4j2.version>2.22.0</log4j2.version>
+        <elasticsearch.version>7.10.2-h0.cbu.mrs.370.r22</elasticsearch.version>
+        <opendistro.version>1.13.0.0-h0.cbu.mrs.370.r22</opendistro.version>
+        <log4j2.version>2.25.5</log4j2.version>
         <lucene.version>8.7.0-h0.cbu.css.v1.0.10.0.r1</lucene.version>
     </properties>
     <dependencies>
@@ -82,12 +82,12 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.84</version>
+            <version>1.85</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.3.39-h7</version>
+            <version>5.3.39-h8</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

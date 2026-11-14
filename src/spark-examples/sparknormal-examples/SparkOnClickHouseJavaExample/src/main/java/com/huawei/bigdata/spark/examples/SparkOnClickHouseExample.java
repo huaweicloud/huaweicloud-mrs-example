@@ -21,8 +21,8 @@ public class SparkOnClickHouseExample {
     private static final String DRIVER = "com.clickhouse.jdbc.ClickHouseDriver";
 
     public static void main(String[] args) throws SQLException {
-        if (args.length < 3) {
-            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName");
+        if (args.length < 4) {
+            System.out.println("Missing parameters, need ckJdbcUrl, ckDBName, ckTableName, userName");
             System.exit(0);
         }
 

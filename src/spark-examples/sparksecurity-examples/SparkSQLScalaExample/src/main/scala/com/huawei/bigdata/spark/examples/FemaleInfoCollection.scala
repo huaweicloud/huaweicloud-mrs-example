@@ -19,7 +19,7 @@ object FemaleInfoCollection {
     // Convert RDD to DataFrame through the implicit conversion, then register table.
     spark.sparkContext.textFile(args(0)).map(_.split(","))
       .map(p => FemaleInfo(p(0), p(1), p(2).trim.toInt))
-      .toDF.registerTempTable("FemaleInfoTable")
+      .toDF.createOrReplaceTempView("FemaleInfoTable")
 
     // Via SQL statements to screen out the time information of female stay on the Internet , and aggregated the same names.
     val femaleTimeInfo = spark.sql("select name,sum(stayTime) as " +
